@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Footer from '../components/Footer'
+import TagCategory from '../components/TagCategory'
 
 import { TestComponent } from '../components/TestComponent'
 
