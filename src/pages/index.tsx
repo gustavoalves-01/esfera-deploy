@@ -1,7 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Button from '../components/Button'
+import { ButtonElement } from '../components/Button/styled'
 import Footer from '../components/Footer'
+import InputComponent from '../components/InputComponent'
+import SearchComponent from '../components/SearchComponent'
 import TagCategory from '../components/TagCategory'
 
 import { TestComponent } from '../components/TestComponent'

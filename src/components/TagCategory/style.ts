@@ -10,7 +10,7 @@ interface PropsMargin {
 
 export const Container = styled.div<PropsMargin>`
     border-radius: 5px;
-    border: 2px solid #F5426C;
+    border: 1px solid #F5426C;
     width: fit-content;
     background: #fff;
 
@@ -45,7 +45,7 @@ export const Container = styled.div<PropsMargin>`
 
 export const LinkCategory = styled.a <PropsMargin>`
     border-radius: 5px;
-    border: 2px solid #F5426C;
+    border: 1px solid #F5426C;
 
     width: fit-content;
     height: 18px;
