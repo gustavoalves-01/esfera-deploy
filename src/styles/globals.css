@@ -5,7 +5,7 @@
 
 html,
 body {
-  font-family: 'Open Sans',sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -15,4 +15,20 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+h2.titleBlog {
+  color: #F5426C;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 27px;
+}
+
+@media(max-width:768px) {
+  h2.titleBlog {
+    text-align: center;
+    font-size: 1.125rem;
+    line-height: 25px;
+  }
 }
