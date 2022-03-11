@@ -1,4 +1,5 @@
 import React from 'react'
+import { useBuscar } from '../../providers/buscarContext';
 import { LabelElement } from "./styled";
 
 interface PropsInputComponents {
@@ -9,12 +10,18 @@ interface PropsInputComponents {
   placeholder: string;
 }
 function InputComponent({ typeInput, widthInput, heightInput, placeholder }: PropsInputComponents) {
+  const { setInputEmail } = useBuscar();
+
   typeInput.toLocaleUpperCase()
 
+  function enviarDadosEmail(e: React.ChangeEvent<HTMLInputElement>){
+      setInputEmail(e.target.value)
+  }
+  
   if (typeInput == "email") {
     return (
       <LabelElement widthInput={widthInput} heightInput={heightInput}>
-        <input type="text" placeholder={placeholder} />
+        <input type="text" placeholder={placeholder} onChange={(e) => enviarDadosEmail(e)}/>
       </LabelElement>
     )
   } else {
