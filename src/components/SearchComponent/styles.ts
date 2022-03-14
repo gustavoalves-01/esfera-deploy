@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 interface PropsLabel {
-    widthInput: string;
-    heightInput: string;
+  widthInput: string;
+  heightInput: string;
 
 }
 export const LabelElement = styled.label<PropsLabel>`
@@ -33,6 +33,14 @@ export const LabelElement = styled.label<PropsLabel>`
     }
 
     outline-color:  #F5426C;
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+}
+
   }
 
   > span{
