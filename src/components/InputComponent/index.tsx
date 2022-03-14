@@ -1,26 +1,30 @@
-import React from 'react'
-import { LabelElement } from "./styled";
+import React from 'react';
+import { LabelElement } from './styles';
 
 interface PropsInputComponents {
-  typeInput: "email";
+  typeInput: 'email';
 
   widthInput: string;
   heightInput: string;
   placeholder: string;
 }
-function InputComponent({ typeInput, widthInput, heightInput, placeholder }: PropsInputComponents) {
-  typeInput.toLocaleUpperCase()
+function InputComponent({
+  typeInput,
+  widthInput,
+  heightInput,
+  placeholder,
+}: PropsInputComponents) {
+  typeInput.toLocaleUpperCase();
 
-  if (typeInput == "email") {
+  if (typeInput == 'email') {
     return (
       <LabelElement widthInput={widthInput} heightInput={heightInput}>
         <input type="text" placeholder={placeholder} />
       </LabelElement>
-    )
+    );
   } else {
-    return <></>
+    return <></>;
   }
 }
 
-export default InputComponent
-
+export default InputComponent;

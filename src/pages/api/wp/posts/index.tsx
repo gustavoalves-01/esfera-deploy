@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { PostPreview } from '../../../../entities/Posts';
+import PostPreview from '../../../../entities/PostPreview';
 
 export default async function handler(
   req: NextApiRequest,
