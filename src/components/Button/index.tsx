@@ -1,6 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
-
 interface ButtonProps {
   textButton: string;
   widthButton: string;
