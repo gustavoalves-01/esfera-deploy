@@ -1,41 +1,50 @@
 import Image from 'next/image';
-import React from 'react'
+import React from 'react';
 import { useBuscar } from '../../providers/buscarContext';
-import { LabelElement } from "./styled";
+import { LabelElement } from './styles';
 
 interface PropsInputComponents {
-  typeInput: "search";
+  typeInput: 'search';
 
   widthInput: string;
   heightInput: string;
   placeholder: string;
 }
-function SearchComponent({ typeInput, widthInput, heightInput, placeholder }: PropsInputComponents) {
-
+function SearchComponent({
+  typeInput,
+  widthInput,
+  heightInput,
+  placeholder,
+}: PropsInputComponents) {
   const { setInputEncontreArtigo } = useBuscar();
 
-
-
-  typeInput.toLocaleUpperCase()
+  typeInput.toLocaleUpperCase();
 
   function valueInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setInputEncontreArtigo(e.target.value)
+    setInputEncontreArtigo(e.target.value);
   }
 
-
-  if (typeInput == "search") {
+  if (typeInput == 'search') {
     return (
       <LabelElement widthInput={widthInput} heightInput={heightInput}>
         <span>
-          <Image width={20} height={20} alt="icone de lupa" src="/images/icons/search.svg" />
+          <Image
+            width={20}
+            height={20}
+            alt="icone de lupa"
+            src="/images/icons/search.svg"
+          />
         </span>
-        <input type="search" placeholder={placeholder} onChange={(e) => valueInput(e)} />
+        <input
+          type="search"
+          placeholder={placeholder}
+          onChange={(e) => valueInput(e)}
+        />
       </LabelElement>
-    )
+    );
   } else {
-    return <></>
+    return <></>;
   }
 }
 
-
-export default SearchComponent
+export default SearchComponent;
