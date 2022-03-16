@@ -4,7 +4,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-}
+  images: {
+    domains: ['esferaenergia.com.br'],
+  },
+};
 
-
-module.exports = nextConfig
+module.exports = nextConfig;

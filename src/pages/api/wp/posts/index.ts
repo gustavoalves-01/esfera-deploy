@@ -1,6 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import PostPreview from '../../../../entities/PostPreview';
+import PostPreviewInterface from '../../../../entities/PostPreview';
+
+interface RawPost {
+  id: string;
+  date: string;
+  title: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  slug: string;
+  categories: [];
+  tags: [];
+  yoast_head_json: {
+    og_image: [
+      {
+        url: string;
+      }
+    ];
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,17 +49,19 @@ export default async function handler(
     const itemsPerPage = query.per_page ? query.per_page : '10';
 
     // Lidando com as chamadas API do WP
+    const fields =
+      'id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image';
     let params;
     if (query.recent) {
       params = {
-        _fields: 'id,date,title,excerpt,slug,categories,tags',
+        _fields: fields,
         orderby: 'date',
         order: 'desc',
         per_page: itemsPerPage,
       };
     } else if (query.trending) {
       params = {
-        _fields: 'id,date,title,excerpt,slug,categories,tags',
+        _fields: fields,
         orderby: 'date',
         order: 'desc',
         tags: 'trending',
@@ -46,7 +69,7 @@ export default async function handler(
       };
     } else if (query.most_accessed) {
       params = {
-        _fields: 'id,date,title,excerpt,slug,categories,tags',
+        _fields: fields,
         orderby: 'date',
         order: 'desc',
         tags: 'most_accessed',
@@ -54,7 +77,7 @@ export default async function handler(
       };
     } else {
       params = {
-        _fields: 'id,date,title,excerpt,slug,categories,tags',
+        _fields: fields,
         per_page: itemsPerPage,
         page: query.page ? query.page : '1',
       };
@@ -65,7 +88,27 @@ export default async function handler(
       { params }
     );
 
-    const postList: PostPreview[] = response.data;
+    const { data } = response;
+
+    const postList: PostPreviewInterface[] = data.map((post: RawPost) => {
+      const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
+      const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
+
+      return {
+        id: post.id,
+        date: new Date(post.date).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }),
+        title: post.title.rendered,
+        excerpt: excerpt,
+        slug: post.slug,
+        categories: post.categories,
+        tags: post.tags,
+        imageURL: post.yoast_head_json.og_image[0].url,
+      };
+    });
     res.status(200).json(postList);
   } catch (err) {
     if (err instanceof Error) {
