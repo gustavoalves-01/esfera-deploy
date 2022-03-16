@@ -10,6 +10,7 @@ export default async function handler(
     const categoryListRes = await axios.get(
       'https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=name,slug'
     );
+
     const categoryList: Category[] = categoryListRes.data;
 
     res.status(200).json(categoryList);

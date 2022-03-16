@@ -1,4 +1,4 @@
-export default interface PostPreview {
+export default interface PostPreviewInterface {
   id: string;
   date: string;
   title: string;
@@ -6,4 +6,5 @@ export default interface PostPreview {
   slug: string;
   categories: string;
   tags: string;
+  imageURL: string;
 }

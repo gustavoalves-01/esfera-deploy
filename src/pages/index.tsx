@@ -1,28 +1,36 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Header from '../components/Header'
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import Header from '../components/Header';
+import { PostPreview } from '../components/PostPreview';
+import PostPreviewInterface from '../entities/PostPreview';
 
-const Home: NextPage = () => {
+interface HomeProps {
+  postList: PostPreviewInterface[];
+}
 
+export default function Home({ postList }: HomeProps) {
   const categories = [
-    { name: 'categoria 1', slug: 'categ-1'},
+    { name: 'categoria 1', slug: 'categ-1' },
     { name: 'categoria 2', slug: 'categ-2' },
     { name: 'categoria 3', slug: 'categ-3' },
-    { name: 'categoria 4', slug: 'categ-4' }
-  ]
+    { name: 'categoria 4', slug: 'categ-4' },
+  ];
   return (
     <>
       <Head>
         <title>Esfera Energia Blog</title>
       </Head>
-
-
-      <Header categories={categories}/>
-
-      <p style={{ paddingTop: '100px' }}>Eros</p>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt corporis fugit voluptatum dolore qui tempore minus quibusdam cumque, quae, eveniet doloribus a exercitationem reprehenderit consequatur ducimus laboriosam voluptate nobis magnam! Quod molestiae dolore, magnam quaerat ex ad saepe eaque delectus id laboriosam aliquam nesciunt quisquam dignissimos repellendus a quam provident autem ipsa possimus? Adipisci, dignissimos porro? Voluptatibus odit, qui ipsam cum quis inventore quia libero eius quaerat excepturi voluptate maxime tempora repudiandae sequi autem. Quam quaerat ipsa, neque iure dolores corporis ipsum? Suscipit at natus omnis, totam ad quam, ut in quo quae fugit, esse dicta beatae iste. Totam laborum voluptatem cum blanditiis autem earum labore illo exercitationem nemo soluta numquam molestias quidem voluptatibus nesciunt nihil animi impedit, voluptates vitae obcaecati praesentium perspiciatis inventore corporis molestiae pariatur! Laudantium, voluptatibus accusantium saepe sequi vel voluptatum! Esse blanditiis nulla exercitationem beatae? Adipisci at cum laboriosam enim et nam necessitatibus reiciendis itaque unde dolores quae, iusto laudantium iste nihil inventore ut minima harum nisi, placeat corrupti doloremque minus. Excepturi eius nihil voluptates veniam, laudantium ipsam temporibus repellat alias dolorem voluptate sint provident recusandae blanditiis iusto repudiandae neque, itaque, officia labore magni! Ipsum doloribus fugit velit adipisci quam enim. Enim alias praesentium sed quod inventore perspiciatis qui quibusdam amet, officiis dolorem dolore ipsam numquam blanditiis magni earum vero quisquam quia provident dolor aut? Nesciunt dolorem distinctio ratione rerum incidunt vitae! Reprehenderit excepturi, eum magni eligendi doloribus veniam voluptatibus voluptatem animi sunt suscipit obcaecati repellat cumque provident rem amet. Aliquid illum nisi atque natus mollitia placeat ratione rem. Provident amet minima veniam alias culpa voluptatibus deleniti. Corrupti vero quia optio quo dolorum ratione sit enim sed. Id, voluptatem ratione. Autem magni fugit iure pariatur corrupti laudantium eligendi deserunt rem id magnam ipsam laboriosam voluptate, aspernatur impedit? Eos consequatur esse quos animi necessitatibus soluta corporis culpa voluptate sed officiis mollitia inventore, facilis, voluptas enim eligendi nisi. Maiores odio a quibusdam! Blanditiis id nesciunt, quibusdam voluptatum placeat repudiandae quasi? Earum tempora quis voluptas voluptatum recusandae rerum minima incidunt. Earum nobis harum animi nihil illo in similique eveniet delectus repudiandae! Perspiciatis molestias obcaecati ratione cum et quas, exercitationem quam expedita perferendis quisquam animi, saepe aspernatur cupiditate nam voluptatum? Voluptatem saepe deserunt provident incidunt, voluptatibus nisi deleniti sequi iure assumenda itaque officiis delectus placeat illo debitis animi aut obcaecati nihil. Corrupti dignissimos fugiat voluptate et ab eos minima repellat veniam id qui aliquam, exercitationem adipisci, earum alias. Ab, placeat quidem! Sapiente vero ex facilis saepe illum velit, hic distinctio labore nisi? Explicabo fugit odio aliquid nesciunt dolor maxime saepe maiores in, optio quae aliquam harum quibusdam a esse blanditiis qui porro asperiores deserunt perspiciatis? Incidunt, molestiae! Doloremque, adipisci? Aspernatur temporibus exercitationem dicta accusamus nostrum commodi aliquam dolores? Inventore voluptatibus rem ut non aliquid hic, nobis mollitia ab illo. Quibusdam ipsa illo similique atque asperiores voluptatem, debitis ut cumque doloribus nam obcaecati excepturi tempore explicabo cum ipsum nisi, repellendus aperiam ratione ad sunt eos expedita. Voluptatibus atque culpa voluptatum, placeat quisquam optio voluptas modi earum veniam officiis rem dolore quidem perferendis nesciunt voluptatem commodi unde odit quo in at. Provident corporis incidunt pariatur vitae cum, perspiciatis autem, aut numquam odio quae laborum. Odit nostrum, maiores quam sequi facilis eligendi architecto perspiciatis incidunt sint minus! Debitis nam nihil dicta cum molestias deleniti similique asperiores, eaque vitae magnam modi numquam facere ullam in voluptatibus laudantium mollitia odit minima facilis alias accusantium! Nobis debitis iure distinctio, porro temporibus laborum eos sit quis voluptates at dicta velit reiciendis ea minus nulla deserunt, tenetur non vitae voluptas ad. Neque assumenda eum consequatur repellat non hic, pariatur numquam quos ex, omnis beatae tempora ipsam id, rem odit sint adipisci maiores dolorum blanditiis sapiente harum! Porro consequuntur repellendus placeat, velit optio dolore, quidem ducimus a modi rerum assumenda inventore beatae perferendis facilis officia soluta dignissimos. Eligendi quidem maxime commodi, quis expedita porro doloremque non totam voluptatem repudiandae quos dolore nisi tempore sapiente itaque tempora veniam consequuntur. Itaque saepe quam et, quibusdam corporis quas illo omnis sequi vitae sed mollitia voluptate error nemo sunt dolorem? Obcaecati, quaerat eum. Distinctio, cupiditate consequuntur ullam fuga dignissimos laboriosam tenetur sunt at nulla possimus totam. Eos aliquam eius veritatis quaerat quod et architecto. Deleniti, a expedita. Adipisci itaque debitis dolor odio impedit voluptatibus ratione maxime, amet, eaque veniam distinctio facere at repudiandae quaerat dolorem aut magnam tenetur laboriosam laudantium placeat rerum iure voluptatem temporibus sequi. Reiciendis rerum, excepturi hic accusamus voluptates eligendi dolor nisi, distinctio neque velit unde vel totam exercitationem molestiae. Maiores ab eos tempora tempore vitae consequuntur hic harum ratione minus ex dignissimos commodi inventore omnis ea ut voluptas totam, aperiam cumque officiis id. Temporibus, sint. Perferendis rerum ad voluptatem accusantium. Amet praesentium et, ad doloremque consequatur unde cum accusantium nulla, repudiandae quidem commodi. Modi quisquam eveniet quae, aspernatur iusto neque ab aperiam natus at ipsa numquam ratione cumque suscipit tempore error debitis ad saepe vero? Eos possimus, debitis quia alias voluptas nostrum quos cupiditate quod consequatur amet quibusdam repellat ex, nemo enim laboriosam delectus at, recusandae quam eligendi neque. Doloremque expedita voluptates ut cum corporis dicta eveniet nobis tempore, sapiente soluta atque deserunt porro consequuntur. Blanditiis excepturi quisquam officiis consequatur explicabo optio doloremque vel ut minima! Similique eligendi dolor hic aliquid iste nam odio asperiores, laborum qui porro commodi nihil dolorem in distinctio veritatis aspernatur sed voluptas magni vitae minima incidunt ratione quas expedita quasi! Maxime atque minus est assumenda eius. Ex officia aliquam laboriosam, minima consectetur unde! Corporis suscipit sit id delectus non repudiandae, sunt sint et ea praesentium natus? Explicabo deserunt alias adipisci voluptatibus modi sed facilis et quisquam maiores dicta, sapiente minima fugit temporibus, expedita obcaecati libero perferendis provident cum molestias. Quod, illum! Suscipit totam dolorem aperiam id perferendis nostrum vel excepturi odit magni saepe eum, illo blanditiis exercitationem repellat deleniti nemo provident dolore laborum, reprehenderit architecto magnam nisi voluptas non inventore? Beatae quo, iste qui quis assumenda blanditiis sapiente libero minus incidunt odio dignissimos quisquam vero suscipit corrupti quod voluptate recusandae deserunt sequi aperiam numquam neque eum fuga debitis! Tenetur recusandae iure quo magni assumenda?</p>
+      <Header categories={categories} />
+      {/* <PostPreview post={postList[0]} /> */}
     </>
-  )
+  );
 }
 
-export default Home
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await fetch('http://localhost:3000/api/wp/posts');
+  const postList = await response.json();
+
+  return {
+    props: { postList },
+  };
+};
