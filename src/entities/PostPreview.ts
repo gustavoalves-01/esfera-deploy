@@ -4,7 +4,7 @@ export default interface PostPreviewInterface {
   title: string;
   excerpt: string;
   slug: string;
-  categories: string;
-  tags: string;
+  categories: [];
+  tags: [];
   imageURL: string;
 }

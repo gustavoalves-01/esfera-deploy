@@ -5,9 +5,8 @@ interface PostStyleProps {
 }
 
 export const PostContainer = styled.div<PostStyleProps>`
-  max-width: ${({ isWide }) => (isWide ? '100%' : '50%')};
-
-  margin-top: 400px;
+  max-width: ${({ isWide }) => (isWide ? '100%' : 'calc(50% - 1rem)')};
+  width: 100%;
 
   display: flex;
   flex-direction: ${({ isWide }) => (isWide ? 'row' : 'column')};
