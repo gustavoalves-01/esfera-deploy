@@ -20,8 +20,6 @@ export function PostPreviewSection({
   linkAll,
   posts,
 }: PostPreviewSectionInterface) {
-  console.log(posts);
-
   return (
     <Container>
       <div className="header">
