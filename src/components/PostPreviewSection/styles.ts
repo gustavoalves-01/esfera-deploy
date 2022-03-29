@@ -9,6 +9,12 @@ export const Container = styled.div`
   .header {
     display: flex;
     justify-content: space-between;
+
+    a {
+      color: var(--pink-500);
+      font-size: 14px;
+      text-decoration: underline;
+    }
   }
 
   .cardsWrapper {

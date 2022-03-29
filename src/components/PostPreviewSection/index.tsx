@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import PostPreviewInterface from '../../entities/PostPreview';
+import PostPreviewInterface, {
+  TimeToReadInterface,
+} from '../../entities/PostPreview';
 import { PostPreview } from '../PostPreview';
 import { Container } from './styles';
 
@@ -18,6 +20,8 @@ export function PostPreviewSection({
   linkAll,
   posts,
 }: PostPreviewSectionInterface) {
+  console.log(posts);
+
   return (
     <Container>
       <div className="header">
@@ -31,7 +35,7 @@ export function PostPreviewSection({
       <div className="cardsWrapper">
         {posts.length > 0 &&
           posts.map((post) =>
-            post.tags.find((tag) => tag === 3) ? (
+            post.tags.includes('3') ? (
               <PostPreview key={post.id} post={post} isWide />
             ) : (
               <PostPreview key={post.id} post={post} />

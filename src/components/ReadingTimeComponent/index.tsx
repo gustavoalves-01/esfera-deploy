@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Style, Text } from "./style";
- 
+import { Container, TimeSkeleton } from './styles';
+import { useFetch } from '../../hooks/useFetch';
+
 interface Props {
-    wordsNumber: number;
+  post: string;
 }
 
-export default function ReadingTimeComponent({wordsNumber}: Props) {
-    return <Style>
-        <Image width={15} height={15} alt="ícone relógio" src="/images/icons/time.svg"/>
+export default function ReadingTimeComponent({ post }: Props) {
+  const { data, isLoading, isError } = useFetch(
+    `http://localhost:3000/api/wp/posts/${post}/reading-time`
+  );
 
-        <Text>Tempo de leitura: {wordsNumber} minutos</Text>
-    </Style>
+  return (
+    <Container>
+      {isLoading ? (
+        <TimeSkeleton />
+      ) : isError ? (
+        <></>
+      ) : (
+        <>
+          <Image
+            width={15}
+            height={15}
+            alt="ícone relógio"
+            src="/images/icons/time.svg"
+          />
+          <span>Tempo de leitura: {data.time} minutos</span>
+        </>
+      )}
+    </Container>
+  );
 }

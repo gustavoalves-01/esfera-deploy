@@ -8,6 +8,7 @@ import TagCategory from '../TagCategory';
 // Styles
 import { PostContainer } from './styles';
 import PostPreviewInterface from '../../entities/PostPreview';
+import ReadingTimeComponent from '../ReadingTimeComponent';
 
 interface PostPreviewProps {
   post: PostPreviewInterface;
@@ -35,7 +36,7 @@ export function PostPreview({ post, isWide }: PostPreviewProps) {
         )}
         <h1>{post.title}</h1>
         <p>{post.excerpt}</p>
-        <span className="readingTime">Tempo de leitura: 5 minutos</span>
+        <ReadingTimeComponent post={post.id} />
       </div>
     </PostContainer>
   );
