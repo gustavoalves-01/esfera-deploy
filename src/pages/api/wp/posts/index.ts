@@ -52,11 +52,13 @@ export default async function handler(
     const fields =
       'id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image';
     let params;
+
     if (query.recent) {
       params = {
         _fields: fields,
         orderby: 'date',
         order: 'desc',
+        tags_exclude: ['3'],
         per_page: itemsPerPage,
       };
     } else if (query.trending) {
@@ -64,7 +66,7 @@ export default async function handler(
         _fields: fields,
         orderby: 'date',
         order: 'desc',
-        tags: 'trending',
+        tags: '3',
         per_page: itemsPerPage,
       };
     } else if (query.most_accessed) {
@@ -72,7 +74,8 @@ export default async function handler(
         _fields: fields,
         orderby: 'date',
         order: 'desc',
-        tags: 'most_accessed',
+        tags: '0',
+        tags_exclude: ['3'],
         per_page: itemsPerPage,
       };
     } else {
@@ -105,7 +108,7 @@ export default async function handler(
         excerpt: excerpt,
         slug: post.slug,
         categories: post.categories,
-        tags: post.tags,
+        tags: String(post.tags),
         imageURL: post.yoast_head_json.og_image[0].url,
       };
     });

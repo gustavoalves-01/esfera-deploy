@@ -1,8 +1,12 @@
+import axios from 'axios';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import useSWR from 'swr';
 import Header from '../components/Header';
 import { PostPreviewSection } from '../components/PostPreviewSection';
-import PostPreviewInterface from '../entities/PostPreview';
+import PostPreviewInterface, {
+  TimeToReadInterface,
+} from '../entities/PostPreview';
 import { Container } from './styles';
 
 interface HomeProps {
@@ -34,7 +38,11 @@ export default function Home({
         <main>
           {trendingPostList.length > 0 && (
             <>
-              <PostPreviewSection title="Em alta" posts={trendingPostList} />
+              <PostPreviewSection
+                title="Em alta"
+                posts={trendingPostList}
+                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+              />
               <PostPreviewSection
                 title="Posts mais recentes"
                 posts={recentPostList}
@@ -48,22 +56,27 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const responseTrending = await fetch(
-    'http://localhost:3000/api/wp/posts?trending=true'
-  );
-  const trendingPostList = await responseTrending.json();
+  const trendingPostList = await (
+    await axios.get(`${process.env.BASE_URL}/api/wp/posts?trending=true`)
+  ).data;
 
-  const responseMostAccessed = await fetch(
-    'http://localhost:3000/api/wp/posts?trending=true'
-  );
-  const mostAccessedPostList = await responseMostAccessed.json();
+  const mostAccessedPostList = await (
+    await axios.get(
+      `${process.env.BASE_URL}/api/wp/posts?recent=true&per_page=2`
+    )
+  ).data;
 
-  const responseRecent = await fetch(
-    'http://localhost:3000/api/wp/posts?recent=true&per_page=2'
-  );
-  const recentPostList = await responseRecent.json();
+  const recentPostList = await (
+    await axios.get(
+      `${process.env.BASE_URL}/api/wp/posts?recent=true&per_page=2`
+    )
+  ).data;
 
   return {
-    props: { trendingPostList, mostAccessedPostList, recentPostList },
+    props: {
+      trendingPostList,
+      mostAccessedPostList,
+      recentPostList,
+    },
   };
 };
