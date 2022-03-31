@@ -86,6 +86,14 @@ export default async function handler(
       };
     }
 
+    if (query.onlyLinks) {
+      params = {
+        _fields: 'id, title, slug',
+        per_page: '4',
+        page: query.onlyLinks === 'expanded' ? '2' : '1',
+      };
+    }
+
     const response = await axios.get(
       `https://esferaenergia.com.br/wp-json/wp/v2/posts`,
       { params }
@@ -94,23 +102,30 @@ export default async function handler(
     const { data } = response;
 
     const postList: PostPreviewInterface[] = data.map((post: RawPost) => {
-      const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
-      const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
-
-      return {
-        id: post.id,
-        date: new Date(post.date).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }),
-        title: post.title.rendered,
-        excerpt: excerpt,
-        slug: post.slug,
-        categories: post.categories,
-        tags: String(post.tags),
-        imageURL: post.yoast_head_json.og_image[0].url,
-      };
+      if (query.onlyLinks) {
+        return {
+          id: post.id,
+          title: post.title.rendered,
+          slug: post.slug,
+        };
+      } else {
+        const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
+        const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
+        return {
+          id: post.id,
+          date: new Date(post.date).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
+          title: post.title.rendered,
+          excerpt: excerpt,
+          slug: post.slug,
+          categories: post.categories,
+          tags: String(post.tags),
+          imageURL: post.yoast_head_json.og_image[0].url,
+        };
+      }
     });
     res.status(200).json(postList);
   } catch (err) {

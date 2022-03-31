@@ -1,6 +1,7 @@
 :root {
   --gray-200: #f5f5f5;
   --pink-500: #f5426c;
+  --pink-600: #BB2F55;
 }
 
 * {
@@ -9,7 +10,8 @@
 }
 
 html,
-body {
+body,
+button {
   font-family: 'Open Sans', sans-serif;
 }
 

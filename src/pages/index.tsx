@@ -4,6 +4,7 @@ import Head from 'next/head';
 import useSWR from 'swr';
 import Header from '../components/Header';
 import { PostPreviewSection } from '../components/PostPreviewSection';
+import { Sidebar } from '../components/Sidebar';
 import PostPreviewInterface, {
   TimeToReadInterface,
 } from '../entities/PostPreview';
@@ -38,18 +39,16 @@ export default function Home({
         <main>
           {trendingPostList.length > 0 && (
             <>
-              <PostPreviewSection
-                title="Em alta"
-                posts={trendingPostList}
-                linkAll={{ href: '#', text: 'Ver todos os posts' }}
-              />
+              <PostPreviewSection title="Em alta" posts={trendingPostList} />
               <PostPreviewSection
                 title="Posts mais recentes"
                 posts={recentPostList}
+                linkAll={{ href: '#', text: 'Ver todos os posts' }}
               />
             </>
           )}
         </main>
+        <Sidebar />
       </Container>
     </>
   );
