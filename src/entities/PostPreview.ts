@@ -4,7 +4,13 @@ export default interface PostPreviewInterface {
   title: string;
   excerpt: string;
   slug: string;
-  categories: string;
-  tags: string;
+  categories: Array<string>;
+  tags: Array<string>;
   imageURL: string;
+  timeToRead: number;
+}
+
+export interface TimeToReadInterface {
+  id: string;
+  time: number;
 }

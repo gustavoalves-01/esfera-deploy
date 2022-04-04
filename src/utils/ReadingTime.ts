@@ -1,5 +1,3 @@
-export default function ReadingTime(text: String): Number {
-    const words = text.split(" ");
-    
-    return Math.round(words.length * 2.5);
+export default function ReadingTime(words: number): number {
+    return Math.round(words / 150);
 }
