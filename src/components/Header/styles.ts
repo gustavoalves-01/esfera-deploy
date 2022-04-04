@@ -260,11 +260,11 @@ export const OverlayMobile = styled.div<PropsContainerPopupMobile>`
   pointer-events: ${(props) => (props.activePopup ? 'all' : 'none')};
   transition: 0.3s;
 
-  width: 100%;
+  width: 101%;
   height: 100vh;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: -1px;
+  top: -1px;
 
   background-color: rgba(0, 0, 0, 0.5);
 `;
@@ -312,3 +312,17 @@ export const ClosePopup = styled.span`
   right: 20px;
   top: 20px;
 `;
+
+interface Line{
+  myWidth: number;
+}
+export const Line = styled.span<Line>`
+  width: ${(props) => props.myWidth};
+  height: 3px;
+  background-color: red;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  color: transparent;
+`

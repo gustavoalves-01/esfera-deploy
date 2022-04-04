@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Button from '../components/Button';
 import Header from '../components/Header';
-import { PostPreview } from '../components/PostPreview';
 import PostPreviewInterface from '../entities/PostPreview';
 
 interface HomeProps {
