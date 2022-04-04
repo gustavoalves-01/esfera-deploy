@@ -6,8 +6,8 @@ import { Style } from "./style";
 export default function Galery() {
     return(
         <Style>
-            <Card imgUrl="images/deletar.png"/>
-            <Card imgUrl="images/deletar.png"/>
+            <Card />
+            <Card />
         </Style>
     );
 }

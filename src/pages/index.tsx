@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import useSWR from 'swr';
+import Galery from '../components/Galery';
 import Header from '../components/Header';
 import { PostPreviewSection } from '../components/PostPreviewSection';
 import PostPreviewInterface, {
@@ -34,9 +35,9 @@ export default function Home({
         <title>Esfera Energia Blog</title>
       </Head>
       <Header categories={categories} />
-
       <Container>
         <main>
+          <Galery />
           {trendingPostList.length > 0 && (
             <>
               <PostPreviewSection
