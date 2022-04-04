@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import Breadcrumb from '../components/Breadcrumb';
 import Header from '../components/Header';
+import { NewsletterForm } from '../components/NewsletterForm';
 import { PostPreviewSection } from '../components/PostPreviewSection';
 import SearchComponent from '../components/SearchComponent';
 import { Sidebar } from '../components/Sidebar';
@@ -57,6 +58,12 @@ export default function Home({
                   href: '#',
                   text: 'Ver todos os posts mais acesados',
                 }}
+              />
+              <NewsletterForm
+                copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa "
+                desc="Receba conteúdos exclusivos em seu e-mail."
+                cta="Receber conteúdos"
+                isWide
               />
               <PostPreviewSection
                 title="Todos os posts"

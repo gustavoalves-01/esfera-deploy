@@ -1,5 +1,10 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
+
 :root {
   --gray-200: #f5f5f5;
+  --pink-300: #F8B3C5;
   --pink-500: #f5426c;
   --pink-600: #BB2F55;
 }
@@ -11,7 +16,10 @@
 
 html,
 body,
-button {
+button,
+input, 
+text-area, 
+a {
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -39,3 +47,4 @@ h2.titleBlog {
     line-height: 25px;
   }
 }
+`;

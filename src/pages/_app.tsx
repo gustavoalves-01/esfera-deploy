@@ -1,13 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { BuscarProvider } from '../providers/buscarContext'
+import type { AppProps } from 'next/app';
+import { BuscarProvider } from '../providers/buscarContext';
+import { GlobalStyle } from '../styles/globals';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <>
-    <BuscarProvider>
-      <Component {...pageProps} />
-    </BuscarProvider>
-  </>
+  return (
+    <>
+      <GlobalStyle />
+      <BuscarProvider>
+        <Component {...pageProps} />
+      </BuscarProvider>
+    </>
+  );
 }
 
-export default MyApp
+export default MyApp;

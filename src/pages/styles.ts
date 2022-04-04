@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  max-width: 1200px;
+  max-width: 1115px;
   margin: 0 auto;
   column-gap: 2rem;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: auto 255px;
   margin-top: 42px;
 
   main {
