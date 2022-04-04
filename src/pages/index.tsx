@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+
 import useSWR from 'swr';
 import Header from '../components/Header';
 import { PostPreviewSection } from '../components/PostPreviewSection';

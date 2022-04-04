@@ -10,13 +10,12 @@ import {
   ContainerButtonBuscar,
   ContainerInput,
   ContainerPopupMobile,
-  HeaderElement,
-  MaxContainer,
+  HeaderElement, Line, MaxContainer,
   OverlayMobile,
   PopupConteudos,
   PrincipalList,
   SelectButton,
-  SublistInUl,
+  SublistInUl
 } from './styles';
 
 interface Category {
@@ -34,8 +33,10 @@ function Header({ categories }: CategoryProps) {
     useState(false);
 
   const [positionHeader, setPositionHeader] = useState('relative');
-  const [numberResponsive, setNumberResponsive] = useState(true);
+  const [numberResponsive, setNumberResponsive] = useState(false);
   const [categorieActive, setCategorieActive] = useState(false);
+
+  const [widthLine, setWidthLine] = useState(0)
 
   useEffect(() => {
     if (window) {
@@ -53,24 +54,28 @@ function Header({ categories }: CategoryProps) {
     }
   });
 
+
+  useEffect(() => {
+    if (window.innerWidth >= 1200) {
+      setNumberResponsive(true);
+    } else if (window.innerWidth < 1200) {
+      setNumberResponsive(false);//verificar essa linha
+      setPositionHeader('fixed');
+    }
+  }, []);
+
   function activeCategory() {
     setCategorieActive(!categorieActive);
   }
 
-  useEffect(() => {
-    if (window) {
-      if (window.innerWidth >= 1200) {
-        setNumberResponsive(true);
-      } else if (window.innerWidth < 1200) {
-        setNumberResponsive(false); //verificar essa linha
-        setPositionHeader('fixed');
-      }
-    }
-  }, []);
-
   function activePopupReceber() {
     setActivePopupRecebeConteudos(!activePopupRecebeConteudos);
   }
+
+
+
+
+
 
   if (numberResponsive) {
     return (
@@ -272,6 +277,9 @@ function Header({ categories }: CategoryProps) {
                   typeButton="especialista"
                 />
               </ContainerButton>
+
+              <Line myWidth={widthLine}>a</Line>
+
             </PrincipalList>
           )}
         </MaxContainer>
@@ -292,7 +300,7 @@ function Header({ categories }: CategoryProps) {
               width={24}
               height={24}
               alt="Logo novo esfera energia"
-              src="/images/icons/search.svg"
+              src="/images/icons/search-rosa.svg"
             />
           </span>
           <span>
