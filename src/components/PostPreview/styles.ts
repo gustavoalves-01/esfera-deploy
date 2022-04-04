@@ -12,6 +12,13 @@ export const PostContainer = styled.div<PostStyleProps>`
   flex-direction: ${({ isWide }) => (isWide ? 'row' : 'column')};
 
   background: var(--gray-200);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: rgba(245, 66, 108, 0.05);
+    box-shadow: 3px 3px 7px rgba(245, 66, 108, 0.07);
+  }
 
   .postHeader {
     display: flex;

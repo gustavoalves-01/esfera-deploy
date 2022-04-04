@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import PostPreviewInterface, {
-  TimeToReadInterface,
-} from '../../entities/PostPreview';
+import { PostPreviewInterface } from '../../entities/Post';
 import { PostPreview } from '../PostPreview';
 import { Container } from './styles';
 

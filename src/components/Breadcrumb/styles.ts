@@ -1,15 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const BreadcrumbContainer = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    text-transform: capitalize;
-    font-size: 14px;
-`
+  text-transform: capitalize;
+  font-size: 14px;
+  color: #4f5150;
+`;
 export const WrapperImage = styled.div`
-    position: relative;
-    width: 16px; 
-    height: 14px;
-    margin-right: 8px;
-`
+  position: relative;
+  width: 16px;
+  height: 14px;
+  margin-right: 8px;
+  color: #4f5150;
+`;

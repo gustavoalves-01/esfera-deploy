@@ -7,7 +7,7 @@ interface SidebarSectionStyleProps {
 export const Container = styled.div<SidebarSectionStyleProps>`
   display: flex;
   flex-direction: column;
-
+  transition: all 0.2s ease-in-out;
   h1 {
     font-size: 1.25rem;
     line-height: 27px;
