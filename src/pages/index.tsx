@@ -2,6 +2,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import Breadcrumb from '../components/Breadcrumb';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { NewsletterForm } from '../components/NewsletterForm';
 import { PostPreviewSection } from '../components/PostPreviewSection';
@@ -75,6 +76,7 @@ export default function Home({
         </main>
         <Sidebar />
       </Container>
+      <Footer />
     </>
   );
 }
