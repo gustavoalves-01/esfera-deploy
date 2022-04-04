@@ -1,12 +1,15 @@
 import React from "react";
-import { CardStyle } from "./style";
+import { CardStyle, Legend } from "./style";
 
 interface CardProps {
     imgUrl: string,
+    text: string,
 }
 
-export default function Card({imgUrl} : CardProps) {
+export default function Card({imgUrl, text} : CardProps) {
     return (
-        <CardStyle imgUrl={imgUrl}/>
+        <CardStyle imgUrl={imgUrl}>
+            <Legend>{text}</Legend>
+        </CardStyle>
     );
 }
