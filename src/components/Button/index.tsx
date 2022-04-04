@@ -26,7 +26,7 @@ function Button({
 
   function buscarArtigo() {
     console.log(inputEncontreArtigo); //Fazer o post ou redirecionar pra algum lugar
-    router.push(`/blog/${inputEncontreArtigo}`);
+    router.push(`/${inputEncontreArtigo}`);
   }
 
   function falarComEspecialista() {

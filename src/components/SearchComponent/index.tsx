@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import router from 'next/router';
 import React from 'react';
 import { useBuscar } from '../../providers/buscarContext';
 import { LabelElement } from './styles';
@@ -16,7 +17,7 @@ function SearchComponent({
   heightInput,
   placeholder,
 }: PropsInputComponents) {
-  const { setInputEncontreArtigo } = useBuscar();
+  const { setInputEncontreArtigo, inputEncontreArtigo } = useBuscar();
 
   typeInput.toLocaleUpperCase();
 
@@ -24,10 +25,25 @@ function SearchComponent({
     setInputEncontreArtigo(e.target.value);
   }
 
+  function sendRouterBlog() {
+    router.push(`/${inputEncontreArtigo}`);
+  }
+
+  function handleTest(e: React.KeyboardEvent<HTMLSpanElement>) {
+    if (e.key == "Enter") {
+      router.push(`/${inputEncontreArtigo}`);
+    }
+  }
+
   if (typeInput == 'search') {
     return (
-      <LabelElement widthInput={widthInput} heightInput={heightInput}>
-        <span>
+      <LabelElement widthInput={widthInput} heightInput={heightInput} onKeyPress={(e) => handleTest(e)}>
+        <input
+          type="search"
+          placeholder={placeholder}
+          onChange={(e) => valueInput(e)}
+        />
+        <span onClick={() => sendRouterBlog()} >
           <Image
             width={20}
             height={20}
@@ -35,11 +51,6 @@ function SearchComponent({
             src="/images/icons/search.svg"
           />
         </span>
-        <input
-          type="search"
-          placeholder={placeholder}
-          onChange={(e) => valueInput(e)}
-        />
       </LabelElement>
     );
   } else {

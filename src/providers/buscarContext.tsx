@@ -32,8 +32,6 @@ export function BuscarProvider({ children }: Props) {
     const [inputEmail, setInputEmail] = useState("");
 
     function enviarEmail(email: string) {
-        console.log(email) //Post para wordpress enviar email
-
         setInputEmail("") //Limpar input
     } 
 
