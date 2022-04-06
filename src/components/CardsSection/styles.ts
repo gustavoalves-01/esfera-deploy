@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 40px 0 60px;
-  gap: 1.5rem;
+  gap: 21px;
 
   .header {
     display: flex;
@@ -18,14 +18,9 @@ export const Container = styled.div`
   }
 
   .cardsWrapper {
-    display: flex;
-    gap: 2rem;
+    display: inline-flex;
     flex-wrap: wrap;
-  }
-
-  @media (max-width: 990px) {
-    .header {
-      justify-content: center;
-    }
+    width: 100%;
+    gap: 1.5rem;
   }
 `;

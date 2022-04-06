@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import PostPreviewInterface, {
-  TimeToReadInterface,
-} from '../../entities/PostPreview';
-import { PostPreview } from '../PostPreview';
+import { PostPreviewInterface } from '../../entities/Post';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import PostPreview from './PostPreview';
 import { Container } from './styles';
 
 interface PostPreviewSectionInterface {
@@ -15,19 +14,31 @@ interface PostPreviewSectionInterface {
   posts: PostPreviewInterface[];
 }
 
-export function PostPreviewSection({
+const PostPreviewSection = ({
   title,
   linkAll,
   posts,
-}: PostPreviewSectionInterface) {
+}: PostPreviewSectionInterface) => {
+  const { width } = useWindowDimensions();
+
   return (
     <Container>
       <div className="header">
-        <h2 className="titleBlog">{title}</h2>
-        {linkAll && (
-          <Link href={linkAll.href} passHref>
-            <a>{linkAll.text}</a>
-          </Link>
+        {linkAll ? (
+          width >= 990 ? (
+            <>
+              <h2 className="titleBlog">{title}</h2>
+              <Link href={linkAll.href} passHref>
+                <a>{linkAll.text}</a>
+              </Link>
+            </>
+          ) : (
+            <Link href={linkAll.href} passHref>
+              <h2 className="titleBlog">{title}</h2>
+            </Link>
+          )
+        ) : (
+          <h2 className="titleBlog">{title}</h2>
         )}
       </div>
       <div className="cardsWrapper">
@@ -42,4 +53,6 @@ export function PostPreviewSection({
       </div>
     </Container>
   );
-}
+};
+
+export default PostPreviewSection;

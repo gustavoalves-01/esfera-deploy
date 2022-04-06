@@ -1,4 +1,9 @@
-export default interface PostPreviewInterface {
+export interface SidebarLinks {
+  id: string;
+  title: string;
+  slug: string;
+}
+export interface PostPreviewInterface {
   id: string;
   date: string;
   title: string;

@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import PostPreviewInterface from '../../../../entities/PostPreview';
+import { PostPreviewInterface } from '../../../../entities/Post';
+import handleCategory from '../../../../utils/handleCategories';
+import { api } from '../../../../services/api';
 
 interface RawPost {
   id: string;
@@ -12,8 +14,8 @@ interface RawPost {
     rendered: string;
   };
   slug: string;
-  categories: [];
-  tags: [];
+  categories: Array<number>;
+  tags: Array<number>;
   yoast_head_json: {
     og_image: [
       {
@@ -86,6 +88,14 @@ export default async function handler(
       };
     }
 
+    if (query.onlyLinks) {
+      params = {
+        _fields: 'id, title, slug',
+        per_page: '4',
+        page: query.onlyLinks === 'expanded' ? '2' : '1',
+      };
+    }
+
     const response = await axios.get(
       `https://esferaenergia.com.br/wp-json/wp/v2/posts`,
       { params }
@@ -93,24 +103,35 @@ export default async function handler(
 
     const { data } = response;
 
-    const postList: PostPreviewInterface[] = data.map((post: RawPost) => {
-      const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
-      const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
+    const categories = await (await api.get('/list-categories')).data;
 
-      return {
-        id: post.id,
-        date: new Date(post.date).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }),
-        title: post.title.rendered,
-        excerpt: excerpt,
-        slug: post.slug,
-        categories: post.categories,
-        tags: String(post.tags),
-        imageURL: post.yoast_head_json.og_image[0].url,
-      };
+    const postList: PostPreviewInterface[] = data.map((post: RawPost) => {
+      if (query.onlyLinks) {
+        return {
+          id: post.id,
+          title: post.title.rendered,
+          slug: post.slug,
+        };
+      } else {
+        const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
+        const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
+        return {
+          id: post.id,
+          date: new Date(post.date).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
+          title: post.title.rendered,
+          excerpt: excerpt,
+          slug: post.slug,
+          categories: post.categories.map((item) => {
+            return handleCategory(item, categories);
+          }),
+          tags: String(post.tags),
+          imageURL: post.yoast_head_json.og_image[0].url,
+        };
+      }
     });
     res.status(200).json(postList);
   } catch (err) {

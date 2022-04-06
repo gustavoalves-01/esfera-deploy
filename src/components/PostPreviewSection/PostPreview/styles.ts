@@ -12,6 +12,13 @@ export const PostContainer = styled.div<PostStyleProps>`
   flex-direction: ${({ isWide }) => (isWide ? 'row' : 'column')};
 
   background: var(--gray-200);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: rgba(245, 66, 108, 0.05);
+    box-shadow: 3px 3px 7px rgba(245, 66, 108, 0.07);
+  }
 
   .postHeader {
     display: flex;
@@ -81,6 +88,23 @@ export const PostContainer = styled.div<PostStyleProps>`
       grid-column: 1/3;
       font-size: 12px;
       line-height: 16px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    flex-direction: column;
+    max-width: 100%;
+
+    .imageWrapper {
+      width: 100%;
+      height: 224px;
+    }
+
+    .contentWrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 1rem 0.5rem 1.5rem;
     }
   }
 `;
