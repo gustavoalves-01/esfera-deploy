@@ -14,7 +14,7 @@ interface MoreItemsProps {
   itemsType: 'posts' | 'materials';
 }
 
-export const SidebarSection = ({ title, itemsType }: SidebarSectionProps) => {
+const SidebarSection = ({ title, itemsType }: SidebarSectionProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const firstItems = useSidebarLinks(1, itemsType);
 
@@ -94,3 +94,5 @@ const MoreItems = ({ itemsType }: MoreItemsProps) => {
     })
   );
 };
+
+export default SidebarSection;

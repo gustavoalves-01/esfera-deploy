@@ -1,9 +1,9 @@
 import React from 'react';
-import { NewsletterForm } from '../NewsletterForm';
-import { SidebarSection } from './SidebarSection';
+import NewsletterForm from '../NewsletterForm';
+import SidebarSection from './SidebarSection';
 import { Container } from './styles';
 
-export const Sidebar = () => {
+const Sidebar = () => {
   return (
     <Container>
       <NewsletterForm
@@ -18,3 +18,5 @@ export const Sidebar = () => {
     </Container>
   );
 };
+
+export default Sidebar;

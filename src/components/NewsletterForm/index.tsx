@@ -8,12 +8,7 @@ interface NewsletterFromProps {
   isWide?: boolean;
 }
 
-export const NewsletterForm = ({
-  copy,
-  desc,
-  cta,
-  isWide,
-}: NewsletterFromProps) => {
+const NewsletterForm = ({ copy, desc, cta, isWide }: NewsletterFromProps) => {
   return (
     <Container isWide={isWide}>
       <h1>{copy}</h1>
@@ -25,3 +20,5 @@ export const NewsletterForm = ({
     </Container>
   );
 };
+
+export default NewsletterForm;

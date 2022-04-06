@@ -90,4 +90,21 @@ export const PostContainer = styled.div<PostStyleProps>`
       line-height: 16px;
     }
   }
+
+  @media (max-width: 650px) {
+    flex-direction: column;
+    max-width: 100%;
+
+    .imageWrapper {
+      width: 100%;
+      height: 224px;
+    }
+
+    .contentWrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 1rem 0.5rem 1.5rem;
+    }
+  }
 `;

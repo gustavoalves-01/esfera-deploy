@@ -1,17 +1,28 @@
-import { GetStaticProps } from 'next';
+// Framework and libs Imports
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { isMobile } from 'react-device-detect';
 
-import Breadcrumb from '../components/Breadcrumb';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import { NewsletterForm } from '../components/NewsletterForm';
-import { PostPreviewSection } from '../components/PostPreviewSection';
-import SearchComponent from '../components/SearchComponent';
-import { Sidebar } from '../components/Sidebar';
-import CategoryInterface from '../entities/Category';
-import { PostPreviewInterface } from '../entities/Post';
+// API Imports
 import { api } from '../services/api';
+
+// Components Imports
+import Header from '../components/Header';
+import Breadcrumb from '../components/Breadcrumb';
+import SearchComponent from '../components/SearchComponent';
+import Sidebar from '../components/Sidebar';
+import PostPreviewSection from '../components/PostPreviewSection';
+import CardsSection from '../components/CardsSection';
+import NewsletterForm from '../components/NewsletterForm';
+import Footer from '../components/Footer';
+
+// Styles Imports
 import { Container } from './styles';
+
+// Typing Imports
+import { CardInterface } from '../entities/Card';
+import { PostPreviewInterface } from '../entities/Post';
+import { CategoryInterface } from '../entities/Category';
 
 interface HomeProps {
   categoryList: CategoryInterface[];
@@ -28,6 +39,27 @@ export default function Home({
   recentPostList,
   allPostList,
 }: HomeProps) {
+  const materials: CardInterface[] = [
+    {
+      text: 'Categoria 1',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+    {
+      imgUrl: '/',
+      href: '#',
+    },
+    {
+      imgUrl: '/',
+      href: '#',
+    },
+    {
+      imgUrl: '/',
+      href: '#',
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -51,6 +83,12 @@ export default function Home({
                 title="Posts mais recentes"
                 posts={recentPostList}
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
+              />
+              <CardsSection
+                type="materials"
+                title="Materiais gratuitos para download"
+                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                cards={materials}
               />
               <PostPreviewSection
                 title="Posts mais acessados"
