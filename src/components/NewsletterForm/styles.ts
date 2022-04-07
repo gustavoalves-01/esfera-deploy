@@ -1,3 +1,4 @@
+import { MaxContainer } from './../Header/styles';
 import styled from 'styled-components';
 
 interface NewsletterFormStyleProps {
@@ -45,7 +46,7 @@ export const Container = styled.div<NewsletterFormStyleProps>`
       font-size: 1rem;
       line-height: 24px;
       font-weight: 300;
-      padding: 1rem;
+      padding: 14px;
       background: #ffffff;
       border: 1px solid var(--pink-500);
       border-radius: 5px;
@@ -55,7 +56,7 @@ export const Container = styled.div<NewsletterFormStyleProps>`
       font-weight: 800;
       font-size: 16px;
       line-height: 24px;
-      padding: ${({ isWide }) => (isWide ? '1rem 1.5rem' : '1rem 0')};
+      padding: ${({ isWide }) => (isWide ? '14px 1.5rem' : '1rem 0')};
       border: none;
       background: var(--pink-500);
       color: #fff;
@@ -65,6 +66,47 @@ export const Container = styled.div<NewsletterFormStyleProps>`
 
       &:hover {
         background: var(--pink-300);
+      }
+    }
+  }
+
+  @media (max-width: 990px) {
+    padding: 1.5rem 0.5rem;
+    margin-top: 40px;
+
+    h1 {
+      font-size: 1rem;
+      line-height: 19px;
+      margin-bottom: 1.5rem;
+      padding: 0;
+      text-align: center;
+    }
+
+    p {
+      grid-row: 3;
+      margin-bottom: 0;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+      color: #4f5150;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      input {
+        padding: 10px 1rem;
+      }
+
+      button {
+        padding: 10px 0;
+        border-radius: 0;
       }
     }
   }

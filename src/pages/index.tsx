@@ -23,6 +23,7 @@ import { Container } from './styles';
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 interface HomeProps {
   categoryList: CategoryInterface[];
@@ -60,6 +61,8 @@ export default function Home({
     },
   ];
 
+  const { width } = useWindowDimensions();
+
   return (
     <>
       <Head>
@@ -68,13 +71,17 @@ export default function Home({
       <Header categories={categoryList} />
 
       <Container>
-        <Breadcrumb section="Blog" />
-        <SearchComponent
-          heightInput="56px"
-          widthInput="100%"
-          placeholder="Encontre um artigo"
-          typeInput="search"
-        />
+        {width >= 990 && (
+          <>
+            <Breadcrumb section="Blog" />
+            <SearchComponent
+              heightInput="56px"
+              widthInput="100%"
+              placeholder="Encontre um artigo"
+              typeInput="search"
+            />
+          </>
+        )}
         <main>
           {trendingPostList.length > 0 && (
             <>
@@ -84,12 +91,21 @@ export default function Home({
                 posts={recentPostList}
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
               />
-              <CardsSection
-                type="materials"
-                title="Materiais gratuitos para download"
-                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
-                cards={materials}
-              />
+              {width >= 990 ? (
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos para download"
+                  linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                  cards={materials}
+                />
+              ) : (
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos"
+                  linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                  cards={materials}
+                />
+              )}
               <PostPreviewSection
                 title="Posts mais acessados"
                 posts={mostAccessedPostList}
@@ -98,12 +114,21 @@ export default function Home({
                   text: 'Ver todos os posts mais acesados',
                 }}
               />
-              <NewsletterForm
-                copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa "
-                desc="Receba conteúdos exclusivos em seu e-mail."
-                cta="Receber conteúdos"
-                isWide
-              />
+              {width >= 990 ? (
+                <NewsletterForm
+                  copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
+                  desc="Receba conteúdos exclusivos em seu e-mail."
+                  cta="Receber conteúdos"
+                  isWide
+                />
+              ) : (
+                <NewsletterForm
+                  copy="Receba os melhores conteúdos sobre o Mercado Livre de Energia e economia de energia para sua empresa."
+                  desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
+                  cta="Receber conteúdos"
+                  isWide
+                />
+              )}
               <PostPreviewSection
                 title="Todos os posts"
                 posts={allPostList}
@@ -112,7 +137,7 @@ export default function Home({
             </>
           )}
         </main>
-        <Sidebar />
+        {width >= 990 && <Sidebar />}
       </Container>
       <Footer />
     </>

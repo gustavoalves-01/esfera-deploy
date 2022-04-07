@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  max-width: 1115px;
-  margin: 0 auto;
+  max-width: calc(1115px + 4rem);
+  margin: 42px auto 0;
+  padding: 0 2rem;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
-  margin: 42px 2rem 0;
 
   main {
     grid-column: 1/2;
@@ -18,7 +18,11 @@ export const Container = styled.div`
   }
 
   @media (max-width: 990px) {
-    grid-template-columns: initial;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    margin-top: 0;
+    padding-top: 70px;
 
     aside,
     > label {
