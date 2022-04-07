@@ -19,8 +19,29 @@ export const Container = styled.div`
 
   .cardsWrapper {
     display: inline-flex;
-    flex-wrap: wrap;
     width: 100%;
+    justify-content: space-between;
     gap: 1.5rem;
+  }
+
+  @media (max-width: 990px) {
+    .header {
+      justify-content: center;
+    }
+
+    .cardsContainer {
+      padding-bottom: 254px;
+    }
+
+    .cardsWrapper {
+      width: auto;
+      padding-right: 1rem;
+    }
+
+    .cardsViewport {
+      overflow-x: scroll;
+      position: absolute;
+      width: calc(100vw - 1rem);
+    }
   }
 `;

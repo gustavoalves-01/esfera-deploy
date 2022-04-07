@@ -24,6 +24,12 @@ export const Container = styled.div`
   }
 
   @media (max-width: 990px) {
+    &:first-of-type {
+      margin: 14px 0 0;
+    }
+
+    margin: 40px 0 0;
+
     .header {
       justify-content: center;
     }

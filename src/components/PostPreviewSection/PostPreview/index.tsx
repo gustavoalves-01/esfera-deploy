@@ -46,8 +46,21 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
               <span className="postDate">{post.date}</span>
             </>
           )}
-          <h1>{post.title}</h1>
-          <p>{post.excerpt}</p>
+          {width <= 650 ? (
+            isWide ? (
+              <>
+                <h1>{post.title}</h1>
+                <p>{post.excerpt}</p>
+              </>
+            ) : (
+              <h1>{post.title}</h1>
+            )
+          ) : (
+            <>
+              <h1>{post.title}</h1>
+              <p>{post.excerpt}</p>
+            </>
+          )}
           <ReadingTimeComponent post={post.id} />
         </div>
       </PostContainer>
