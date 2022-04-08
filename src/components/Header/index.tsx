@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 import Button from '../Button';
 import InputComponent from '../InputComponent';
 import SearchComponent from '../SearchComponent';
@@ -59,7 +57,7 @@ function Header({ categories }: CategoryProps) {
   }
 
   useEffect(() => {
-    if (window.innerWidth >= 1200) {
+    if (window.innerWidth >= 1100) {
       window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
           setVerifyHeaderActive(false);
@@ -73,8 +71,8 @@ function Header({ categories }: CategoryProps) {
   });
 
   useEffect(() => {
-    if (window.innerWidth >= 1200) {
-    } else if (window.innerWidth < 1200) {
+    if (window.innerWidth >= 1100) {
+    } else if (window.innerWidth < 1100) {
       setPositionHeader('fixed');
     }
   }, []);
@@ -326,7 +324,6 @@ function Header({ categories }: CategoryProps) {
               />
             </span>
 
-            {/* <MenuSanduiche left={menuActive} categories={categories} /> */}
 
 
 
