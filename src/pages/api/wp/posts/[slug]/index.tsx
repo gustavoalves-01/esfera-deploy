@@ -46,8 +46,6 @@ export default async function handler(
 
       const { data } = response;
 
-      // console.log(JSON.parse(data[0].content.rendered));
-
       const categories = await (await api.get('/list-categories')).data;
 
       const fullPost: FullPostInterface = data.map((post: RawPost) => {
