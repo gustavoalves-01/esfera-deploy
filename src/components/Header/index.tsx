@@ -13,8 +13,10 @@ import {
   ClosePopup,
   ContainerButton,
   ContainerButtonBuscar,
+  ContainerDesktop,
   ContainerInput,
   ContainerMenuMobile,
+  ContainerMobile,
   ContainerPopupMobile,
   HeaderElement, Line, MaxContainer,
   OverlayMobile,
@@ -449,14 +451,3 @@ function Header({ categories }: CategoryProps) {
 export default Header;
 
 
-export const ContainerDesktop = styled.div`
-@media (max-width: 1100px){
-    display: none;
-  }
-`
-export const ContainerMobile = styled.div`
-  @media (min-width: 1100px){
-    display: none;
-  }
-
-`

@@ -23,6 +23,7 @@ import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import Intermision from '../components/Intermision';
 
 interface HomeProps {
   categoryList: CategoryInterface[];
@@ -137,6 +138,7 @@ export default function Home({
           )}
         </main>
         {width >= 990 && <Sidebar />}
+
       </Container>
       <Footer />
     </>

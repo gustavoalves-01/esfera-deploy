@@ -401,3 +401,15 @@ export const CloseIcon = styled.div`
     right: 0;
     top: 0;
 `
+
+export const ContainerDesktop = styled.div`
+@media (max-width: 1100px){
+    display: none;
+  }
+`
+export const ContainerMobile = styled.div`
+  @media (min-width: 1100px){
+    display: none;
+  }
+
+`
