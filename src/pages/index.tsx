@@ -1,7 +1,6 @@
 // Framework and libs Imports
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { isMobile } from 'react-device-detect';
 
 // API Imports
 import { api } from '../services/api';
