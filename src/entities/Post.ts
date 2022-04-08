@@ -1,7 +1,12 @@
-export interface SidebarLinks {
+export interface FullPostInterface {
   id: string;
   title: string;
-  slug: string;
+  author: string;
+  categories: string;
+  content: string;
+  createdAt: string;
+  timeToRead: number;
+  imageURL: string;
 }
 export interface PostPreviewInterface {
   id: string;
@@ -13,6 +18,11 @@ export interface PostPreviewInterface {
   tags: Array<string>;
   imageURL: string;
   timeToRead: number;
+}
+export interface SidebarLinks {
+  id: string;
+  title: string;
+  slug: string;
 }
 
 export interface TimeToReadInterface {
