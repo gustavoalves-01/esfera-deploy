@@ -25,8 +25,8 @@ function Button({
   const router = useRouter();
 
   function buscarArtigo() {
-    console.log(inputEncontreArtigo); //Fazer o post ou redirecionar pra algum lugar
-    router.push(`/${inputEncontreArtigo}`);
+    // inputEncontreArtigo é o valor digitado no input
+    router.push(`/wp-json/wp/v2/posts?search=${inputEncontreArtigo}`);
   }
 
   function falarComEspecialista() {

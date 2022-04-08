@@ -4,6 +4,7 @@ interface PropsHeader {
   myPosition: string;
 }
 export const HeaderElement = styled.header<PropsHeader>`
+  top: 0px;
   background: #ffffff;
 
   position: ${(props) => props.myPosition};
@@ -29,6 +30,8 @@ export const HeaderElement = styled.header<PropsHeader>`
       margin-left: 24px;
     }
   }
+
+  z-index: 100000;
 `;
 
 export const MaxContainer = styled.div`
@@ -241,10 +244,17 @@ export const ContainerPopupMobile = styled.div<PropsContainerPopupMobile>`
     border-radius: 5px;
     background: #ffffff;
 
-    display: ${(props) => (props.activeCategories ? 'flex' : 'none')};
+    opacity: ${(props) => (props.activeCategories ? '1' : '0')};
+    pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
+    transition: .3s;
+    display: flex;
+
+    margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
+    margin-bottom: 16px;
+
+
     justify-content: space-around;
     flex-wrap: wrap;
-    margin-top: 16px;
     padding: 8px 16px;
   }
 
@@ -325,4 +335,69 @@ export const Line = styled.span<Line>`
   left: 0;
   z-index: 10;
   color: transparent;
+`
+
+
+
+{/*  ======== MENU MOBILE ======== */ }
+
+
+export const ContainerMenuMobile = styled.div<{ myLeft: string }>`
+    position:fixed;
+    overflow-y: scroll;
+
+    width:100%;
+    left: ${(props) => props.myLeft};
+
+    background: #fff;
+    height: 100vh;
+    top: 0px;
+    z-index:100;
+    transition: .3s;
+
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+
+    a{
+        font-weight: bold;
+        margin-bottom: 16px;
+    }
+    button{
+        margin-bottom:16px;
+    }
+`
+export const CategoryContainer = styled.div<{ activeCategories: boolean }>`
+
+    width: 100%;
+    border: 1px solid #4f5151;
+    border-radius: 5px;
+    background: #ffffff;
+
+    
+
+    opacity: ${(props) => (props.activeCategories ? '1' : '0')};
+    pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
+    transition: .3s;
+
+    display: flex;
+    margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
+    margin-bottom: 16px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 8px 16px;
+  
+  a {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+  }
+  
+  `
+
+
+export const CloseIcon = styled.div`
+    position: absolute;
+    right: 0;
+    top: 0;
 `
