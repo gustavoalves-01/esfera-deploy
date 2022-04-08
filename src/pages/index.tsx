@@ -1,6 +1,6 @@
 // Framework and libs Imports
 import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { isMobile } from 'react-device-detect';
 
 // API Imports
@@ -143,6 +143,13 @@ export default function Home({
     </>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   const categoryList = await (await api.get(`list-categories`)).data;
