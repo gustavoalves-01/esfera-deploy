@@ -1,4 +1,4 @@
-import CategoryInterface from '../entities/Category';
+import { CategoryInterface } from '../entities/Category';
 
 export default function handleCategory(
   rawCategory: number,
