@@ -1,14 +1,20 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import Button from '../Button';
 import InputComponent from '../InputComponent';
 import SearchComponent from '../SearchComponent';
 import TagCategory from '../TagCategory';
 import {
+  CategoryContainer,
+  CloseIcon,
   ClosePopup,
   ContainerButton,
   ContainerButtonBuscar,
   ContainerInput,
+  ContainerMenuMobile,
   ContainerPopupMobile,
   HeaderElement, Line, MaxContainer,
   OverlayMobile,
@@ -28,41 +34,55 @@ interface CategoryProps {
 }
 function Header({ categories }: CategoryProps) {
   //fazer map da parada (categories)
+
+  const { width } = useWindowDimensions()
+
+
   const [verifyHeaderActive, setVerifyHeaderActive] = useState(true);
   const [activePopupRecebeConteudos, setActivePopupRecebeConteudos] =
     useState(false);
 
+
   const [positionHeader, setPositionHeader] = useState('relative');
-  const [numberResponsive, setNumberResponsive] = useState(false);
+  const [numberResponsive, setNumberResponsive] = useState(0);
   const [categorieActive, setCategorieActive] = useState(false);
 
   const [widthLine, setWidthLine] = useState(0)
+  const [menuMobileActive, setMenuMobileActive] = useState("100%");
+
+  function handleSetMenuMobileActive() {
+    if (menuMobileActive == "100%") {
+      setMenuMobileActive("0%")
+    } else {
+      setMenuMobileActive("100%")
+    }
+  }
 
   useEffect(() => {
-    if (window) {
-      if (window.innerWidth >= 1200) {
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 100) {
-            setVerifyHeaderActive(false);
-            setPositionHeader('fixed');
-          } else {
-            setVerifyHeaderActive(true);
-            setPositionHeader('relative');
-          }
-        });
-      }
+    if (width >= 1200) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          setVerifyHeaderActive(false);
+          setPositionHeader('fixed');
+        } else {
+          setVerifyHeaderActive(true);
+          setPositionHeader('relative');
+        }
+      });
     }
   });
 
 
   useEffect(() => {
-    if (window.innerWidth >= 1200) {
-      setNumberResponsive(true);
+    if (width >= 1200) {
+      setNumberResponsive(1);
     } else if (window.innerWidth < 1200) {
-      setNumberResponsive(false);//verificar essa linha
+      if (numberResponsive !== 0) {
+        setNumberResponsive(0);//verificar essa linha
+      }
       setPositionHeader('fixed');
     }
-  }, []);
+  }, [width, numberResponsive]);
 
   function activeCategory() {
     setCategorieActive(!categorieActive);
@@ -71,10 +91,6 @@ function Header({ categories }: CategoryProps) {
   function activePopupReceber() {
     setActivePopupRecebeConteudos(!activePopupRecebeConteudos);
   }
-
-
-
-
 
 
   if (numberResponsive) {
@@ -303,7 +319,8 @@ function Header({ categories }: CategoryProps) {
               src="/images/icons/search-rosa.svg"
             />
           </span>
-          <span>
+
+          <span onClick={() => handleSetMenuMobileActive()}>
             <Image
               width={24}
               height={24}
@@ -311,6 +328,64 @@ function Header({ categories }: CategoryProps) {
               src="/images/icons/hamburger.svg"
             />
           </span>
+
+          {/* <MenuSanduiche left={menuActive} categories={categories} /> */}
+
+
+
+
+          {/*  ======== MENU MOBILE ======== */}
+          <ContainerMenuMobile myLeft={menuMobileActive}>
+
+            <CloseIcon onClick={() => handleSetMenuMobileActive()}>
+              <Image width={40} height={40} src="/images/icons/close.svg" alt="Close icon" />
+            </CloseIcon>
+            <Link href="/">
+              <a>Materiais Gratuitos</a>
+            </Link>
+
+            <Link href="/">
+              <a>Seluções</a>
+            </Link>
+
+            <Link href="/">
+              <a>Sobre nós</a>
+            </Link>
+            <Link href="/">
+              <a>O mercado livre de energia</a>
+            </Link>
+
+            <SearchComponent widthInput="100%" heightInput="52px" typeInput='search' placeholder='Encontre um artigo' />
+            <SelectButton
+              onClick={() => activeCategory()}
+              activeCategories={categorieActive}
+            >
+              Categorias{' '}
+              <Image
+                width={16}
+                height={8}
+                alt="Arrow cinza"
+                src="/images/icons/arrow-select.svg"
+              />
+            </SelectButton>
+            <CategoryContainer activeCategories={categorieActive}>
+              {categories.map((category) => {
+                return (
+                  <React.Fragment key={category.slug}>
+                    <TagCategory
+                      categoryName={category.name}
+                      link={`/blog/${category.slug}`}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </CategoryContainer>
+
+
+            <Button heightButton='51px' widthButton='100%' textButton='Receber conteúdos' radius={5} typeButton="receber" />
+            <Button heightButton='51px' widthButton='100%' textButton='Fale com um especialista' radius={40} typeButton="especialista" backgroundButton='#BB2F55' />
+          </ContainerMenuMobile>
+          {/*  ======== MENU MOBILE ======== */}
 
           <OverlayMobile activePopup={activePopupRecebeConteudos}>
             <ContainerPopupMobile
@@ -376,3 +451,5 @@ function Header({ categories }: CategoryProps) {
 }
 
 export default Header;
+
+
