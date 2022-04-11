@@ -12,8 +12,12 @@ export const HeaderElement = styled.header<PropsHeader>`
   padding-bottom: 32px;
 
   width: 100%;
-  border: 1px solid
-    ${(props) => (props.myPosition === 'fixed' ? '#E5E5E5' : 'transparent')};
+  border: 1px solid ${(props) => (props.myPosition === 'fixed' ? '#E5E5E5' : 'transparent')};
+    
+    
+    top: 0px;
+    z-index: 1000;
+    
   @media (max-width: 1200px) {
     height: 70px;
 
@@ -304,7 +308,7 @@ export const SelectButton = styled.button<PropsContainerPopupMobile>`
   span {
     transition: 0.3s;
     transform: ${(props) =>
-      props.activeCategories ? 'rotate(180deg)' : 'rotate(0deg)'};
+    props.activeCategories ? 'rotate(180deg)' : 'rotate(0deg)'};
   }
 `;
 export const ContainerButtonBuscar = styled.span`
@@ -323,7 +327,7 @@ export const ClosePopup = styled.span`
   top: 20px;
 `;
 
-interface Line{
+interface Line {
   myWidth: number;
 }
 export const Line = styled.span<Line>`
@@ -401,3 +405,17 @@ export const CloseIcon = styled.div`
     right: 0;
     top: 0;
 `
+
+export const ContainerDesktop = styled.div`
+@media (max-width: 1100px){
+    display: none;
+  }
+`
+export const ContainerMobile = styled.div`
+  @media (min-width: 1100px){
+    display: none;
+  }
+
+`
+
+
