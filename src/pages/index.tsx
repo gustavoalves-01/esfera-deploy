@@ -24,8 +24,7 @@ import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import useWindowDimensions from '../hooks/useWindowDimensions';
-import Intermision from '../components/Intermision';
-import CtaFinalPost from '../components/CtaFinalPost';
+
 
 interface HomeProps {
   categoryList: CategoryInterface[];

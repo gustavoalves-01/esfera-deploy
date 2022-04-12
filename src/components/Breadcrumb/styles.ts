@@ -9,9 +9,10 @@ export const BreadcrumbContainer = styled.div`
   color: #4f5150;
 `;
 export const WrapperImage = styled.div`
-  position: relative;
-  width: 16px;
-  height: 14px;
-  margin-right: 8px;
-  color: #4f5150;
+    position: relative;
+    width: 40px;
+    height: 14px;
+    margin-right: 8px;
+    color: #4f5150;
+    top: 7px;
 `;
