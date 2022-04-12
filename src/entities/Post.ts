@@ -19,6 +19,11 @@ export interface PostPreviewInterface {
   imageURL: string;
   timeToRead: number;
 }
+
+export interface PostShortcutsInterface {
+  name: string;
+  slug?: string;
+}
 export interface SidebarLinks {
   id: string;
   title: string;

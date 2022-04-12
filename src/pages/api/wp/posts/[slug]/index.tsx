@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import axios from 'axios';
 import { api } from '../../../../../services/api';
 import handleCategory from '../../../../../utils/handleCategories';
 import { FullPostInterface } from '../../../../../entities/Post';
@@ -33,8 +33,10 @@ export default async function handler(
   return new Promise<FullPostInterface | null>(async (resolve) => {
     const handleContent = (content: string) => {
       const divsRemoved = content.replace(/<[\/]{0,1}(div)[^><]*>/g, '');
-      const attrRemoved = divsRemoved.replace(/(?=class).*?>/g, '>');
-      return attrRemoved;
+      const spansRemoved = divsRemoved.replace(/<[\/]{0,1}(span)[^><]*>/g, '');
+      const attrRemoved = spansRemoved.replace(/(?=class).*?>/g, '>');
+
+      return spansRemoved;
     };
 
     try {

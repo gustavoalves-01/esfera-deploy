@@ -24,6 +24,10 @@ export const Container = styled.div`
     margin-top: 0;
     padding-top: 70px;
 
+    .containerHeader {
+      display: none;
+    }
+
     aside,
     > label {
       display: none;
