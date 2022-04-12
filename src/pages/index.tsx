@@ -2,7 +2,6 @@
 import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-
 // API Imports
 import { api } from '../services/api';
 
@@ -139,7 +138,6 @@ export default function Home({
           )}
         </main>
         {width >= 990 && <Sidebar />}
-
       </Container>
       <Footer />
     </>

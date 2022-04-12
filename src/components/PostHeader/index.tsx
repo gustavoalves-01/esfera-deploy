@@ -1,38 +1,35 @@
-import Image from "next/image";
-import React from "react";
-import TagCategory from "../TagCategory";
-import FooterPost from "./FooterPost";
-import { ImgWrapper, Style, TextContent, TitleStyle } from "./style";
+import React from 'react';
+import Image from 'next/image';
+import TagCategory from '../TagCategory';
+import PostHeaderCaption from './PostHeaderCaption';
+import { Container } from './styles';
 
-interface Props {
-    title: string,
-    imgUrl: string,
-    tagName: string,
-    tagLink?: string,
-    name: string,
-    date: string,
-    time: number,
-    profileImg: string,
-    postUrl: string,
+interface PostHeaderProps {
+  post: {
+    bgUrl: string;
+    categories: Array<string>;
+    title: string;
+    author: string;
+    createdAt: string;
+    id: string;
+    slug: string;
+    timeToRead: number;
+  };
 }
 
-export default function PostHeader({imgUrl, tagName, title, name, date, time, profileImg, postUrl} : Props) {
-    return(
-        <Style>
-            <ImgWrapper>
-                <Image 
-                    src={imgUrl}
-                    alt="Imagem do post"
-                    layout="fill"
-                />
-                <TextContent>
-                    <TagCategory categoryName={tagName} />
-                    <TitleStyle>
-                        {title}
-                    </TitleStyle>
-                </TextContent>
-            </ImgWrapper>
-            <FooterPost name={name} date={date} time={time} imgUrl={profileImg} postUrl={postUrl}/>
-        </Style>
-    );
+export default function PostHeader({ post }: PostHeaderProps) {
+  return (
+    <Container>
+      <div className="postHero">
+        <Image src={post.bgUrl} alt="Imagem do post" layout="fill" />
+        <div className="textWrapper">
+          {post.categories.map((category) => {
+            return <TagCategory key={category} categoryName={category} />;
+          })}
+          <h1>{post.title}</h1>
+        </div>
+      </div>
+      <PostHeaderCaption post={post} />
+    </Container>
+  );
 }

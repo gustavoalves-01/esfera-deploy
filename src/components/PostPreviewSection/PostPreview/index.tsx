@@ -19,14 +19,9 @@ interface PostPreviewProps {
 
 const PostPreview = ({ post, isWide }: PostPreviewProps) => {
   const { width } = useWindowDimensions();
-
-  function handleSelectPost() {
-    document.cookie = `post-id=${String(post.id)}`;
-  }
-
   return (
     <Link href={`/blog/${post.slug}`} passHref>
-      <PostContainer isWide={isWide} onClick={() => handleSelectPost()}>
+      <PostContainer isWide={isWide}>
         {(!isWide && width <= 650) || width <= 650 ? (
           <div className="postHeader">
             <TagCategory categoryName={post.categories[0]} />
