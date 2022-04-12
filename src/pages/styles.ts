@@ -8,6 +8,11 @@ export const Container = styled.div`
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
+  .containerHeader{
+    display: flex;
+    justify-content: space-between;
+  }
+  
   main {
     grid-column: 1/2;
     grid-row: 2/3;
