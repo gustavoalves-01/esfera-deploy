@@ -1,10 +1,19 @@
+import React, { useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next/types';
-import { useEffect, useState } from 'react';
-import { FullPostInterface } from '../../../entities/Post';
-import { api } from '../../../services/api';
-import { Container } from './styles';
 import slugify from 'slugify';
-import React from 'react';
+
+import { api } from '../../../services/api';
+
+import Breadcrumb from '../../../components/Breadcrumb';
+import SearchComponent from '../../../components/SearchComponent';
+
+import { Container } from './styles';
+
+import {
+  FullPostInterface,
+  PostShortcutsInterface,
+} from '../../../entities/Post';
+import PostShortcuts from '../../../components/PostShortcuts';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -12,6 +21,7 @@ interface PostPageProps {
 
 const Post = ({ post }: PostPageProps) => {
   const [content, setContent] = useState<string>('');
+  const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
 
   // Limpando HTML do Elementor
   useEffect(() => {
@@ -21,6 +31,7 @@ const Post = ({ post }: PostPageProps) => {
 
     titles.forEach((title) => {
       const slug = slugify(title.innerText, { lower: true });
+
       title.parentElement?.nextElementSibling?.insertAdjacentElement(
         'afterbegin',
         title
@@ -32,13 +43,34 @@ const Post = ({ post }: PostPageProps) => {
       el.childElementCount === 0 && el.remove();
     });
 
+    const shortcuts: PostShortcutsInterface[] = Array.from(
+      element.querySelectorAll('h2')
+    ).map((heading) => {
+      return {
+        name: heading.innerText,
+        slug: heading.parentElement?.id,
+      };
+    });
+
+    setSections(shortcuts);
     setContent(element.innerHTML);
   }, [post.content]);
 
   return (
     <Container>
-      <h1>{post.title}</h1>
-      <article dangerouslySetInnerHTML={{ __html: content }} />
+      <div className="containerHeader">
+        <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
+        <SearchComponent
+          heightInput="56px"
+          widthInput="100%"
+          placeholder="Encontre um artigo"
+          typeInput="search"
+        />
+      </div>
+      <main>
+        <PostShortcuts sections={sections} />
+        <article dangerouslySetInnerHTML={{ __html: content }} />
+      </main>
     </Container>
   );
 };

@@ -70,17 +70,16 @@ export default function Home({
       <Header categories={categoryList} />
 
       <Container>
-        {width >= 990 && (
-          <>
-            <Breadcrumb section="Blog" />
-            <SearchComponent
-              heightInput="56px"
-              widthInput="100%"
-              placeholder="Encontre um artigo"
-              typeInput="search"
-            />
-          </>
-        )}
+        <div className="containerHeader">
+          <Breadcrumb section="Blog" />
+          <SearchComponent
+            heightInput="56px"
+            widthInput="100%"
+            placeholder="Encontre um artigo"
+            typeInput="search"
+          />
+        </div>
+
         <main>
           {trendingPostList.length > 0 && (
             <>
@@ -142,13 +141,6 @@ export default function Home({
     </>
   );
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-};
 
 export const getStaticProps: GetStaticProps = async () => {
   const categoryList = await (await api.get(`list-categories`)).data;
