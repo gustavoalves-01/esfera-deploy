@@ -25,8 +25,25 @@ interface PostPageProps {
 const Post = ({ post }: PostPageProps) => {
   const [content, setContent] = useState<string>('');
   const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
+  const [authorPhoto, setAuthorPhoto] = useState<string>('');
 
   const timeToRead = Math.round(post.content.split(' ').length / 150);
+
+  const removeAttributes = (element: Element) => {
+    Array.from(element.attributes).forEach((attr) => {
+      switch (attr.name) {
+        case 'src':
+          break;
+        case 'target':
+          break;
+        case 'href':
+          break;
+        default:
+          element.attributes.removeNamedItem(attr.name);
+          break;
+      }
+    });
+  };
 
   // HTML do Elementor
   useEffect(() => {
@@ -36,7 +53,6 @@ const Post = ({ post }: PostPageProps) => {
 
     titles.forEach((title) => {
       const slug = slugify(title.innerText, { lower: true });
-
       title.parentElement?.nextElementSibling?.insertAdjacentElement(
         'afterbegin',
         title
@@ -46,6 +62,10 @@ const Post = ({ post }: PostPageProps) => {
 
     element.querySelectorAll('section').forEach((el) => {
       el.childElementCount === 0 && el.remove();
+    });
+
+    element.querySelectorAll('*:not(iframe)').forEach((el) => {
+      removeAttributes(el);
     });
 
     element.querySelectorAll('iframe').forEach((el) => {

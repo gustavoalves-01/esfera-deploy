@@ -29,6 +29,10 @@ export const PostContainer = styled.div<PostStyleProps>`
     .postDate {
       font-size: 0.75rem;
     }
+
+    &.mobile {
+      display: ${({ isWide }) => (isWide ? 'none' : 'flex')};
+    }
   }
 
   .imageWrapper {
@@ -44,6 +48,7 @@ export const PostContainer = styled.div<PostStyleProps>`
   .contentWrapper {
     display: ${({ isWide }) => (isWide ? 'grid' : 'flex')};
     width: ${({ isWide }) => (isWide ? '51.4%' : '100%')};
+    flex: 1;
 
     padding: ${({ isWide }) => (isWide ? '21px 24px 28px' : '2rem 1rem 1rem')};
     align-content: center;
@@ -51,18 +56,14 @@ export const PostContainer = styled.div<PostStyleProps>`
 
     ${({ isWide }) => (isWide ? '' : 'flex-direction: column;')}
 
-    > div:first-child {
-      grid-column: 1/2;
-      grid-row: 1/2;
-    }
-
-    .postDate {
-      grid-column: 2/3;
+    .postHeader.wide {
+      padding: 0;
+      grid-column: 1/3;
       grid-row: 1/2;
 
-      font-size: 0.75rem;
-      text-align: end;
-      align-self: end;
+      .postDate {
+        font-size: 0.75rem;
+      }
     }
 
     h1 {
@@ -83,17 +84,20 @@ export const PostContainer = styled.div<PostStyleProps>`
       -webkit-box-orient: vertical;
       display: -webkit-box;
     }
-
-    .readingTime {
-      grid-column: 1/3;
-      font-size: 12px;
-      line-height: 16px;
-    }
   }
 
   @media (max-width: 650px) {
     flex-direction: column;
     max-width: 100%;
+
+    .postHeader {
+      &.wide {
+        display: none;
+      }
+      &.mobile {
+        display: flex;
+      }
+    }
 
     .imageWrapper {
       width: 100%;
@@ -105,6 +109,10 @@ export const PostContainer = styled.div<PostStyleProps>`
       flex-direction: column;
       width: 100%;
       padding: 1rem 0.5rem 1.5rem;
+
+      p {
+        ${({ isWide }) => (isWide ? '' : 'display: none;')}
+      }
     }
   }
 `;

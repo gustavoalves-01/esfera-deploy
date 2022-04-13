@@ -10,7 +10,6 @@ import TagCategory from '../../TagCategory';
 import { PostContainer } from './styles';
 import { PostPreviewInterface } from '../../../entities/Post';
 import ReadingTimeComponent from '../../ReadingTimeComponent';
-import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 interface PostPreviewProps {
   post: PostPreviewInterface;
@@ -18,18 +17,13 @@ interface PostPreviewProps {
 }
 
 const PostPreview = ({ post, isWide }: PostPreviewProps) => {
-  const { width } = useWindowDimensions();
   return (
     <Link href={`/blog/${post.slug}`} passHref>
       <PostContainer isWide={isWide}>
-        {(!isWide && width <= 650) || width <= 650 ? (
-          <div className="postHeader">
-            <TagCategory categoryName={post.categories[0]} />
-            <span className="postDate">{post.date}</span>
-          </div>
-        ) : (
-          <></>
-        )}
+        <div className="postHeader mobile">
+          <TagCategory categoryName={post.categories[0]} />
+          <span className="postDate">{post.date}</span>
+        </div>
         <div className="imageWrapper">
           <Image
             src={post.imageURL}
@@ -39,28 +33,17 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
           />
         </div>
         <div className="contentWrapper">
-          {isWide && width >= 650 && (
-            <>
+          {isWide && (
+            <div className="postHeader wide">
               <TagCategory categoryName={post.categories[0]} />
               <span className="postDate">{post.date}</span>
-            </>
+            </div>
           )}
-          {width <= 650 ? (
-            isWide ? (
-              <>
-                <h1>{post.title}</h1>
-                <p>{post.excerpt}</p>
-              </>
-            ) : (
-              <h1>{post.title}</h1>
-            )
-          ) : (
-            <>
-              <h1>{post.title}</h1>
-              <p>{post.excerpt}</p>
-            </>
-          )}
-          <ReadingTimeComponent post={post.id} />
+
+          <h1>{post.title}</h1>
+          <p>{post.excerpt}</p>
+
+          <ReadingTimeComponent postSlug={post.slug} />
         </div>
       </PostContainer>
     </Link>

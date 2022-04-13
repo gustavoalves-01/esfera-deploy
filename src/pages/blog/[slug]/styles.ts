@@ -49,7 +49,7 @@ export const Container = styled.div`
       h3 {
         font-size: 1.5rem;
         line-height: 30px;
-        margin: 2rem 0;
+        margin-top: 2rem;
       }
 
       .iframeContainer {

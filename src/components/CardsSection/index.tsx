@@ -6,7 +6,6 @@ import Card from './Card';
 import { Container } from './styles';
 
 import { CardInterface } from '../../entities/Card';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 interface CardsSectionProps {
   title: string;
@@ -16,31 +15,38 @@ interface CardsSectionProps {
   };
   cards: Array<CardInterface>;
   type: 'materials' | 'categories';
+  isMobile?: boolean;
 }
 
-const CardsSection = ({ title, linkAll, cards }: CardsSectionProps) => {
-  const { width } = useWindowDimensions();
-
+const CardsSection = ({
+  title,
+  linkAll,
+  cards,
+  isMobile,
+}: CardsSectionProps) => {
   return (
-    <Container>
-      <div className="header">
-        {linkAll ? (
-          width >= 990 ? (
-            <>
-              <h2 className="titleBlog">{title}</h2>
-              <Link href={linkAll.href} passHref>
-                <a>{linkAll.text}</a>
-              </Link>
-            </>
-          ) : (
+    <Container isMobile={isMobile}>
+      {linkAll ? (
+        <>
+          <div className="header desktop">
+            <h2 className="titleBlog">{title}</h2>
+            <Link href={linkAll.href} passHref>
+              <a>{linkAll.text}</a>
+            </Link>
+          </div>
+
+          <div className="header mobile">
             <Link href={linkAll.href} passHref>
               <h2 className="titleBlog">{title}</h2>
             </Link>
-          )
-        ) : (
+          </div>
+        </>
+      ) : (
+        <div className="header">
           <h2 className="titleBlog">{title}</h2>
-        )}
-      </div>
+        </div>
+      )}
+
       <div className="cardsContainer">
         <div className="cardsViewport">
           <div className="cardsWrapper">

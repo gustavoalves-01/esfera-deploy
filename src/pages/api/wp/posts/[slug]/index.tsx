@@ -34,25 +34,7 @@ export default async function handler(
     const handleContent = (content: string) => {
       const divsRemoved = content.replace(/<[\/]{0,1}(div)[^><]*>/g, '');
       const spansRemoved = divsRemoved.replace(/<[\/]{0,1}(span)[^><]*>/g, '');
-      const sectionClassRemoved = spansRemoved.replace(
-        /(?=<section class).*?>/g,
-        '<section>'
-      );
-      const h2ClassRemoved = sectionClassRemoved.replace(
-        /(?=<h2 class).*?>/g,
-        '<h2>'
-      );
-      const h3ClassRemoved = h2ClassRemoved.replace(
-        /(?=<h3 class).*?>/g,
-        '<h3>'
-      );
-      const figureAttrRemoved = h3ClassRemoved.replace(
-        /(?=<figure).*?>/g,
-        '<figure>'
-      );
-      const attrRemoved = figureAttrRemoved.replace(/(?=width).*?>/g, '>');
-
-      return attrRemoved;
+      return spansRemoved;
     };
 
     try {

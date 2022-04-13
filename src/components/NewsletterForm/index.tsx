@@ -6,11 +6,18 @@ interface NewsletterFromProps {
   desc: string;
   cta: string;
   isWide?: boolean;
+  isMobile?: boolean;
 }
 
-const NewsletterForm = ({ copy, desc, cta, isWide }: NewsletterFromProps) => {
+const NewsletterForm = ({
+  copy,
+  desc,
+  cta,
+  isWide,
+  isMobile,
+}: NewsletterFromProps) => {
   return (
-    <Container isWide={isWide}>
+    <Container isWide={isWide} isMobile={isMobile}>
       <h1>{copy}</h1>
       <p>{desc}</p>
       <form action="" method="post">
