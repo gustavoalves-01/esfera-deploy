@@ -15,9 +15,27 @@ import {
 } from '../../../entities/Post';
 import PostShortcuts from '../../../components/PostShortcuts';
 import PostHeader from '../../../components/PostHeader';
+import CtaFinalPost from '../../../components/CtaFinalPost';
+import Comments from '../../../components/Comments';
+import ListComment from '../../../components/ListComment';
+import YoutubeItem from '../../../components/YoutubeItem';
+import YoutubeSection from '../../../components/YoutubeSection';
 
 interface PostPageProps {
   post: FullPostInterface;
+}
+
+interface PropsComentarios {
+  imageUrl: string;
+  name: string;
+  date: string;
+  depoiment: string;
+}
+
+interface PropsVideosYoutube {
+  imageUrl: string;
+  title: string;
+  link: string;
 }
 
 const Post = ({ post }: PostPageProps) => {
@@ -98,6 +116,48 @@ const Post = ({ post }: PostPageProps) => {
     timeToRead,
   };
 
+  const comentarios: PropsComentarios[] = [
+    {
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
+    },
+    {
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
+    },
+    {
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
+    },
+  ];
+
+  const videosYoutube: PropsVideosYoutube[] = [
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+  ];
+
   return (
     <Container>
       <div className="containerHeader">
@@ -114,6 +174,28 @@ const Post = ({ post }: PostPageProps) => {
         <PostShortcuts sections={sections} />
         <article dangerouslySetInnerHTML={{ __html: content }} />
       </main>
+
+      {/* ======== CTA FINAL POST ========*/}
+      {/* <CtaFinalPost
+        photoUrl='/images/person.png'
+        title='Terceirize toda a gestão de energia elétrica da sua empresa com segurança'
+        subtitle='Reduza custos com energia elétrica com uma gestão que te ajuda a migrar para o mercado livre, gerenciar melhor sua compra e venda de energia e se manter em dia frente às instituições reguladoras.'
+        depoiment='“Estou muito satisfeita com a parceria e atendimento da Esfera Energia que nos proporcionou cerca de 35% de economia de energia nos últimos 4 anos.”'
+        textButton='Receba o contato de um consultor especialista' /> */}
+
+      {/*======== COMENTÁRIOS ==> Seção para comentar ======== */}
+      {/* <Comments /> */}
+
+      {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
+
+      {/* {comentarios.map(({ imageUrl, name, date, depoiment }) => {
+        return (
+          <ListComment key={name} imageUrl={imageUrl} name={name} date={date} depoiment={depoiment} />
+        )
+      })} */}
+
+      {/* TiTulo dinamico,  imagem dinamica*/}
+      {/* <YoutubeSection videosInfos={videosYoutube} /> */}
     </Container>
   );
 };

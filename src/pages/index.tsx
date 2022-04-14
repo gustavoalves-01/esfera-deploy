@@ -22,7 +22,6 @@ import { Container } from './styles';
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
-
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
