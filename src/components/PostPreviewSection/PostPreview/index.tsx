@@ -10,7 +10,8 @@ import TagCategory from '../../TagCategory';
 import { PostContainer } from './styles';
 import { PostPreviewInterface } from '../../../entities/Post';
 import ReadingTimeComponent from '../../ReadingTimeComponent';
-import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { RWebShare } from 'react-web-share';
+import { useRouter } from 'next/router';
 
 interface PostPreviewProps {
   post: PostPreviewInterface;
@@ -18,57 +19,57 @@ interface PostPreviewProps {
 }
 
 const PostPreview = ({ post, isWide }: PostPreviewProps) => {
-  const { width } = useWindowDimensions();
+  const router = useRouter();
 
-  function handleSelectPost() {
-    document.cookie = `post-id=${String(post.id)}`;
-  }
+  const shareData = {
+    title: post.title,
+    text: post.excerpt,
+    url: `http://localhost:3000/blog/${post.slug}`,
+  };
+
+  const handleSelectPost = () => {
+    router.push(`/blog/${post.slug}`);
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    //
+  };
 
   return (
-    <Link href={`/blog/${post.slug}`} passHref>
-      <PostContainer isWide={isWide} onClick={() => handleSelectPost()}>
-        {(!isWide && width <= 650) || width <= 650 ? (
-          <div className="postHeader">
+    <PostContainer isWide={isWide} onClick={handleSelectPost}>
+      <div className="postHeader mobile">
+        <TagCategory categoryName={post.categories[0]} />
+        <span className="postDate">{post.date}</span>
+      </div>
+      <div className="imageWrapper">
+        <Image src={post.imageURL} alt="" layout="fill" className="postImage" />
+      </div>
+      <div className="contentWrapper">
+        {isWide && (
+          <div className="postHeader wide">
             <TagCategory categoryName={post.categories[0]} />
             <span className="postDate">{post.date}</span>
           </div>
-        ) : (
-          <></>
         )}
-        <div className="imageWrapper">
-          <Image
-            src={post.imageURL}
-            alt=""
-            layout="fill"
-            className="postImage"
-          />
+
+        <h1>{post.title}</h1>
+        <p>{post.excerpt}</p>
+
+        <div className="postFooter">
+          <ReadingTimeComponent postSlug={post.slug} />
+
+          <span className="shareBtn" onClick={handleShare}>
+            Compartilhar
+            <Image
+              src="/images/icons/share-icon.svg"
+              alt=""
+              width="12px"
+              height="12px"
+            />
+          </span>
         </div>
-        <div className="contentWrapper">
-          {isWide && width >= 650 && (
-            <>
-              <TagCategory categoryName={post.categories[0]} />
-              <span className="postDate">{post.date}</span>
-            </>
-          )}
-          {width <= 650 ? (
-            isWide ? (
-              <>
-                <h1>{post.title}</h1>
-                <p>{post.excerpt}</p>
-              </>
-            ) : (
-              <h1>{post.title}</h1>
-            )
-          ) : (
-            <>
-              <h1>{post.title}</h1>
-              <p>{post.excerpt}</p>
-            </>
-          )}
-          <ReadingTimeComponent post={post.id} />
-        </div>
-      </PostContainer>
-    </Link>
+      </div>
+    </PostContainer>
   );
 };
 

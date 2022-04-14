@@ -29,4 +29,17 @@ export const Container = styled.aside`
       }
     }
   }
+
+  @media (max-width: 990px) {
+    gap: 1.5rem;
+
+    ol {
+      padding: 1.5rem;
+
+      li {
+        font-size: 1rem;
+        line-height: 22px;
+      }
+    }
+  }
 `;

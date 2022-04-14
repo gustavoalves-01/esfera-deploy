@@ -26,7 +26,11 @@ export const Container = styled.div`
     grid-column: 1/2;
     display: grid;
     grid-template-columns: 162px auto;
-    column-gap: 29px;
+    gap: 72px 29px;
+
+    > div {
+      grid-column: 1/3;
+    }
 
     aside {
       grid-column: 1/2;
@@ -40,6 +44,31 @@ export const Container = styled.div`
         font-size: 2rem;
         line-height: 35px;
         font-weight: 700;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        line-height: 30px;
+        margin-top: 2rem;
+      }
+
+      .iframeContainer {
+        padding-bottom: 56.25%;
+        height: 0;
+        position: relative;
+        margin: 19px 0;
+
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      ul {
+        list-style-position: inside;
       }
 
       section {
@@ -70,10 +99,28 @@ export const Container = styled.div`
         }
       }
 
-      > section > img {
+      > section > img,
+      a > img {
         max-width: 100%;
+        width: 100%;
         height: 100%;
         margin: 2rem 0;
+      }
+    }
+  }
+
+  @media (max-width: 990px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      > div {
+        margin-bottom: 0.5rem;
       }
     }
   }

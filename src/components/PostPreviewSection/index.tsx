@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { PostPreviewInterface } from '../../entities/Post';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+
 import PostPreview from './PostPreview';
 import { Container } from './styles';
 
@@ -12,35 +12,37 @@ interface PostPreviewSectionInterface {
     text: string;
   };
   posts: PostPreviewInterface[];
+  isMobile?: boolean;
 }
 
 const PostPreviewSection = ({
   title,
   linkAll,
   posts,
+  isMobile,
 }: PostPreviewSectionInterface) => {
-  const { width } = useWindowDimensions();
-
   return (
-    <Container>
-      <div className="header">
-        {linkAll ? (
-          width >= 990 ? (
-            <>
-              <h2 className="titleBlog">{title}</h2>
-              <Link href={linkAll.href} passHref>
-                <a>{linkAll.text}</a>
-              </Link>
-            </>
-          ) : (
+    <Container isMobile={isMobile}>
+      {linkAll ? (
+        <>
+          <div className="header desktop">
+            <h2 className="titleBlog">{title}</h2>
+            <Link href={linkAll.href} passHref>
+              <a>{linkAll.text}</a>
+            </Link>
+          </div>
+
+          <div className="header mobile">
             <Link href={linkAll.href} passHref>
               <h2 className="titleBlog">{title}</h2>
             </Link>
-          )
-        ) : (
+          </div>
+        </>
+      ) : (
+        <div className="header">
           <h2 className="titleBlog">{title}</h2>
-        )}
-      </div>
+        </div>
+      )}
       <div className="cardsWrapper">
         {posts.length > 0 &&
           posts.map((post) =>

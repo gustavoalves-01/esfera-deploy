@@ -1,7 +1,6 @@
 // Framework and libs Imports
 import Head from 'next/head';
-import { GetStaticPaths, GetStaticProps } from 'next';
-
+import { GetStaticProps } from 'next';
 
 // API Imports
 import { api } from '../services/api';
@@ -23,9 +22,6 @@ import { Container } from './styles';
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
-import useWindowDimensions from '../hooks/useWindowDimensions';
-
-
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
@@ -62,8 +58,6 @@ export default function Home({
     },
   ];
 
-  const { width } = useWindowDimensions();
-
   return (
     <>
       <Head>
@@ -87,25 +81,37 @@ export default function Home({
             <>
               <PostPreviewSection title="Em alta" posts={trendingPostList} />
               <PostPreviewSection
+                title="Em alta"
+                posts={trendingPostList}
+                isMobile
+              />
+
+              <PostPreviewSection
                 title="Posts mais recentes"
                 posts={recentPostList}
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
               />
-              {width >= 990 ? (
-                <CardsSection
-                  type="materials"
-                  title="Materiais gratuitos para download"
-                  linkAll={{ href: '#', text: 'Ver todos os materiais' }}
-                  cards={materials}
-                />
-              ) : (
-                <CardsSection
-                  type="materials"
-                  title="Materiais gratuitos"
-                  linkAll={{ href: '#', text: 'Ver todos os materiais' }}
-                  cards={materials}
-                />
-              )}
+              <PostPreviewSection
+                title="Posts mais recentes"
+                posts={recentPostList}
+                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                isMobile
+              />
+
+              <CardsSection
+                type="materials"
+                title="Materiais gratuitos para download"
+                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                cards={materials}
+              />
+              <CardsSection
+                type="materials"
+                title="Materiais gratuitos"
+                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                cards={materials}
+                isMobile
+              />
+
               <PostPreviewSection
                 title="Posts mais acessados"
                 posts={mostAccessedPostList}
@@ -114,31 +120,46 @@ export default function Home({
                   text: 'Ver todos os posts mais acesados',
                 }}
               />
-              {width >= 990 ? (
-                <NewsletterForm
-                  copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
-                  desc="Receba conteúdos exclusivos em seu e-mail."
-                  cta="Receber conteúdos"
-                  isWide
-                />
-              ) : (
-                <NewsletterForm
-                  copy="Receba os melhores conteúdos sobre o Mercado Livre de Energia e economia de energia para sua empresa."
-                  desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
-                  cta="Receber conteúdos"
-                  isWide
-                />
-              )}
+              <PostPreviewSection
+                title="Posts mais acessados"
+                posts={mostAccessedPostList}
+                linkAll={{
+                  href: '#',
+                  text: 'Ver todos os posts mais acesados',
+                }}
+                isMobile
+              />
+
+              <NewsletterForm
+                copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
+                desc="Receba conteúdos exclusivos em seu e-mail."
+                cta="Receber conteúdos"
+                isWide
+              />
+
+              <NewsletterForm
+                copy="Receba os melhores conteúdos sobre o Mercado Livre de Energia e economia de energia para sua empresa."
+                desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
+                cta="Receber conteúdos"
+                isWide
+                isMobile
+              />
+
               <PostPreviewSection
                 title="Todos os posts"
                 posts={allPostList}
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
               />
+              <PostPreviewSection
+                title="Todos os posts"
+                posts={allPostList}
+                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                isMobile
+              />
             </>
           )}
         </main>
-        {width >= 990 && <Sidebar />}
-
+        <Sidebar />
       </Container>
       <Footer />
     </>

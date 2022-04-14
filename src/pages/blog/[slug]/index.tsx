@@ -14,18 +14,16 @@ import {
   PostShortcutsInterface,
 } from '../../../entities/Post';
 import PostShortcuts from '../../../components/PostShortcuts';
+import PostHeader from '../../../components/PostHeader';
 import CtaFinalPost from '../../../components/CtaFinalPost';
 import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
 import YoutubeItem from '../../../components/YoutubeItem';
 import YoutubeSection from '../../../components/YoutubeSection';
 
-
-
 interface PostPageProps {
   post: FullPostInterface;
 }
-
 
 interface PropsComentarios {
   imageUrl: string;
@@ -43,8 +41,27 @@ interface PropsVideosYoutube {
 const Post = ({ post }: PostPageProps) => {
   const [content, setContent] = useState<string>('');
   const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
+  const [authorPhoto, setAuthorPhoto] = useState<string>('');
 
-  // Limpando HTML do Elementor
+  const timeToRead = Math.round(post.content.split(' ').length / 150);
+
+  const removeAttributes = (element: Element) => {
+    Array.from(element.attributes).forEach((attr) => {
+      switch (attr.name) {
+        case 'src':
+          break;
+        case 'target':
+          break;
+        case 'href':
+          break;
+        default:
+          element.attributes.removeNamedItem(attr.name);
+          break;
+      }
+    });
+  };
+
+  // HTML do Elementor
   useEffect(() => {
     const element = document.createElement('div');
     element.innerHTML = post.content;
@@ -52,7 +69,6 @@ const Post = ({ post }: PostPageProps) => {
 
     titles.forEach((title) => {
       const slug = slugify(title.innerText, { lower: true });
-
       title.parentElement?.nextElementSibling?.insertAdjacentElement(
         'afterbegin',
         title
@@ -62,6 +78,18 @@ const Post = ({ post }: PostPageProps) => {
 
     element.querySelectorAll('section').forEach((el) => {
       el.childElementCount === 0 && el.remove();
+    });
+
+    element.querySelectorAll('*:not(iframe)').forEach((el) => {
+      removeAttributes(el);
+    });
+
+    element.querySelectorAll('iframe').forEach((el) => {
+      const container = document.createElement('div');
+      container.classList.add('iframeContainer');
+
+      el.insertAdjacentElement('beforebegin', container);
+      container.insertAdjacentElement('afterbegin', el);
     });
 
     const shortcuts: PostShortcutsInterface[] = Array.from(
@@ -77,62 +105,75 @@ const Post = ({ post }: PostPageProps) => {
     setContent(element.innerHTML);
   }, [post.content]);
 
+  const postHeaderProps = {
+    bgUrl: post.imageURL,
+    categories: post.categories,
+    title: post.title,
+    author: post.author,
+    createdAt: post.createdAt,
+    id: post.id,
+    slug: post.slug,
+    timeToRead,
+  };
+
   const comentarios: PropsComentarios[] = [
     {
-      imageUrl: "/images/person.png",
-      name: "Célio Nunes",
-      date: "9 de novembro",
-      depoiment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ",
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
     },
     {
-      imageUrl: "/images/person.png",
-      name: "Célio Nunes",
-      date: "9 de novembro",
-      depoiment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ",
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
     },
     {
-      imageUrl: "/images/person.png",
-      name: "Célio Nunes",
-      date: "9 de novembro",
-      depoiment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ",
-    }
-  ]
+      imageUrl: '/images/person.png',
+      name: 'Célio Nunes',
+      date: '9 de novembro',
+      depoiment:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
+    },
+  ];
 
-  const videosYoutube: PropsVideosYoutube[] = [{
-    imageUrl: '/images/thumbnail-1.png',
-    title: 'Retrospectiva do Mercado de Energia em 2021',
-    link: "#"
-  },
-  {
-    imageUrl: '/images/thumbnail-1.png',
-    title: 'Retrospectiva do Mercado de Energia em 2021',
-    link: "#"
-  },
-  {
-    imageUrl: '/images/thumbnail-1.png',
-    title: 'Retrospectiva do Mercado de Energia em 2021',
-    link: "#"
-  }]
+  const videosYoutube: PropsVideosYoutube[] = [
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+    {
+      imageUrl: '/images/thumbnail-1.png',
+      title: 'Retrospectiva do Mercado de Energia em 2021',
+      link: '#',
+    },
+  ];
 
   return (
-    <>
-      <Container>
-        <div className="containerHeader">
-          <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
-          <SearchComponent
-            heightInput="56px"
-            widthInput="100%"
-            placeholder="Encontre um artigo"
-            typeInput="search"
-          />
-        </div>
-        <main>
-          <PostShortcuts sections={sections} />
-          <article dangerouslySetInnerHTML={{ __html: content }} />
-        </main>
-
-      </Container>
-
+    <Container>
+      <div className="containerHeader">
+        <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
+        <SearchComponent
+          heightInput="56px"
+          widthInput="100%"
+          placeholder="Encontre um artigo"
+          typeInput="search"
+        />
+      </div>
+      <main>
+        <PostHeader post={postHeaderProps} />
+        <PostShortcuts sections={sections} />
+        <article dangerouslySetInnerHTML={{ __html: content }} />
+      </main>
 
       {/* ======== CTA FINAL POST ========*/}
       {/* <CtaFinalPost
@@ -142,11 +183,8 @@ const Post = ({ post }: PostPageProps) => {
         depoiment='“Estou muito satisfeita com a parceria e atendimento da Esfera Energia que nos proporcionou cerca de 35% de economia de energia nos últimos 4 anos.”'
         textButton='Receba o contato de um consultor especialista' /> */}
 
-
       {/*======== COMENTÁRIOS ==> Seção para comentar ======== */}
       {/* <Comments /> */}
-
-
 
       {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
 
@@ -156,10 +194,9 @@ const Post = ({ post }: PostPageProps) => {
         )
       })} */}
 
-
       {/* TiTulo dinamico,  imagem dinamica*/}
       {/* <YoutubeSection videosInfos={videosYoutube} /> */}
-    </>
+    </Container>
   );
 };
 

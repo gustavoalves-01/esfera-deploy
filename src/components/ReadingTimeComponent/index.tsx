@@ -4,12 +4,12 @@ import { Container, TimeSkeleton } from './styles';
 import { useFetch } from '../../hooks/useFetch';
 
 interface Props {
-  post: string;
+  postSlug: string;
 }
 
-export default function ReadingTimeComponent({ post }: Props) {
+export default function ReadingTimeComponent({ postSlug }: Props) {
   const { data, isLoading, isError } = useFetch(
-    `http://localhost:3000/api/wp/posts/${post}/reading-time`
+    `http://localhost:3000/api/wp/posts/${postSlug}/reading-time`
   );
 
   return (

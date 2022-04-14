@@ -2,11 +2,18 @@ export interface FullPostInterface {
   id: string;
   title: string;
   author: string;
-  categories: string;
+  categories: Array<string>;
   content: string;
   createdAt: string;
   timeToRead: number;
   imageURL: string;
+  slug: string;
+}
+
+export interface ReducedPostInterface {
+  id: string;
+  title: string;
+  excerpt: string;
 }
 export interface PostPreviewInterface {
   id: string;

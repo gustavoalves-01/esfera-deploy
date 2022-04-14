@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 interface NewsletterFormStyleProps {
   isWide?: boolean;
+  isMobile?: boolean;
 }
 
 export const Container = styled.div<NewsletterFormStyleProps>`
+  ${({ isMobile }) => (isMobile ? 'display: none;' : 'display: grid;')}
   width: 100%;
-  display: grid;
   row-gap: ${({ isWide }) => (isWide ? '0' : '1rem')};
   padding: ${({ isWide }) => (isWide ? '40px' : '9px 0 0')};
   background: ${({ isWide }) => (isWide ? '#F4F4F4' : 'none')};
@@ -71,6 +72,7 @@ export const Container = styled.div<NewsletterFormStyleProps>`
   }
 
   @media (max-width: 990px) {
+    ${({ isMobile }) => (isMobile ? 'display: grid;' : 'display: none;')}
     padding: 1.5rem 0.5rem;
     margin-top: 40px;
 

@@ -8,12 +8,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const { slug } = req.query;
 
       const response = await axios.get(
-        `https://esferaenergia.com.br/wp-json/wp/v2/posts/?slug=${slug}&_fields=id,content`
+        `https://esferaenergia.com.br/wp-json/wp/v2/posts?slug=${slug}&_fields=id,content`
       );
 
       const { data } = response;
 
-      const postContentRaw = data.content.rendered;
+      const postContentRaw = data[0].content.rendered;
       const postContent = postContentRaw.replace(
         /<[^>]*>|\n|\r|\t|&\w{2,5};|<div[^>]+>|<\/div>/g,
         ''
@@ -22,7 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const readingTime = Math.round(postContent.split(' ').length / 150);
 
       const postObj = {
-        id: data.id,
+        id: data[0].id,
         time: readingTime,
       };
 
