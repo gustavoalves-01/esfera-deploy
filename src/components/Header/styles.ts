@@ -275,7 +275,7 @@ export const OverlayMobile = styled.div<PropsContainerPopupMobile>`
   transition: 0.3s;
 
   width: 101%;
-  height: 100vh;
+  height: 106vh;
   position: absolute;
   left: -1px;
   top: -1px;

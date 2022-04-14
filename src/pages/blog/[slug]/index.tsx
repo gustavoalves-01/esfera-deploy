@@ -20,6 +20,8 @@ import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
 import YoutubeItem from '../../../components/YoutubeItem';
 import YoutubeSection from '../../../components/YoutubeSection';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -159,44 +161,51 @@ const Post = ({ post }: PostPageProps) => {
   ];
 
   return (
-    <Container>
-      <div className="containerHeader">
-        <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
-        <SearchComponent
-          heightInput="56px"
-          widthInput="100%"
-          placeholder="Encontre um artigo"
-          typeInput="search"
-        />
-      </div>
-      <main>
-        <PostHeader post={postHeaderProps} />
-        <PostShortcuts sections={sections} />
-        <article dangerouslySetInnerHTML={{ __html: content }} />
-      </main>
+    <>
+      <Header categories={[{ name: "categoria", slug: "categoria" }]} />
+      <Container>
+        <div className="containerHeader">
+          <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
+          <SearchComponent
+            heightInput="56px"
+            widthInput="100%"
+            placeholder="Encontre um artigo"
+            typeInput="search"
+          />
+        </div>
+        <main>
+          <PostHeader post={postHeaderProps} />
+          <PostShortcuts sections={sections} />
+          <article dangerouslySetInnerHTML={{ __html: content }} />
+        </main>
 
-      {/* ======== CTA FINAL POST ========*/}
-      {/* <CtaFinalPost
+      </Container>
+      <CtaFinalPost
         photoUrl='/images/person.png'
         title='Terceirize toda a gestão de energia elétrica da sua empresa com segurança'
         subtitle='Reduza custos com energia elétrica com uma gestão que te ajuda a migrar para o mercado livre, gerenciar melhor sua compra e venda de energia e se manter em dia frente às instituições reguladoras.'
         depoiment='“Estou muito satisfeita com a parceria e atendimento da Esfera Energia que nos proporcionou cerca de 35% de economia de energia nos últimos 4 anos.”'
-        textButton='Receba o contato de um consultor especialista' /> */}
+        textButton='Receba o contato de um consultor especialista' />
+      {/* ======== CTA FINAL POST ========*/}
 
       {/*======== COMENTÁRIOS ==> Seção para comentar ======== */}
-      {/* <Comments /> */}
+      <Comments />
 
       {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
 
-      {/* {comentarios.map(({ imageUrl, name, date, depoiment }) => {
+      {comentarios.map(({ imageUrl, name, date, depoiment }) => {
         return (
           <ListComment key={name} imageUrl={imageUrl} name={name} date={date} depoiment={depoiment} />
         )
-      })} */}
+      })}
 
       {/* TiTulo dinamico,  imagem dinamica*/}
-      {/* <YoutubeSection videosInfos={videosYoutube} /> */}
-    </Container>
+      <YoutubeSection videosInfos={videosYoutube} />
+
+      {/* Footer */}
+
+      <Footer />
+    </>
   );
 };
 
