@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     margin: 0 auto;
     width: 851px;
-
+    margin-top:56px ;
 
     h3{
         font-family: 'Open Sans';

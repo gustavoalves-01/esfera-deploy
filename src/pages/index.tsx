@@ -70,7 +70,7 @@ export default function Home({
           <Breadcrumb section="Blog" />
           <SearchComponent
             heightInput="56px"
-            widthInput="100%"
+            widthInput="200px"
             placeholder="Encontre um artigo"
             typeInput="search"
           />

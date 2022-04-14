@@ -7,6 +7,11 @@ export const BreadcrumbContainer = styled.div`
   text-transform: capitalize;
   font-size: 14px;
   color: #4f5150;
+
+  p{
+    display: flex;
+    align-items: center;
+  }
 `;
 export const WrapperImage = styled.div`
     position: relative;
@@ -14,5 +19,5 @@ export const WrapperImage = styled.div`
     height: 14px;
     margin-right: 8px;
     color: #4f5150;
-    top: 7px;
+    top: 0px;
 `;

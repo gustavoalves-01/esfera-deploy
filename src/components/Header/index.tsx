@@ -300,10 +300,10 @@ function Header({ categories }: CategoryProps) {
       <ContainerMobile>
         <HeaderElement myPosition={positionHeader}>
           <Image
-            width={37}
+            width={219}
             height={37}
             alt="Logo novo esfera energia"
-            src="/images/logo_mini_esfera.svg"
+            src="/images/logo__esfera.svg"
           />
           <div>
             <span onClick={() => activePopupReceber()}>
@@ -323,8 +323,6 @@ function Header({ categories }: CategoryProps) {
                 src="/images/icons/hamburger.svg"
               />
             </span>
-
-
 
 
 

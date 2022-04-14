@@ -59,7 +59,7 @@ export const LabelElement = styled.label<PropsLabel>`
 
     background-color: #f5426c;
     height: ${(props) => props.heightInput};
-    width: 40px;
+    width: 50px;
 
     display: flex;
     align-items: center;
