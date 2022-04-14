@@ -47,10 +47,6 @@ export const Container = styled.div`
       }
     }
 
-    @media (max-width: 990px) {
-      margin-bottom: 1.5rem;
-    }
-
     .authorProfile {
       width: 30px;
       height: 30px;
@@ -59,10 +55,16 @@ export const Container = styled.div`
       img {
         border-radius: 50%;
       }
+    }
+  }
 
-      @media (max-width: 990px) {
-        padding-right: 1rem;
-      }
+  @media (max-width: 990px) {
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5rem;
+
+    .authorProfile {
+      padding-right: 1rem;
     }
   }
 `;

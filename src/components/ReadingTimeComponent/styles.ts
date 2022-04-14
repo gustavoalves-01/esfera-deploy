@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  align-items: flex-end;
-  flex: 1;
 
   span {
     font-style: normal;

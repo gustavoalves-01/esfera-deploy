@@ -15,11 +15,9 @@ import {
 } from '../../../entities/Post';
 import PostShortcuts from '../../../components/PostShortcuts';
 import PostHeader from '../../../components/PostHeader';
-import { useFetch } from '../../../hooks/useFetch';
 
 interface PostPageProps {
   post: FullPostInterface;
-  slug: string;
 }
 
 const Post = ({ post }: PostPageProps) => {
@@ -135,6 +133,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = await (await api.get(`posts/${slug}`)).data;
 
   return {
-    props: { post, slug },
+    props: { post },
   };
 };

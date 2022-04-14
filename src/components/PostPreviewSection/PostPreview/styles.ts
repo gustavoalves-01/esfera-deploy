@@ -84,6 +84,24 @@ export const PostContainer = styled.div<PostStyleProps>`
       -webkit-box-orient: vertical;
       display: -webkit-box;
     }
+
+    .postFooter {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex: 1;
+      z-index: 10;
+
+      .shareBtn {
+        display: none;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 16px;
+        gap: 6px;
+        color: var(--pink-500);
+        text-decoration: underline;
+      }
+    }
   }
 
   @media (max-width: 650px) {
@@ -112,6 +130,10 @@ export const PostContainer = styled.div<PostStyleProps>`
 
       p {
         ${({ isWide }) => (isWide ? '' : 'display: none;')}
+      }
+
+      .postFooter .shareBtn {
+        display: flex;
       }
     }
   }

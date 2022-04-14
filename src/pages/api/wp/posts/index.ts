@@ -53,6 +53,7 @@ export default async function handler(
     // Lidando com as chamadas API do WP
     const fields =
       'id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image';
+
     let params;
 
     if (query.recent) {

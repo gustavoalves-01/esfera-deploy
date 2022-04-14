@@ -9,6 +9,12 @@ export interface FullPostInterface {
   imageURL: string;
   slug: string;
 }
+
+export interface ReducedPostInterface {
+  id: string;
+  title: string;
+  excerpt: string;
+}
 export interface PostPreviewInterface {
   id: string;
   date: string;

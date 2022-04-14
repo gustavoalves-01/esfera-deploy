@@ -21,7 +21,9 @@ export default function PostHeader({ post }: PostHeaderProps) {
   return (
     <Container>
       <div className="postHero">
-        <Image src={post.bgUrl} alt="Imagem do post" layout="fill" />
+        <div className="heroImgWrapper">
+          <Image src={post.bgUrl} alt="Imagem do post" layout="fill" />
+        </div>
         <div className="textWrapper">
           {post.categories.map((category) => {
             return <TagCategory key={category} categoryName={category} />;
