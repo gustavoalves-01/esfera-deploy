@@ -16,7 +16,7 @@ export const HeaderElement = styled.header<PropsHeader>`
     
     
     top: 0px;
-    z-index: 1000;
+    z-index: 999;
     
   @media (max-width: 1200px) {
     height: 70px;
@@ -35,7 +35,7 @@ export const HeaderElement = styled.header<PropsHeader>`
     }
   }
 
-  z-index: 100000;
+  z-index: 999;
 `;
 
 export const MaxContainer = styled.div`

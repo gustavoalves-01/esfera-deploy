@@ -7,7 +7,7 @@ import { api } from '../../../services/api';
 import Breadcrumb from '../../../components/Breadcrumb';
 import SearchComponent from '../../../components/SearchComponent';
 
-import { Container } from './styles';
+import { Container, ContainerHeader } from './styles';
 
 import {
   FullPostInterface,
@@ -163,16 +163,16 @@ const Post = ({ post }: PostPageProps) => {
   return (
     <>
       <Header categories={[{ name: "categoria", slug: "categoria" }]} />
+      <ContainerHeader>
+        <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
+        <SearchComponent
+          heightInput="56px"
+          widthInput="100%"
+          placeholder="Encontre um artigo"
+          typeInput="search"
+        />
+      </ContainerHeader>
       <Container>
-        <div className="containerHeader">
-          <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
-          <SearchComponent
-            heightInput="56px"
-            widthInput="100%"
-            placeholder="Encontre um artigo"
-            typeInput="search"
-          />
-        </div>
         <main>
           <PostHeader post={postHeaderProps} />
           <PostShortcuts sections={sections} />
