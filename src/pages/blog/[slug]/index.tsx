@@ -18,13 +18,17 @@ import PostHeader from '../../../components/PostHeader';
 import CtaFinalPost from '../../../components/CtaFinalPost';
 import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
-import YoutubeItem from '../../../components/YoutubeItem';
 import YoutubeSection from '../../../components/YoutubeSection';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import Sidebar from '../../../components/Sidebar';
+import NewsletterForm from '../../../components/NewsletterForm';
+import { CategoryInterface } from '../../../entities/Category';
+import { AuthorSection } from '../../../components/AuthorSection';
 
 interface PostPageProps {
   post: FullPostInterface;
+  categoryList: CategoryInterface[];
 }
 
 interface PropsComentarios {
@@ -40,16 +44,26 @@ interface PropsVideosYoutube {
   link: string;
 }
 
-const Post = ({ post }: PostPageProps) => {
+interface Author {
+  name: string;
+  photo: string;
+}
+
+const Post = ({ post, categoryList }: PostPageProps) => {
   const [content, setContent] = useState<string>('');
   const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
-  const [authorPhoto, setAuthorPhoto] = useState<string>('');
+  const [author, setAuthor] = useState<Author | null>(null);
+  const [authorContent, setAuthorContent] = useState<string>('');
 
   const timeToRead = Math.round(post.content.split(' ').length / 150);
 
   const removeAttributes = (element: Element) => {
     Array.from(element.attributes).forEach((attr) => {
       switch (attr.name) {
+        case 'id':
+          if (element.tagName === 'H2' || element.tagName === 'SECTION') {
+            break;
+          }
         case 'src':
           break;
         case 'target':
@@ -71,15 +85,7 @@ const Post = ({ post }: PostPageProps) => {
 
     titles.forEach((title) => {
       const slug = slugify(title.innerText, { lower: true });
-      title.parentElement?.nextElementSibling?.insertAdjacentElement(
-        'afterbegin',
-        title
-      );
-      title.parentElement?.setAttribute('id', slug);
-    });
-
-    element.querySelectorAll('section').forEach((el) => {
-      el.childElementCount === 0 && el.remove();
+      title.id = slug;
     });
 
     element.querySelectorAll('*:not(iframe)').forEach((el) => {
@@ -99,11 +105,44 @@ const Post = ({ post }: PostPageProps) => {
     ).map((heading) => {
       return {
         name: heading.innerText,
-        slug: heading.parentElement?.id,
+        slug: heading.id,
       };
     });
 
+    // Author information
+    const sections = element.querySelectorAll('section'),
+      lastSection = sections[sections.length - 1],
+      lastSectionTitle = lastSection?.children[1]?.children[0]?.innerHTML;
+
+    if (lastSectionTitle) {
+      if (lastSectionTitle.indexOf('produzido') !== -1) {
+        lastSection.id = 'authorSection';
+        const photo = lastSection.children[0].getAttribute('src');
+        const name = lastSectionTitle
+          .replace('Esse texto foi produzido por&nbsp;', '')
+          .replace('.', '');
+        const about = lastSection?.children[2].innerHTML.replace(
+          /<[\/]{0,1}(i)[^><]*>/g,
+          ''
+        );
+
+        setAuthorContent(about);
+
+        const author =
+          name !== null && photo !== null ? { name: name, photo: photo } : null;
+
+        setAuthor(author);
+        lastSection.remove();
+      }
+    }
+
     setSections(shortcuts);
+
+    if (titles.length >= 5) {
+      // first content part (before intermission)
+    } else {
+      // second content part (after intermission)
+    }
     setContent(element.innerHTML);
   }, [post.content]);
 
@@ -111,7 +150,7 @@ const Post = ({ post }: PostPageProps) => {
     bgUrl: post.imageURL,
     categories: post.categories,
     title: post.title,
-    author: post.author,
+    author: author !== null ? author : { name: post.author, photo: undefined },
     createdAt: post.createdAt,
     id: post.id,
     slug: post.slug,
@@ -162,7 +201,7 @@ const Post = ({ post }: PostPageProps) => {
 
   return (
     <>
-      <Header categories={[{ name: "categoria", slug: "categoria" }]} />
+      <Header categories={categoryList} />
       <Container>
         <div className="containerHeader">
           <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
@@ -173,36 +212,55 @@ const Post = ({ post }: PostPageProps) => {
             typeInput="search"
           />
         </div>
+        <PostHeader post={postHeaderProps} />
+
         <main>
-          <PostHeader post={postHeaderProps} />
           <PostShortcuts sections={sections} />
           <article dangerouslySetInnerHTML={{ __html: content }} />
         </main>
-
+        <Sidebar>
+          <NewsletterForm
+            copy="Receba os melhores conteúdos da Esfera Energia"
+            desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
+            cta="Receber conteúdos"
+          />
+        </Sidebar>
       </Container>
       <CtaFinalPost
-        photoUrl='/images/person.png'
-        title='Terceirize toda a gestão de energia elétrica da sua empresa com segurança'
-        subtitle='Reduza custos com energia elétrica com uma gestão que te ajuda a migrar para o mercado livre, gerenciar melhor sua compra e venda de energia e se manter em dia frente às instituições reguladoras.'
-        depoiment='“Estou muito satisfeita com a parceria e atendimento da Esfera Energia que nos proporcionou cerca de 35% de economia de energia nos últimos 4 anos.”'
-        textButton='Receba o contato de um consultor especialista' />
-      {/* ======== CTA FINAL POST ========*/}
+        photoUrl="/images/person.png"
+        title="Terceirize toda a gestão de energia elétrica da sua empresa com segurança"
+        subtitle="Reduza custos com energia elétrica com uma gestão que te ajuda a migrar para o mercado livre, gerenciar melhor sua compra e venda de energia e se manter em dia frente às instituições reguladoras."
+        depoiment="“Estou muito satisfeita com a parceria e atendimento da Esfera Energia que nos proporcionou cerca de 35% de economia de energia nos últimos 4 anos.”"
+        textButton="Receba o contato de um consultor especialista"
+      />
 
-      {/*======== COMENTÁRIOS ==> Seção para comentar ======== */}
-      <Comments />
+      {author !== null && (
+        <AuthorSection
+          name={author.name}
+          about={authorContent}
+          imageURL={author.photo}
+        />
+      )}
 
-      {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
+      <div className="postFooter">
+        <Comments />
 
-      {comentarios.map(({ imageUrl, name, date, depoiment }) => {
-        return (
-          <ListComment key={name} imageUrl={imageUrl} name={name} date={date} depoiment={depoiment} />
-        )
-      })}
+        {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
+        {comentarios.map(({ imageUrl, name, date, depoiment }) => {
+          return (
+            <ListComment
+              key={name}
+              imageUrl={imageUrl}
+              name={name}
+              date={date}
+              depoiment={depoiment}
+            />
+          );
+        })}
 
-      {/* TiTulo dinamico,  imagem dinamica*/}
-      <YoutubeSection videosInfos={videosYoutube} />
-
-      {/* Footer */}
+        {/* TiTulo dinamico,  imagem dinamica*/}
+        <YoutubeSection videosInfos={videosYoutube} />
+      </div>
 
       <Footer />
     </>
@@ -221,9 +279,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params!;
 
+  const categoryList = await (await api.get(`list-categories`)).data;
+
   const post = await (await api.get(`posts/${slug}`)).data;
 
   return {
-    props: { post },
+    props: { post, categoryList },
   };
 };

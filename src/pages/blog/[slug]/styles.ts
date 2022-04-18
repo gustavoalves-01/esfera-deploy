@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: grid;
-  max-width: calc(1115px + 4rem);
+  max-width: calc(1200px + 4rem);
   margin: 42px auto 0;
   padding: 0 2rem;
   column-gap: 2rem;
@@ -22,15 +22,16 @@ export const Container = styled.div`
     }
   }
 
+  > div {
+    grid-column: 1/2;
+    margin-bottom: 72px;
+  }
+
   main {
     grid-column: 1/2;
     display: grid;
     grid-template-columns: 162px auto;
-    gap: 72px 29px;
-
-    > div {
-      grid-column: 1/3;
-    }
+    column-gap: 29px;
 
     aside {
       grid-column: 1/2;
@@ -75,19 +76,6 @@ export const Container = styled.div`
         display: flex;
         flex-direction: column;
         gap: 19px;
-
-        &:last-of-type section {
-          display: grid;
-
-          img {
-            grid-column: 1/2;
-            grid-row: 1/3;
-          }
-
-          p {
-            grid-column: 2/3;
-          }
-        }
       }
 
       p {
@@ -109,10 +97,24 @@ export const Container = styled.div`
     }
   }
 
-  @media(max-width: 1100px){
+  .postFooter {
+    grid-column: 1/2;
+  }
+
+  > aside {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    margin-top: 0;
+    padding-top: 0;
+
+    div:first-of-type {
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 1100px) {
     padding: 0 1rem;
     padding-top: 46px;
-
   }
   @media (max-width: 990px) {
     display: flex;
@@ -127,7 +129,7 @@ export const Container = styled.div`
       }
     }
 
-    .containerHeader{
+    .containerHeader {
       display: none;
     }
   }

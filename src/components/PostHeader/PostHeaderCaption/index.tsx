@@ -8,7 +8,7 @@ import { TimeSkeleton } from '../../ReadingTimeComponent/styles';
 
 interface PostHeaderCaptionProps {
   post: {
-    author: string;
+    author: { name?: string; photo?: string };
     createdAt: string;
     id: string;
     slug: string;
@@ -22,12 +22,16 @@ export default function PostHeaderCaption({ post }: PostHeaderCaptionProps) {
       <div className="postContent">
         <Link href={'#'} passHref>
           <div className="authorProfile">
-            <Image src={'/images/profile_default.png'} layout="fill" alt="" />
+            {post.author.photo ? (
+              <Image src={post.author.photo} layout="fill" alt="" />
+            ) : (
+              <Image src={'/images/profile_default.png'} layout="fill" alt="" />
+            )}
           </div>
         </Link>
 
         <div className="postInfo">
-          <span className="author">{post.author}</span>
+          <span className="author">{post.author.name}</span>
           <span className="date">
             {new Date(post.createdAt).toLocaleDateString('pt-BR')}
           </span>
