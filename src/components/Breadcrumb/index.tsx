@@ -11,14 +11,13 @@ interface BreadcrumbProps {
 function Breadcrumb({ section, category, titleArticle }: BreadcrumbProps) {
     return (
         <BreadcrumbContainer>
-
+            <WrapperImage>
+                <Image layout='fill' src="/images/icons/home.svg" alt="Icone de casa" />
+            </WrapperImage>
             <p>
-                <WrapperImage>
-                    <Image layout='fill' src="/images/icons/home.svg" alt="Icone de casa" />
-                </WrapperImage>
-                Pagina Inicial
-                {section ? ` > ${section}` : null}
-                {category ? ` > ${category}` : null}
+                <Link href="/">Pagina Inicial</Link>
+                &gt;<a href="#">{section ? section : null}</a>
+                <a href="">{category ? `${category}` : null}</a>
                 {titleArticle ? ` > ${titleArticle}` : null}
             </p>
         </BreadcrumbContainer>

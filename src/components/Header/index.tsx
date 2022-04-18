@@ -92,19 +92,25 @@ function Header({ categories }: CategoryProps) {
         <HeaderElement myPosition={positionHeader}>
           <MaxContainer>
             {verifyHeaderActive ? (
-              <Image
-                width={240}
-                height={48}
-                alt="Logo novo esfera energia"
-                src="/images/logo__esfera.svg"
-              />
+              <Link href="/" passHref>
+                <Image
+                  width={240}
+                  height={48}
+                  alt="Logo novo esfera energia"
+                  src="/images/logo__esfera.svg"
+                />
+              </Link>
             ) : (
-              <Image
-                width={50}
-                height={48}
-                alt="Logo novo esfera energia"
-                src="/images/logo_mini_esfera.svg"
-              />
+
+              <Link href="/" passHref>
+                <Image
+                  width={50}
+                  height={48}
+                  alt="Logo novo esfera energia"
+                  src="/images/logo_mini_esfera.svg"
+                />
+              </Link>
+
             )}
 
             {verifyHeaderActive ? (
@@ -299,12 +305,15 @@ function Header({ categories }: CategoryProps) {
 
       <ContainerMobile>
         <HeaderElement myPosition={positionHeader}>
-          <Image
-            width={219}
-            height={37}
-            alt="Logo novo esfera energia"
-            src="/images/logo__esfera.svg"
-          />
+          <Link href="/" passHref>
+            <Image
+              width={219}
+              height={37}
+              alt="Logo novo esfera energia"
+              src="/images/logo__esfera.svg"
+            />
+          </Link>
+
           <div>
             <span onClick={() => activePopupReceber()}>
               <Image
