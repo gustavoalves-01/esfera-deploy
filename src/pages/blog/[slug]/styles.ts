@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const ContainerHeader = styled.div`
+  grid-column: 1/2;
   display: flex;
   justify-content: space-between;
   margin-bottom: 46px;
-  max-width: calc(1200px + 4rem);
   margin: 0 auto;
   > div {
     max-width: 50%;
