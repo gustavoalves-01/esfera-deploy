@@ -1,5 +1,24 @@
 import styled from 'styled-components';
 
+export const ContainerHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 46px;
+  max-width: calc(1200px + 4rem);
+  margin: 0 auto;
+  > div {
+    max-width: 50%;
+  }
+
+  label {
+    min-width: 255px;
+  }
+
+  @media (max-width: 990px) {
+    display: none;
+  }
+`;
+
 export const Container = styled.div`
   display: grid;
   max-width: calc(1200px + 4rem);
@@ -7,20 +26,6 @@ export const Container = styled.div`
   padding: 0 2rem;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
-
-  .containerHeader {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 46px;
-
-    > div {
-      max-width: 50%;
-    }
-
-    label {
-      min-width: 255px;
-    }
-  }
 
   > div {
     grid-column: 1/2;
