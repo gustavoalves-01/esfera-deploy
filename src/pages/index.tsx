@@ -23,6 +23,7 @@ import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import { useEffect, useState } from 'react';
+import SidebarList from '../components/Sidebar/SidebarList';
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
@@ -40,21 +41,53 @@ export default function Home({
 }: HomeProps) {
   const materials: CardInterface[] = [
     {
-      text: 'Categoria 1',
       imgUrl:
         'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
       href: '#',
     },
     {
-      imgUrl: '/',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
       href: '#',
     },
     {
-      imgUrl: '/',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
       href: '#',
     },
     {
-      imgUrl: '/',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+  ];
+
+  const categories: CardInterface[] = [
+    {
+      text: 'Categoria 1',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+
+    {
+      text: 'Categoria 2',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+
+    {
+      text: 'Categoria 3',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+
+    {
+      text: 'Categoria 4',
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
       href: '#',
     },
   ];
@@ -74,7 +107,7 @@ export default function Home({
     }
   });
 
-  
+
   return (
     <>
       <Head>
@@ -147,6 +180,20 @@ export default function Home({
                 isMobile
               />
 
+              <CardsSection
+                type="categories"
+                title="Categorias em alta"
+                linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                cards={categories}
+              />
+              <CardsSection
+                type="categories"
+                title="Categorias em alta"
+                linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                cards={categories}
+                isMobile
+              />
+
               <NewsletterForm
                 copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
                 desc="Receba conteúdos exclusivos em seu e-mail."
@@ -176,7 +223,18 @@ export default function Home({
             </>
           )}
         </main>
-        <Sidebar />
+
+        <Sidebar>
+          <NewsletterForm
+            copy="Receba os melhores conteúdos da Esfera Energia"
+            desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
+            cta="Receber conteúdos"
+          />
+          <div className="linksContainer">
+            <SidebarList title="Posts mais acessados" itemsType="posts" />
+            <SidebarList title="Materiais gratuitos" itemsType="materials" />
+          </div>
+        </Sidebar>
       </Container>
       <Footer />
     </>

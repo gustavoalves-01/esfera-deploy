@@ -9,7 +9,7 @@ interface PostHeaderProps {
     bgUrl: string;
     categories: Array<string>;
     title: string;
-    author: string;
+    author: { name?: string; photo?: string };
     createdAt: string;
     id: string;
     slug: string;
