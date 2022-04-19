@@ -8,24 +8,21 @@ export const BreadcrumbContainer = styled.div`
   font-size: 14px;
   color: #4f5150;
 
-  p{
-
+  p {
   }
-  span a{
+  span a {
     margin-left: 3px;
   }
-  a{
-    color: var(--pink-500);
-    text-decoration: underline;
+  a {
     margin-right: 5px;
     flex: none;
   }
 `;
 export const WrapperImage = styled.div`
-    position: relative;
-    width: 40px;
-    height: 14px;
-    margin-right: 8px;
-    color: #4f5150;
-    top: 4px;
+  position: relative;
+  width: 40px;
+  height: 14px;
+  margin-right: 8px;
+  color: #4f5150;
+  top: 4px;
 `;
