@@ -115,6 +115,10 @@ export const Container = styled.div`
     div:first-of-type {
       padding-top: 0;
     }
+
+    &:last-of-type {
+      grid-row: 3/4;
+    }
   }
 
   @media (max-width: 1100px) {
