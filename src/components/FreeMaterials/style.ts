@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const Style = styled.aside`
     display: flex;
     flex-direction: column;
+
+    @media(max-width: 990px){
+        display: none;
+    }
 `;
 
 export const Title = styled.span`

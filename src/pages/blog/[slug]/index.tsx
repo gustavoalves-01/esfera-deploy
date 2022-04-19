@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next/types';
 import slugify from 'slugify';
 
@@ -26,6 +26,8 @@ import NewsletterForm from '../../../components/NewsletterForm';
 import { CategoryInterface } from '../../../entities/Category';
 import { AuthorSection } from '../../../components/AuthorSection';
 import FreeMaterials from '../../../components/FreeMaterials';
+import Head from 'next/head';
+import CardsSection from '../../../components/CardsSection';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -112,8 +114,11 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       return {
         name: heading.innerText,
         slug: heading.id,
+        pos: window.pageYOffset,
       };
     });
+
+
 
     // Author information
     const sections = element.querySelectorAll('section'),
@@ -151,6 +156,11 @@ const Post = ({ post, categoryList }: PostPageProps) => {
     }
     setContent(element.innerHTML);
   }, [post.content]);
+
+
+
+
+
 
   const postHeaderProps = {
     bgUrl: post.imageURL,
@@ -230,11 +240,15 @@ const Post = ({ post, categoryList }: PostPageProps) => {
 
   return (
     <>
+      <Head>
+        <title>{post.title}</title>
+      </Head>
       <Header categories={categoryList} />
-      <Container>
-        <ContainerHeader>
+      <Container >
+        <ContainerHeader >
           <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
           <SearchComponent
+            widthIcon='50px'
             heightInput="56px"
             widthInput="100%"
             placeholder="Encontre um artigo"
@@ -254,8 +268,12 @@ const Post = ({ post, categoryList }: PostPageProps) => {
             cta="Receber conteúdos"
           />
         </Sidebar>
-        <FreeMaterials materials={materials}/>
+        <FreeMaterials materials={materials} />
+
+        <CardsSection isMobile={true} title="Materiais Gratuitos" cards={materials} type={"materials"} linkAll={{ text: "Categoria 1", href: "#" }} />
       </Container>
+
+
       <CtaFinalPost
         photoUrl="/images/person.png"
         title="Terceirize toda a gestão de energia elétrica da sua empresa com segurança"

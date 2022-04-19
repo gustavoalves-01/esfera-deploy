@@ -93,20 +93,6 @@ export default function Home({
   ];
 
 
-  const [paddingTopVerify, setPaddingTopVerify] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth >= 1100) {
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-          setPaddingTopVerify(true);
-        } else {
-          setPaddingTopVerify(false);
-        }
-      });
-    }
-  });
-
 
   return (
     <>
@@ -115,10 +101,11 @@ export default function Home({
       </Head>
       <Header categories={categoryList} />
 
-      <Container myPaddingContainer={paddingTopVerify}>
+      <Container >
         <div className="containerHeader">
           <Breadcrumb section="Blog" />
           <SearchComponent
+            widthIcon="50px"
             heightInput="56px"
             widthInput="200px"
             placeholder="Encontre um artigo"

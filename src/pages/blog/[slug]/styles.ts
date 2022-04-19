@@ -100,6 +100,7 @@ export const Container = styled.div`
         margin: 2rem 0;
       }
     }
+
   }
 
   .postFooter {
@@ -138,6 +139,9 @@ export const Container = styled.div`
       }
     }
 
+    figure img{
+      width:100%;
+    }
     .containerHeader {
       display: none;
     }

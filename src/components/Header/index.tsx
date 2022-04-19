@@ -62,7 +62,7 @@ function Header({ categories }: CategoryProps) {
         if (window.scrollY > 100) {
           setVerifyHeaderActive(false);
           setPositionHeader('fixed');
-          
+
         } else {
           setVerifyHeaderActive(true);
           setPositionHeader('relative');
@@ -142,23 +142,9 @@ function Header({ categories }: CategoryProps) {
                     })}
                   </div>
                 </SublistInUl>
-
-                <SublistInUl>
-                  <li>
-                    Materiais gratuitos{' '}
-                    <span>
-                      <Image
-                        width={7}
-                        height={7}
-                        alt="arrow grey"
-                        src="/images/icons/arrow-list.svg"
-                      />
-                    </span>
-                  </li>
-                  <div>
-                    <p>Material 1</p>
-                  </div>
-                </SublistInUl>
+                <li>
+                  Materiais gratuitos
+                </li>
 
                 <SublistInUl>
                   <li>
@@ -246,6 +232,7 @@ function Header({ categories }: CategoryProps) {
                 </SublistInUl>
                 <ContainerInput>
                   <SearchComponent
+                    widthIcon="40px"
                     typeInput="search"
                     widthInput="192px"
                     heightInput="40px"
@@ -357,7 +344,7 @@ function Header({ categories }: CategoryProps) {
                 <a>O mercado livre de energia</a>
               </Link>
 
-              <SearchComponent widthInput="100%" heightInput="52px" typeInput='search' placeholder='Encontre um artigo' />
+              <SearchComponent widthInput="100%" heightInput="52px" widthIcon="40px" typeInput='search' placeholder='Encontre um artigo' />
               <SelectButton
                 onClick={() => activeCategory()}
                 activeCategories={categorieActive}
@@ -404,6 +391,7 @@ function Header({ categories }: CategoryProps) {
                 </ClosePopup>
                 <h3>O que você busca?</h3>
                 <SearchComponent
+                  widthIcon="40px"
                   widthInput="100%"
                   heightInput="52px"
                   placeholder="Encontre um artigo"

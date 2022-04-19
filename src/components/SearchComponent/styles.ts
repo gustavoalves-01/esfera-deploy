@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface PropsLabel {
   widthInput: string;
   heightInput: string;
+  widthIcon?: string;
 }
 export const LabelElement = styled.label<PropsLabel>`
   position: relative;
@@ -59,7 +60,7 @@ export const LabelElement = styled.label<PropsLabel>`
 
     background-color: #f5426c;
     height: ${(props) => props.heightInput};
-    width: 50px;
+    width: ${(props) => props.widthIcon};
 
     display: flex;
     align-items: center;

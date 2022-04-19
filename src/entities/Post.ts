@@ -30,6 +30,7 @@ export interface PostPreviewInterface {
 export interface PostShortcutsInterface {
   name: string;
   slug?: string;
+  pos: number;
 }
 export interface SidebarLinks {
   id: string;

@@ -16,7 +16,7 @@ function Breadcrumb({ section, category, titleArticle }: BreadcrumbProps) {
             </WrapperImage>
             <p>
                 <Link href="/">Pagina Inicial</Link>
-                &gt;<a href="#">{section ? section : null}</a>
+                &gt;<a href="#"> {section ? section : null}</a>
                 <a href="">{category ? `${category}` : null}</a>
                 {titleArticle ? ` > ${titleArticle}` : null}
             </p>

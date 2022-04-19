@@ -7,7 +7,7 @@ export const HeaderElement = styled.header<PropsHeader>`
   top: 0px;
   background: #ffffff;
 
-  position: ${(props) => props.myPosition};
+  /* position: ${(props) => props.myPosition}; */
   padding-top: 22px;
   padding-bottom: 32px;
 
@@ -17,6 +17,8 @@ export const HeaderElement = styled.header<PropsHeader>`
     
     top: 0px;
     z-index: 999;
+
+    position: fixed;
     
   @media (max-width: 1200px) {
     height: 70px;

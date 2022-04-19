@@ -10,12 +10,14 @@ interface PropsInputComponents {
   widthInput: string;
   heightInput: string;
   placeholder: string;
+  widthIcon: string;
 }
 function SearchComponent({
   typeInput,
   widthInput,
   heightInput,
   placeholder,
+  widthIcon
 }: PropsInputComponents) {
   const { setInputEncontreArtigo, inputEncontreArtigo } = useBuscar();
 
@@ -37,7 +39,7 @@ function SearchComponent({
 
   if (typeInput == 'search') {
     return (
-      <LabelElement widthInput={widthInput} heightInput={heightInput} onKeyPress={(e) => handleTest(e)}>
+      <LabelElement widthInput={widthInput} heightInput={heightInput} widthIcon={widthIcon} onKeyPress={(e) => handleTest(e)}>
         <input
           type="search"
           placeholder={placeholder}
