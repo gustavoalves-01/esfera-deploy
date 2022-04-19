@@ -25,6 +25,7 @@ import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
 import { CategoryInterface } from '../../../entities/Category';
 import { AuthorSection } from '../../../components/AuthorSection';
+import FreeMaterials from '../../../components/FreeMaterials';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -47,6 +48,11 @@ interface PropsVideosYoutube {
 interface Author {
   name: string;
   photo: string;
+}
+
+interface PropsMaterials {
+  imgUrl: string,
+  href: string,
 }
 
 const Post = ({ post, categoryList }: PostPageProps) => {
@@ -199,6 +205,29 @@ const Post = ({ post, categoryList }: PostPageProps) => {
     },
   ];
 
+  const materials: PropsMaterials[] = [
+    {
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+    {
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+    {
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+    {
+      imgUrl:
+        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
+      href: '#',
+    },
+  ];
+
   return (
     <>
       <Header categories={categoryList} />
@@ -225,6 +254,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
             cta="Receber conteúdos"
           />
         </Sidebar>
+        <FreeMaterials materials={materials}/>
       </Container>
       <CtaFinalPost
         photoUrl="/images/person.png"
