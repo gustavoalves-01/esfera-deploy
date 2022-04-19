@@ -22,6 +22,7 @@ import { Container } from './styles';
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
+import { useEffect, useState } from 'react';
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
@@ -58,6 +59,22 @@ export default function Home({
     },
   ];
 
+
+  const [paddingTopVerify, setPaddingTopVerify] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth >= 1100) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          setPaddingTopVerify(true);
+        } else {
+          setPaddingTopVerify(false);
+        }
+      });
+    }
+  });
+
+  
   return (
     <>
       <Head>
@@ -65,7 +82,7 @@ export default function Home({
       </Head>
       <Header categories={categoryList} />
 
-      <Container>
+      <Container myPaddingContainer={paddingTopVerify}>
         <div className="containerHeader">
           <Breadcrumb section="Blog" />
           <SearchComponent

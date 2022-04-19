@@ -62,6 +62,7 @@ function Header({ categories }: CategoryProps) {
         if (window.scrollY > 100) {
           setVerifyHeaderActive(false);
           setPositionHeader('fixed');
+          
         } else {
           setVerifyHeaderActive(true);
           setPositionHeader('relative');
@@ -88,7 +89,7 @@ function Header({ categories }: CategoryProps) {
   return (
     <>
 
-      <ContainerDesktop>
+      <ContainerDesktop >
         <HeaderElement myPosition={positionHeader}>
           <MaxContainer>
             {verifyHeaderActive ? (

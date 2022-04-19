@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface PropsContainer{
+  myPaddingContainer: boolean;
+}
+export const Container = styled.div<PropsContainer>`
   display: grid;
   max-width: calc(1115px + 4rem);
   margin: 42px auto 0;
-  padding: 0 2rem;
+  padding: ${(props) => props.myPaddingContainer ? "100px 2rem" : "0 2rem"};
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
