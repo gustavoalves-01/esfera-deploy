@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Style = styled.div`
+export const Style = styled.aside`
     display: flex;
     flex-direction: column;
 `;
@@ -22,7 +22,8 @@ export const ImageWrapper = styled.div`
     height: 16.125rem;
     margin-top: 1rem;
     position: relative;
-
+    cursor: pointer;
+    
     img {
         object-fit: cover;
     }
