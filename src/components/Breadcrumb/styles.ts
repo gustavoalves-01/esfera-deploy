@@ -9,6 +9,7 @@ export const BreadcrumbContainer = styled.div`
   color: #4f5150;
 
   p {
+    width: 100%;
   }
   span a {
     margin-left: 3px;
@@ -20,7 +21,7 @@ export const BreadcrumbContainer = styled.div`
 `;
 export const WrapperImage = styled.div`
   position: relative;
-  width: 40px;
+  width: 16px;
   height: 14px;
   margin-right: 8px;
   color: #4f5150;

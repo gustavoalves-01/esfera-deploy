@@ -9,6 +9,10 @@ export const Container = styled.footer`
         font-family: 'Nexta Light';
         src: url('/fonts/nexta/NexaTextDemo-Light.woff') format('woff');
     }
+
+    @media(max-width: 768px){
+        margin-top:34px;
+    }
 `
 export const MaxContainer = styled.div`
     max-width: 1111px;

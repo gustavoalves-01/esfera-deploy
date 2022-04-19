@@ -22,6 +22,7 @@ import { Container } from './styles';
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
+import { useEffect, useState } from 'react';
 import SidebarList from '../components/Sidebar/SidebarList';
 interface HomeProps {
   categoryList: CategoryInterface[];
@@ -91,6 +92,8 @@ export default function Home({
     },
   ];
 
+
+
   return (
     <>
       <Head>
@@ -98,10 +101,11 @@ export default function Home({
       </Head>
       <Header categories={categoryList} />
 
-      <Container>
+      <Container >
         <div className="containerHeader">
           <Breadcrumb section="Blog" />
           <SearchComponent
+            widthIcon="50px"
             heightInput="56px"
             widthInput="200px"
             placeholder="Encontre um artigo"
