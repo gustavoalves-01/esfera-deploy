@@ -11,11 +11,20 @@ export const Container = styled.div<PropsContainer>`
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
-  .containerHeader{
+  .containerHeader {
     display: flex;
     justify-content: space-between;
+    grid-column: 1/3;
+
+    label {
+      min-width: 255px;
+
+      input {
+        width: 100%;
+      }
+    }
   }
-  
+
   main {
     grid-column: 1/2;
     grid-row: 2/3;
