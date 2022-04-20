@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { GetStaticPaths, GetStaticProps } from 'next/types';
 import slugify from 'slugify';
 
@@ -53,8 +54,8 @@ interface Author {
 }
 
 interface PropsMaterials {
-  imgUrl: string,
-  href: string,
+  imgUrl: string;
+  href: string;
 }
 
 const Post = ({ post, categoryList }: PostPageProps) => {
@@ -114,11 +115,8 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       return {
         name: heading.innerText,
         slug: heading.id,
-        pos: window.pageYOffset,
       };
     });
-
-
 
     // Author information
     const sections = element.querySelectorAll('section'),
@@ -149,18 +147,29 @@ const Post = ({ post, categoryList }: PostPageProps) => {
 
     setSections(shortcuts);
 
+    const intermission = document.createElement('div');
+    intermission.classList.add('intermissionContainer');
+    intermission.innerHTML = `
+    <h2>A conta de luz da sua empresa é maior que 50 mil reais por mês?</h2>
+    <h3>Economize até 35% da sua conta de energia todos os meses com a gestão da Esfera Energia.</h3>
+    <a href="/">Receba o contato de um consultor especialista</a>
+    `;
+
     if (titles.length >= 5) {
-      // first content part (before intermission)
+      element.querySelectorAll('h2').forEach((section, index) => {
+        if (index === 2) {
+          section.insertAdjacentElement('beforebegin', intermission);
+        }
+      });
     } else {
-      // second content part (after intermission)
+      element.querySelectorAll('h2').forEach((section, index) => {
+        if (index === Math.floor(titles.length / 2)) {
+          section.insertAdjacentElement('beforebegin', intermission);
+        }
+      });
     }
     setContent(element.innerHTML);
   }, [post.content]);
-
-
-
-
-
 
   const postHeaderProps = {
     bgUrl: post.imageURL,
@@ -244,11 +253,11 @@ const Post = ({ post, categoryList }: PostPageProps) => {
         <title>{post.title}</title>
       </Head>
       <Header categories={categoryList} />
-      <Container >
-        <ContainerHeader >
+      <Container>
+        <ContainerHeader>
           <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
           <SearchComponent
-            widthIcon='50px'
+            widthIcon="50px"
             heightInput="56px"
             widthInput="100%"
             placeholder="Encontre um artigo"
@@ -270,9 +279,14 @@ const Post = ({ post, categoryList }: PostPageProps) => {
         </Sidebar>
         <FreeMaterials materials={materials} />
 
-        <CardsSection isMobile={true} title="Materiais Gratuitos" cards={materials} type={"materials"} linkAll={{ text: "Categoria 1", href: "#" }} />
+        <CardsSection
+          isMobile={true}
+          title="Materiais Gratuitos"
+          cards={materials}
+          type={'materials'}
+          linkAll={{ text: 'Categoria 1', href: '#' }}
+        />
       </Container>
-
 
       <CtaFinalPost
         photoUrl="/images/person.png"
@@ -297,7 +311,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
         {comentarios.map(({ imageUrl, name, date, depoiment }) => {
           return (
             <ListComment
-              key={name}
+              key={`${Math.floor(1000 + Math.random() * 9000)}${name}`}
               imageUrl={imageUrl}
               name={name}
               date={date}

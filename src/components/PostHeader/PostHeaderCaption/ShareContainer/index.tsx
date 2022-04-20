@@ -8,7 +8,7 @@ interface ShareContainerProps {
 }
 
 export default function ShareContainer({ slug }: ShareContainerProps) {
-  const postURL = `${process.env.BASE_URL}blog/${slug}`;
+  const postURL = `https://esferaenergia.com.br/blog/${slug}`;
 
   return (
     <Container>

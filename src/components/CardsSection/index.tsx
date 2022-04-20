@@ -53,7 +53,7 @@ const CardsSection = ({
             {cards.length > 0 &&
               cards.map((card) => (
                 <Card
-                  key={card.href}
+                  key={`${Math.floor(1000 + Math.random() * 9000)}${card.href}`}
                   imgUrl={card.imgUrl}
                   href={card.href}
                   text={card.text}
