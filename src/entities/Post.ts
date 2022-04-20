@@ -33,7 +33,7 @@ export interface PostShortcutsInterface {
 }
 export interface SidebarLinks {
   id: string;
-  title: string;
+  title: { rendered: string };
   slug: string;
 }
 
