@@ -1,6 +1,6 @@
 // Framework and libs Imports
 import Head from 'next/head';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 
 // API Imports
 import { api } from '../services/api';
@@ -232,7 +232,7 @@ export default function Home({
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch Categories
   const responseCategory = await axios.get(
     'https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug'
@@ -335,6 +335,5 @@ export const getStaticProps: GetStaticProps = async () => {
       recentPostList,
       allPostList,
     },
-    revalidate: 60 * 60 * 24, //24h
   };
 };
