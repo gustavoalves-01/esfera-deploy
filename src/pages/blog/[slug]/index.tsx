@@ -386,6 +386,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { post, categoryList },
-    revalidate: 60 * 60 * 24, //24h
+    refresh: 60 * 60 * 24, //24h
   };
 };
