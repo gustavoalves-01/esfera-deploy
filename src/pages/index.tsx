@@ -335,5 +335,6 @@ export const getStaticProps: GetStaticProps = async () => {
       recentPostList,
       allPostList,
     },
+    revalidate: 60 * 60 * 24, //24h
   };
 };
