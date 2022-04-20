@@ -8,11 +8,12 @@ import { api } from '../../../services/api';
 import Breadcrumb from '../../../components/Breadcrumb';
 import SearchComponent from '../../../components/SearchComponent';
 
-import { Container, ContainerHeader } from './styles';
+import Container, { ContainerHeader } from './styles';
 
 import {
   FullPostInterface,
   PostShortcutsInterface,
+  RawPost,
 } from '../../../entities/Post';
 import PostShortcuts from '../../../components/PostShortcuts';
 import PostHeader from '../../../components/PostHeader';
@@ -29,6 +30,8 @@ import { AuthorSection } from '../../../components/AuthorSection';
 import FreeMaterials from '../../../components/FreeMaterials';
 import Head from 'next/head';
 import CardsSection from '../../../components/CardsSection';
+import axios from 'axios';
+import handleCategory from '../../../utils/handleCategories';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -164,6 +167,8 @@ const Post = ({ post, categoryList }: PostPageProps) => {
     } else {
       element.querySelectorAll('h2').forEach((section, index) => {
         if (index === Math.floor(titles.length / 2)) {
+          console.log(section);
+
           section.insertAdjacentElement('beforebegin', intermission);
         }
       });
@@ -341,9 +346,43 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params!;
 
-  const categoryList = await (await api.get(`list-categories`)).data;
+  // Fetch Categories
+  const responseCategory = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug'
+  );
+  const categoryList = responseCategory.data;
 
-  const post = await (await api.get(`posts/${slug}`)).data;
+  const handlePostContent = (data: any) => {
+    const handleContent = (content: string) => {
+      const divsRemoved = content.replace(/<[\/]{0,1}(div)[^><]*>/g, '');
+      const spansRemoved = divsRemoved.replace(/<[\/]{0,1}(span)[^><]*>/g, '');
+      return spansRemoved;
+    };
+
+    const fullPost: FullPostInterface = data.map((post: RawPost) => {
+      return {
+        id: post.id,
+        title: post.title.rendered,
+        author: post.author,
+        // author: handleAuthor(post.author, authors)
+        categories: post.categories.map((item) => {
+          return handleCategory(item, categoryList);
+        }),
+        content: handleContent(post.content.rendered),
+        imageURL: post.yoast_head_json.og_image[0].url,
+        createdAt: post.date,
+        slug: post.slug,
+      };
+    })[0];
+
+    return fullPost;
+  };
+
+  // Fetch Post Content
+  const postResponse = await axios.get(
+    `https://esferaenergia.com.br/wp-json/wp/v2/posts/?slug=${slug}`
+  );
+  const post = handlePostContent(postResponse.data);
 
   return {
     props: { post, categoryList },

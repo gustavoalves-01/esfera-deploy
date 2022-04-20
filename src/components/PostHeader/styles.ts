@@ -8,6 +8,7 @@ export const Container = styled.div`
 
   .postHero {
     width: 100%;
+    min-height: 376px;
     padding-top: 2.5rem;
     position: relative;
 

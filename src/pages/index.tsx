@@ -16,14 +16,20 @@ import NewsletterForm from '../components/NewsletterForm';
 import Footer from '../components/Footer';
 
 // Styles Imports
-import { Container } from './styles';
+import Container from './styles';
 
 // Typing Imports
 import { CardInterface } from '../entities/Card';
-import { PostPreviewInterface } from '../entities/Post';
+import {
+  PostPreviewInterface,
+  RawPost,
+  RawPostPreview,
+} from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import { useEffect, useState } from 'react';
 import SidebarList from '../components/Sidebar/SidebarList';
+import axios from 'axios';
+import handleCategory from '../utils/handleCategories';
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
@@ -92,8 +98,6 @@ export default function Home({
     },
   ];
 
-
-
   return (
     <>
       <Head>
@@ -101,7 +105,7 @@ export default function Home({
       </Head>
       <Header categories={categoryList} />
 
-      <Container >
+      <Container>
         <div className="containerHeader">
           <Breadcrumb section="Blog" />
           <SearchComponent
@@ -229,21 +233,99 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const categoryList = await (await api.get(`list-categories`)).data;
+  // Fetch Categories
+  const responseCategory = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug'
+  );
+  const categoryList = responseCategory.data;
 
-  const trendingPostList = await (await api.get(`posts?trending=true`)).data;
+  const handleFetchedPosts = (data: any) => {
+    const postList: PostPreviewInterface[] = data?.map(
+      (post: RawPostPreview) => {
+        const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
+        const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
 
-  const allPostList = await (
-    await api.get(`posts?recent=true&per_page=4`)
-  ).data;
+        return {
+          id: post.id,
+          date: new Date(post.date).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
+          title: post.title.rendered,
+          excerpt: excerpt,
+          slug: post.slug,
+          categories: post.categories.map((item: number) => {
+            return handleCategory(item, categoryList);
+          }),
+          tags: String(post.tags),
+          imageURL: post.yoast_head_json.og_image[0].url,
+        };
+      }
+    );
 
-  const mostAccessedPostList = await (
-    await api.get(`posts?recent=true&per_page=2&page=2`)
-  ).data;
+    return postList;
+  };
 
-  const recentPostList = await (
-    await api.get(`posts?recent=true&per_page=2`)
-  ).data;
+  const fields =
+    'id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image';
+
+  // Fetch Trending Posts
+  const trendingParams = {
+    _fields: fields,
+    orderby: 'date',
+    order: 'desc',
+    tags: '3',
+    per_page: 1,
+  };
+  const responseTrending = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
+    { params: trendingParams }
+  );
+  const trendingPostList = handleFetchedPosts(responseTrending.data);
+
+  // Fetch Recent Posts
+  const recentParams = {
+    _fields: fields,
+    orderby: 'date',
+    order: 'desc',
+    tags_exclude: ['3'],
+    per_page: 2,
+  };
+  const responseRecent = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
+    { params: recentParams }
+  );
+  const recentPostList = handleFetchedPosts(responseRecent.data);
+
+  // Fetch Most Accessed (PENDING API)
+  const mostAccessedParams = {
+    _fields: fields,
+    orderby: 'date',
+    order: 'desc',
+    tags_exclude: ['3'],
+    per_page: 2,
+    page: 2,
+  };
+  const responseMostAccessed = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
+    { params: mostAccessedParams }
+  );
+  const mostAccessedPostList = handleFetchedPosts(responseMostAccessed.data);
+
+  // Fetch All Posts
+  const allPostsParams = {
+    _fields: fields,
+    orderby: 'date',
+    order: 'desc',
+    tags_exclude: ['3'],
+    per_page: 4,
+  };
+  const responseAllPosts = await axios.get(
+    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
+    { params: allPostsParams }
+  );
+  const allPostList = handleFetchedPosts(responseAllPosts.data);
 
   return {
     props: {

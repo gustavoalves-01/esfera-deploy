@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import CategoryInterface from '../../../entities/Category';
+import { CategoryInterface } from '../../../entities/Category';
 
 export default async function handler(
   req: NextApiRequest,
