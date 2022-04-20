@@ -1,11 +1,11 @@
+import axios from 'axios';
 import useSWR from 'swr';
-import { api } from '../services/api';
 
 export function useSidebarLinks(page: number, type: string) {
   const { data, error } = useSWR(
     type,
     async () => {
-      const { data, status } = await api.get(type, {
+      const { data, status } = await axios.get(type, {
         params: {
           onlyLinks: page === 1 ? 'true' : 'expanded',
         },

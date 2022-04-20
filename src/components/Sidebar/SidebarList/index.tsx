@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { Container, ItemSkeleton, NoItems } from './styles';
 import { SidebarLinks } from '../../../entities/Post';
-import { useSidebarLinks } from '../../../hooks/useSidebarLinks';
+import useSWR from 'swr';
+import axios from 'axios';
 
 interface SidebarSectionProps {
   title: string;
@@ -14,9 +15,29 @@ interface MoreItemsProps {
   itemsType: 'posts' | 'materials';
 }
 
+interface Items {
+  isLoading: boolean;
+  isError?: any;
+  data?: any;
+}
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const firstItems = useSidebarLinks(1, itemsType);
+  const [firstItems, setFirstItems] = useState<Items>({ isLoading: true });
+
+  const firstItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/${itemsType}?_fields=id,title,slug&per_page=4&page=1`;
+  const { data, error } = useSWR(firstItemsURL, fetcher);
+
+  useEffect(() => {
+    if (!error && !data) {
+      setFirstItems({ isLoading: true });
+    } else if (error) {
+      setFirstItems({ isLoading: false, isError: error });
+    } else {
+      setFirstItems({ isLoading: false, data });
+    }
+  }, [data, error]);
 
   const handleToggleExpanded = () => {
     isExpanded === true ? setIsExpanded(false) : setIsExpanded(true);
@@ -42,7 +63,7 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
             return (
               <li key={item.id}>
                 <Link href={item.slug}>
-                  <a>{item.title}</a>
+                  <a>{item.title.rendered}</a>
                 </Link>
               </li>
             );
@@ -73,7 +94,19 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
 };
 
 const MoreItems = ({ itemsType }: MoreItemsProps) => {
-  const moreItems = useSidebarLinks(1, itemsType);
+  const [moreItems, setMoreItems] = useState<Items>({ isLoading: true });
+  const moreItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/${itemsType}?_fields=id,title,slug&per_page=4&page=2`;
+  const { data, error } = useSWR(moreItemsURL, fetcher);
+
+  useEffect(() => {
+    if (!error && !data) {
+      setMoreItems({ isLoading: true });
+    } else if (error) {
+      setMoreItems({ isLoading: false, isError: error });
+    } else {
+      setMoreItems({ isLoading: false, data });
+    }
+  }, [data, error]);
 
   return moreItems.isLoading || moreItems.isError ? (
     <>
@@ -87,7 +120,7 @@ const MoreItems = ({ itemsType }: MoreItemsProps) => {
       return (
         <li key={item.id}>
           <Link href={item.slug}>
-            <a>{item.title}</a>
+            <a>{item.title.rendered}</a>
           </Link>
         </li>
       );
