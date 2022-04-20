@@ -386,6 +386,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: { post, categoryList },
-    refresh: 60 * 60 * 24, //24h
   };
 };
