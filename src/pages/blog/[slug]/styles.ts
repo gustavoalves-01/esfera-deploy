@@ -58,6 +58,53 @@ export const Container = styled.div`
         margin-top: 2rem;
       }
 
+      .intermissionContainer {
+        width: 100%;
+        padding: 40px;
+        margin-top: 2rem;
+        background: #f5426c;
+        color: #fff;
+        font-family: 'Open Sans';
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+          margin: 0;
+          margin-bottom: 1rem;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 2rem;
+          line-height: 35px;
+        }
+        h3 {
+          margin: 0;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 1rem;
+          line-height: 22px;
+          margin-bottom: 2rem;
+        }
+
+        a {
+          color: #f5426c;
+          background: #fff;
+          padding: 8px;
+          font-size: 16px;
+          line-height: 24px;
+          width: 100%;
+          text-align: center;
+          text-decoration: none;
+          font-weight: 700;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.3s;
+          &:hover {
+            background: #f8b3c5;
+            color: #fff;
+          }
+        }
+      }
+
       .iframeContainer {
         padding-bottom: 56.25%;
         height: 0;
@@ -100,7 +147,6 @@ export const Container = styled.div`
         margin: 2rem 0;
       }
     }
-
   }
 
   .postFooter {
@@ -139,8 +185,8 @@ export const Container = styled.div`
       }
     }
 
-    figure img{
-      width:100%;
+    figure img {
+      width: 100%;
     }
     .containerHeader {
       display: none;
