@@ -41,3 +41,49 @@ export interface TimeToReadInterface {
   id: string;
   time: number;
 }
+
+export interface RawPostPreview {
+  id: string;
+  date: string;
+  title: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  slug: string;
+  categories: Array<number>;
+  tags: Array<number>;
+  yoast_head_json: {
+    og_image: [
+      {
+        url: string;
+      }
+    ];
+  };
+}
+
+export interface RawPost {
+  id: string;
+  date: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  author: number;
+  slug: string;
+  categories: Array<number>;
+  tags: Array<number>;
+  yoast_head_json: {
+    og_image: [
+      {
+        url: string;
+      }
+    ];
+  };
+}

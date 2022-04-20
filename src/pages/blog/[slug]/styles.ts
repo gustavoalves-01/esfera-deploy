@@ -19,7 +19,7 @@ export const ContainerHeader = styled.div`
   }
 `;
 
-export const Container = styled.div`
+const Container = styled.div`
   display: grid;
   max-width: calc(1200px + 4rem);
   margin: 42px auto 0;
@@ -193,3 +193,5 @@ export const Container = styled.div`
     }
   }
 `;
+
+export default Container;
