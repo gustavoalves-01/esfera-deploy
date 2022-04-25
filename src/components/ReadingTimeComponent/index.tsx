@@ -17,7 +17,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function ReadingTimeComponent({ postSlug }: Props) {
   const [readingTime, setReadingTime] = useState<Response>({ isLoading: true });
-  const readingTimeURL = `http://localhost:3000/api/wp/posts/${postSlug}/reading-time`;
+  const readingTimeURL = `/api/wp/posts/${postSlug}/reading-time`;
 
   const { data, error } = useSWR(readingTimeURL, fetcher);
 
@@ -32,9 +32,6 @@ export default function ReadingTimeComponent({ postSlug }: Props) {
       console.log('data');
     }
   }, [data, error]);
-  // const { data, isLoading, isError } = useFetch(
-  //   `http://localhost:3000/api/wp/posts/${postSlug}/reading-time`
-  // );
 
   return (
     <Container>

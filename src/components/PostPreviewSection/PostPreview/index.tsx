@@ -24,7 +24,7 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
   const shareData = {
     title: post.title,
     text: post.excerpt,
-    url: `http://localhost:3000/blog/${post.slug}`,
+    url: `/blog/${post.slug}`,
   };
 
   const handleSelectPost = () => {
