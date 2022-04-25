@@ -91,6 +91,7 @@ export const PostContainer = styled.div<PostStyleProps>`
       justify-content: space-between;
       flex: 1;
       z-index: 10;
+      grid-column: 1/3;
 
       .shareBtn {
         display: none;
