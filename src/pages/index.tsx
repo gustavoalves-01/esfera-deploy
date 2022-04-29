@@ -26,7 +26,6 @@ import {
   RawPostPreview,
 } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
-import { useEffect, useState } from 'react';
 import SidebarList from '../components/Sidebar/SidebarList';
 import axios from 'axios';
 import handleCategory from '../utils/handleCategories';
