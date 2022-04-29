@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
-
-export const Container = styled.div`
+const Container = styled.div`
   display: grid;
   max-width: calc(1115px + 4rem);
   margin: 42px auto 0;
-  padding:0 2rem;
+  padding: 100px 2rem 0;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
@@ -49,3 +48,5 @@ export const Container = styled.div`
     }
   }
 `;
+
+export default Container;
