@@ -19,6 +19,16 @@ export const PostContainer = styled.div<PostStyleProps>`
     background: rgba(245, 66, 108, 0.05);
     box-shadow: 3px 3px 7px rgba(245, 66, 108, 0.07);
   }
+  
+  .is-mobile {
+    display: none;
+  }
+
+  @media (max-width: 990px) {
+    .is-mobile {
+      display: block;
+    }
+  }
 
   .postHeader {
     display: flex;

@@ -10,7 +10,7 @@ export const MaterialsConatainer = styled.div`
 
   main {
     grid-column: 1/2;
-    h1 {
+    > h1 {
       margin: 5rem 0 3rem;
       line-height: 44px;
       color: var(--gray-500);
