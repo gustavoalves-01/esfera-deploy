@@ -10,7 +10,7 @@ import Header from '../components/Header';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchComponent from '../components/SearchComponent';
 import Sidebar from '../components/Sidebar';
-import PostPreviewSection from '../components/PostPreviewSection';
+import PostPreviewSection from '../components/Post/PostPreviewSection';
 import CardsSection from '../components/CardsSection';
 import NewsletterForm from '../components/NewsletterForm';
 import Footer from '../components/Footer';
@@ -106,7 +106,7 @@ export default function Home({
 
       <Container>
         <div className="containerHeader">
-          <Breadcrumb section="Blog" />
+          <Breadcrumb path={[{ label: 'Blog', href: '/' }]} />
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -259,6 +259,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
           }),
           tags: String(post.tags),
           imageURL: post.yoast_head_json.og_image[0].url,
+          highlight: String(post.tags).includes('3'),
         };
       }
     );

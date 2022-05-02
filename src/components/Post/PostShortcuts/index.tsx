@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { PostShortcutsInterface } from '../../entities/Post';
+import { PostShortcutsInterface } from '../../../entities/Post';
 import { Container } from './styles';
 
 interface PostShortcutsProps {

@@ -10,7 +10,7 @@ interface Props {
   }>;
 }
 
-export default function FreeMaterials({ materials }: Props) {
+export default function FreeMaterialsCards({ materials }: Props) {
   return (
     <Style>
       <Title>Materiais gratuitos para te ajudar:</Title>

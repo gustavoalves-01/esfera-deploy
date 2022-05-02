@@ -16,12 +16,14 @@ import {
   ContainerMenuMobile,
   ContainerMobile,
   ContainerPopupMobile,
-  HeaderElement, Line, MaxContainer,
+  HeaderElement,
+  Line,
+  MaxContainer,
   OverlayMobile,
   PopupConteudos,
   PrincipalList,
   SelectButton,
-  SublistInUl
+  SublistInUl,
 } from './styles';
 
 interface Category {
@@ -35,24 +37,21 @@ interface CategoryProps {
 function Header({ categories }: CategoryProps) {
   //fazer map da parada (categories)
 
-
-
   const [verifyHeaderActive, setVerifyHeaderActive] = useState(true);
   const [activePopupRecebeConteudos, setActivePopupRecebeConteudos] =
     useState(false);
 
-
   const [positionHeader, setPositionHeader] = useState('relative');
   const [categorieActive, setCategorieActive] = useState(false);
 
-  const [widthLine, setWidthLine] = useState(0)
-  const [menuMobileActive, setMenuMobileActive] = useState("100%");
+  const [widthLine, setWidthLine] = useState(0);
+  const [menuMobileActive, setMenuMobileActive] = useState('100%');
 
   function handleSetMenuMobileActive() {
-    if (menuMobileActive == "100%") {
-      setMenuMobileActive("0%")
+    if (menuMobileActive == '100%') {
+      setMenuMobileActive('0%');
     } else {
-      setMenuMobileActive("100%")
+      setMenuMobileActive('100%');
     }
   }
 
@@ -62,7 +61,6 @@ function Header({ categories }: CategoryProps) {
         if (window.scrollY > 100) {
           setVerifyHeaderActive(false);
           setPositionHeader('fixed');
-
         } else {
           setVerifyHeaderActive(true);
           setPositionHeader('relative');
@@ -88,8 +86,7 @@ function Header({ categories }: CategoryProps) {
 
   return (
     <>
-
-      <ContainerDesktop >
+      <ContainerDesktop>
         <HeaderElement myPosition={positionHeader}>
           <MaxContainer>
             {verifyHeaderActive ? (
@@ -102,7 +99,6 @@ function Header({ categories }: CategoryProps) {
                 />
               </Link>
             ) : (
-
               <Link href="/" passHref>
                 <Image
                   width={50}
@@ -111,7 +107,6 @@ function Header({ categories }: CategoryProps) {
                   src="/images/logo_mini_esfera.svg"
                 />
               </Link>
-
             )}
 
             {verifyHeaderActive ? (
@@ -142,9 +137,9 @@ function Header({ categories }: CategoryProps) {
                     })}
                   </div>
                 </SublistInUl>
-                <li>
-                  Materiais gratuitos
-                </li>
+                <Link href="/blog/materiais" passHref>
+                  <li>Materiais gratuitos</li>
+                </Link>
 
                 <SublistInUl>
                   <li>
@@ -265,8 +260,8 @@ function Header({ categories }: CategoryProps) {
                       typeButton="receber"
                     />
                     <span>
-                      Os conteúdos são 100% gratuitos e você pode parar de receber
-                      quando quiser.
+                      Os conteúdos são 100% gratuitos e você pode parar de
+                      receber quando quiser.
                     </span>
                   </PopupConteudos>
                 </ContainerButton>
@@ -283,13 +278,11 @@ function Header({ categories }: CategoryProps) {
                 </ContainerButton>
 
                 <Line myWidth={widthLine}>a</Line>
-
               </PrincipalList>
             )}
           </MaxContainer>
         </HeaderElement>
       </ContainerDesktop>
-
 
       <ContainerMobile>
         <HeaderElement myPosition={positionHeader}>
@@ -321,13 +314,15 @@ function Header({ categories }: CategoryProps) {
               />
             </span>
 
-
-
             {/*  ======== MENU MOBILE ======== */}
             <ContainerMenuMobile myLeft={menuMobileActive}>
-
               <CloseIcon onClick={() => handleSetMenuMobileActive()}>
-                <Image width={40} height={40} src="/images/icons/close.svg" alt="Close icon" />
+                <Image
+                  width={40}
+                  height={40}
+                  src="/images/icons/close.svg"
+                  alt="Close icon"
+                />
               </CloseIcon>
               <Link href="/">
                 <a>Materiais Gratuitos</a>
@@ -344,7 +339,13 @@ function Header({ categories }: CategoryProps) {
                 <a>O mercado livre de energia</a>
               </Link>
 
-              <SearchComponent widthInput="100%" heightInput="52px" widthIcon="40px" typeInput='search' placeholder='Encontre um artigo' />
+              <SearchComponent
+                widthInput="100%"
+                heightInput="52px"
+                widthIcon="40px"
+                typeInput="search"
+                placeholder="Encontre um artigo"
+              />
               <SelectButton
                 onClick={() => activeCategory()}
                 activeCategories={categorieActive}
@@ -370,9 +371,21 @@ function Header({ categories }: CategoryProps) {
                 })}
               </CategoryContainer>
 
-
-              <Button heightButton='51px' widthButton='100%' textButton='Receber conteúdos' radius={5} typeButton="receber" />
-              <Button heightButton='51px' widthButton='100%' textButton='Fale com um especialista' radius={40} typeButton="especialista" backgroundButton='#BB2F55' />
+              <Button
+                heightButton="51px"
+                widthButton="100%"
+                textButton="Receber conteúdos"
+                radius={5}
+                typeButton="receber"
+              />
+              <Button
+                heightButton="51px"
+                widthButton="100%"
+                textButton="Fale com um especialista"
+                radius={40}
+                typeButton="especialista"
+                backgroundButton="#BB2F55"
+              />
             </ContainerMenuMobile>
             {/*  ======== MENU MOBILE ======== */}
 
@@ -442,5 +455,3 @@ function Header({ categories }: CategoryProps) {
 }
 
 export default Header;
-
-

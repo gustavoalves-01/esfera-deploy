@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import TagCategory from '../TagCategory';
+import TagCategory from '../../TagCategory';
 import PostHeaderCaption from './PostHeaderCaption';
 import { Container } from './styles';
 

@@ -1,9 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next/types';
 import slugify from 'slugify';
-
-import { api } from '../../../services/api';
 
 import Breadcrumb from '../../../components/Breadcrumb';
 import SearchComponent from '../../../components/SearchComponent';
@@ -15,9 +12,9 @@ import {
   PostShortcutsInterface,
   RawPost,
 } from '../../../entities/Post';
-import PostShortcuts from '../../../components/PostShortcuts';
-import PostHeader from '../../../components/PostHeader';
-import CtaFinalPost from '../../../components/CtaFinalPost';
+import PostShortcuts from '../../../components/Post/PostShortcuts';
+import PostHeader from '../../../components/Post/PostHeader';
+import CtaFinalPost from '../../../components/Post/CtaFinalPost';
 import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
 import YoutubeSection from '../../../components/YoutubeSection';
@@ -26,8 +23,8 @@ import Footer from '../../../components/Footer';
 import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
 import { CategoryInterface } from '../../../entities/Category';
-import { AuthorSection } from '../../../components/AuthorSection';
-import FreeMaterials from '../../../components/FreeMaterials';
+import { AuthorSection } from '../../../components/Post/AuthorSection';
+import FreeMaterialsCards from '../../../components/FreeMaterials/FreeMaterialsCards';
 import Head from 'next/head';
 import CardsSection from '../../../components/CardsSection';
 import axios from 'axios';
@@ -260,7 +257,9 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       <Header categories={categoryList} />
       <Container>
         <ContainerHeader>
-          <Breadcrumb category={post.categories[0]} titleArticle={post.title} />
+          <Breadcrumb
+            path={[{ label: post.categories[0] }, { label: post.title }]}
+          />
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -282,7 +281,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
             cta="Receber conteúdos"
           />
         </Sidebar>
-        <FreeMaterials materials={materials} />
+        <FreeMaterialsCards materials={materials} />
 
         <CardsSection
           isMobile={true}

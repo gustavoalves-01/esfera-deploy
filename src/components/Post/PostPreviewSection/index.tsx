@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { PostPreviewInterface } from '../../entities/Post';
+import { PostPreviewInterface } from '../../../entities/Post';
 
 import PostPreview from './PostPreview';
 import { Container } from './styles';
@@ -46,7 +46,7 @@ const PostPreviewSection = ({
       <div className="cardsWrapper">
         {posts.length > 0 &&
           posts.map((post) =>
-            post.tags.includes('3') ? (
+            post.highlight ? (
               <PostPreview key={post.id} post={post} isWide />
             ) : (
               <PostPreview key={post.id} post={post} />

@@ -1,16 +1,14 @@
 // Framework
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 // Components
-import TagCategory from '../../TagCategory';
+import TagCategory from '../../../TagCategory';
 
 // Styles
 import { PostContainer } from './styles';
-import { PostPreviewInterface } from '../../../entities/Post';
+import { PostPreviewInterface } from '../../../../entities/Post';
 import ReadingTimeComponent from '../../ReadingTimeComponent';
-import { RWebShare } from 'react-web-share';
 import { useRouter } from 'next/router';
 
 interface PostPreviewProps {

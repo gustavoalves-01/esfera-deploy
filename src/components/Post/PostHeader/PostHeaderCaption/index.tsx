@@ -2,9 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import ShareContainer from './ShareContainer';
 import { Container } from './styles';
-import { useFetch } from '../../../hooks/useFetch';
 import Link from 'next/link';
-import { TimeSkeleton } from '../../ReadingTimeComponent/styles';
 
 interface PostHeaderCaptionProps {
   post: {

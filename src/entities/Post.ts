@@ -25,6 +25,7 @@ export interface PostPreviewInterface {
   tags: Array<string>;
   imageURL: string;
   timeToRead: number;
+  highlight?: boolean;
 }
 
 export interface PostShortcutsInterface {
