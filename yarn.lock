@@ -1666,10 +1666,10 @@ react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-web-share@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.npmjs.org/react-web-share/-/react-web-share-1.1.5.tgz"
-  integrity sha512-muMgWiBd3lEnbsxSt0KHbOOf9ErwybXDX5QLCNWNaMfQG2x4NJ1d2LxJq6+au7VlznN2pX6M9QHwZAhXGlRHjg==
+react-web-share@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/react-web-share/-/react-web-share-1.1.6.tgz#ac99ebe2bc5e291bb3af2d5ffcf533fcbede8aba"
+  integrity sha512-IttmjG4DlIPEWNnS3RBccaPo6zFs2DNYk+92YjW1iPp0L9h0hXCaellxIQx8xhLepLFoiVjOMM/MNbLSZUzzsw==
 
 react@17.0.2:
   version "17.0.2"

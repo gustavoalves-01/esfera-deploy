@@ -10,6 +10,7 @@ import { PostContainer } from './styles';
 import { PostPreviewInterface } from '../../../../entities/Post';
 import ReadingTimeComponent from '../../ReadingTimeComponent';
 import { useRouter } from 'next/router';
+import ShareDialog from '../../../ShareDialog';
 
 interface PostPreviewProps {
   post: PostPreviewInterface;
@@ -55,16 +56,9 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
 
         <div className="postFooter">
           <ReadingTimeComponent postSlug={post.slug} />
-
-          <span className="shareBtn" onClick={handleShare}>
-            Compartilhar
-            <Image
-              src="/images/icons/share-icon.svg"
-              alt=""
-              width="12px"
-              height="12px"
-            />
-          </span>
+          <div className='is-mobile'>
+            <ShareDialog slug={post.slug}/>
+          </div>
         </div>
       </div>
     </PostContainer>
