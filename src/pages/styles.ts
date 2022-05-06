@@ -15,10 +15,6 @@ const Container = styled.div`
 
     label {
       min-width: 255px;
-
-      input {
-        width: 100%;
-      }
     }
   }
 
