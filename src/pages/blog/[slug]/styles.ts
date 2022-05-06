@@ -194,4 +194,10 @@ const Container = styled.div`
   }
 `;
 
+export const YoutubeContainer = styled.section`
+  max-width: 1200px;
+  display: flex;
+  margin: 0 auto;
+`;
+
 export default Container;

@@ -14,7 +14,7 @@ export const LabelElement = styled.label<PropsLabel>`
     box-sizing: border-box;
     border-radius: 5px;
 
-    width: ${(props) => props.widthInput};
+    width: 100%;
     height: ${(props) => props.heightInput};
 
     padding-left: 16px;

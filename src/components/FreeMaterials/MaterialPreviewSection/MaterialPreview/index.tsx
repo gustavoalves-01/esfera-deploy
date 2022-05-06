@@ -18,10 +18,11 @@ interface PostPreviewProps {
 const MaterialPreview = ({ material, isWide }: PostPreviewProps) => {
   return (
     <MaterialContainer isWide={isWide}>
-      <div className="materialHeader">
+      <div className="materialHeader mobile">
         <TagCategory categoryName={material.categories[0]} />
         <span className="materialDate">{material.date}</span>
       </div>
+
       <div className="imageWrapper">
         <Image
           src={material.imageURL}

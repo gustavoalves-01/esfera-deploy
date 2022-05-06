@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-interface PostStyleProps {
+interface MaterialStyleProps {
   isWide?: boolean;
 }
 
-export const MaterialContainer = styled.div<PostStyleProps>`
+export const MaterialContainer = styled.div<MaterialStyleProps>`
   max-width: ${({ isWide }) => (isWide ? '100%' : 'calc(50% - 1rem)')};
   width: 100%;
 
@@ -50,9 +50,8 @@ export const MaterialContainer = styled.div<PostStyleProps>`
     width: ${({ isWide }) => (isWide ? '51.4%' : '100%')};
     flex: 1;
 
-    padding: ${({ isWide }) => (isWide ? '21px 24px 28px' : '2rem 1rem 1rem')};
+    padding: ${({ isWide }) => (isWide ? '24px' : '2rem 1rem 1rem')};
     align-content: center;
-    gap: 16px 0;
 
     ${({ isWide }) => (isWide ? '' : 'flex-direction: column;')}
 
@@ -60,6 +59,7 @@ export const MaterialContainer = styled.div<PostStyleProps>`
       padding: 0;
       grid-column: 1/3;
       grid-row: 1/2;
+      margin-bottom: 28px;
 
       .materialDate {
         font-size: 0.75rem;
@@ -70,13 +70,14 @@ export const MaterialContainer = styled.div<PostStyleProps>`
       grid-column: 1/3;
       font-size: 1.125rem;
       line-height: 1.45rem;
+      margin-bottom: ${({ isWide }) => (isWide ? '1rem' : '1.5rem')};
     }
 
     p {
-      padding: ${({ isWide }) => (isWide ? '2px 0' : '8px 0 0')};
       grid-column: 1/3;
       font-size: 0.875rem;
       line-height: 1.187rem;
+      margin-bottom: ${({ isWide }) => (isWide ? '30px' : '1.5rem')};
 
       overflow: hidden;
       text-overflow: ellipsis;
@@ -92,6 +93,24 @@ export const MaterialContainer = styled.div<PostStyleProps>`
       flex: 1;
       z-index: 10;
       grid-column: 1/3;
+
+      button {
+        background: var(--pink-500);
+        color: #fff;
+        padding: 8px 30px;
+        border-radius: 5px;
+        border: none;
+        font-size: 1rem;
+        font-weight: 700;
+        border: 1px solid var(--pink-500);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background: #fff;
+          color: var(--pink-500);
+        }
+      }
     }
   }
 
@@ -117,10 +136,18 @@ export const MaterialContainer = styled.div<PostStyleProps>`
       display: flex;
       flex-direction: column;
       width: 100%;
-      padding: 1rem 0.5rem 1.5rem;
+      padding: 1rem 0.5rem;
 
+      h1,
       p {
-        ${({ isWide }) => (isWide ? '' : 'display: none;')}
+        margin-bottom: 1rem;
+      }
+
+      .materialFooter {
+        button {
+          width: 100%;
+          line-height: 24px;
+        }
       }
     }
   }
