@@ -5,7 +5,7 @@ import slugify from 'slugify';
 import Breadcrumb from '../../../components/Breadcrumb';
 import SearchComponent from '../../../components/SearchComponent';
 
-import Container, { ContainerHeader } from './styles';
+import Container, { ContainerHeader, YoutubeContainer } from './styles';
 
 import {
   FullPostInterface,
@@ -29,6 +29,7 @@ import Head from 'next/head';
 import CardsSection from '../../../components/CardsSection';
 import axios from 'axios';
 import handleCategory from '../../../utils/handleCategories';
+import { videosYoutube } from '../../../mocks/videosMock';
 
 interface PostPageProps {
   post: FullPostInterface;
@@ -40,12 +41,6 @@ interface PropsComentarios {
   name: string;
   date: string;
   depoiment: string;
-}
-
-interface PropsVideosYoutube {
-  imageUrl: string;
-  title: string;
-  link: string;
 }
 
 interface Author {
@@ -208,24 +203,6 @@ const Post = ({ post, categoryList }: PostPageProps) => {
     },
   ];
 
-  const videosYoutube: PropsVideosYoutube[] = [
-    {
-      imageUrl: '/images/thumbnail-1.png',
-      title: 'Retrospectiva do Mercado de Energia em 2021',
-      link: '#',
-    },
-    {
-      imageUrl: '/images/thumbnail-1.png',
-      title: 'Retrospectiva do Mercado de Energia em 2021',
-      link: '#',
-    },
-    {
-      imageUrl: '/images/thumbnail-1.png',
-      title: 'Retrospectiva do Mercado de Energia em 2021',
-      link: '#',
-    },
-  ];
-
   const materials: PropsMaterials[] = [
     {
       imgUrl:
@@ -325,7 +302,9 @@ const Post = ({ post, categoryList }: PostPageProps) => {
         })}
 
         {/* TiTulo dinamico,  imagem dinamica*/}
-        <YoutubeSection videosInfos={videosYoutube} />
+        <YoutubeContainer>
+          <YoutubeSection videosInfos={videosYoutube} />
+        </YoutubeContainer>
       </div>
 
       <Footer />

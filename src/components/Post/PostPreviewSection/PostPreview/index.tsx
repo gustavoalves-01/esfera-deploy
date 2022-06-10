@@ -20,18 +20,8 @@ interface PostPreviewProps {
 const PostPreview = ({ post, isWide }: PostPreviewProps) => {
   const router = useRouter();
 
-  const shareData = {
-    title: post.title,
-    text: post.excerpt,
-    url: `/blog/${post.slug}`,
-  };
-
   const handleSelectPost = () => {
     router.push(`/blog/${post.slug}`);
-  };
-
-  const handleShare = (e: React.MouseEvent) => {
-    //
   };
 
   return (
@@ -56,8 +46,8 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
 
         <div className="postFooter">
           <ReadingTimeComponent postSlug={post.slug} />
-          <div className='is-mobile'>
-            <ShareDialog slug={post.slug}/>
+          <div className="is-mobile">
+            <ShareDialog slug={post.slug} />
           </div>
         </div>
       </div>

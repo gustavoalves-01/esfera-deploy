@@ -1,5 +1,5 @@
 import React from 'react';
-import YoutubeItem from '../YoutubeItem';
+import YoutubeItem from './YoutubeItem';
 import { Container, WrapperVideos } from './styles';
 
 interface PropsVideosYoutube {
