@@ -36,6 +36,8 @@ const Materials = ({ categoryList, postList }: MaterialsProps) => {
             Receba acesso gratuito <b>a ebooks, guias e calculadoras</b> sobre o
             Mercado Livre de Energia
           </h1>
+
+            
           <PostPreviewSection 
             title='Você vai se interessar também'
             isMobile={true}
