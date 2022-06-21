@@ -38,6 +38,15 @@ export const HeaderElement = styled.header<PropsHeader>`
   }
 
   z-index: 999;
+
+  .containerInput{
+    width: 320px;
+    margin-right: -24px;
+    margin-left: 37px;
+    span{
+      margin: 0;
+    }
+  }
 `;
 
 export const MaxContainer = styled.div`
@@ -160,7 +169,6 @@ export const PopupConteudos = styled.div<PropsPopup>`
   pointer-events: ${(props) => (props.verifyPopup ? 'all' : 'none')};
 
   transition: 0.3s;
-
   &::after {
     opacity: ${(props) => (props.verifyPopup ? '1' : '0')};
     pointer-events: ${(props) => (props.verifyPopup ? 'all' : 'none')};
@@ -250,16 +258,17 @@ export const ContainerPopupMobile = styled.div<PropsContainerPopupMobile>`
     border-radius: 5px;
     background: #ffffff;
 
+    
     opacity: ${(props) => (props.activeCategories ? '1' : '0')};
     pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
+    display: ${(props) => (props.activeCategories ? 'flex' : 'none')};
     transition: .3s;
-    display: flex;
 
     margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
     margin-bottom: 16px;
 
 
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: wrap;
     padding: 8px 16px;
   }
@@ -286,6 +295,7 @@ export const OverlayMobile = styled.div<PropsContainerPopupMobile>`
 `;
 
 export const SelectButton = styled.button<PropsContainerPopupMobile>`
+  position: relative;
   font-family: 'Open Sans';
   width: 100%;
   background: #ffffff;
@@ -384,12 +394,13 @@ export const CategoryContainer = styled.div<{ activeCategories: boolean }>`
 
     opacity: ${(props) => (props.activeCategories ? '1' : '0')};
     pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
+    display: ${(props) => (props.activeCategories ? 'flex' : 'none')};
+
     transition: .3s;
 
-    display: flex;
     margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
     margin-bottom: 16px;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: wrap;
     padding: 8px 16px;
   

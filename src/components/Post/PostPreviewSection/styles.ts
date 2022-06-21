@@ -17,7 +17,20 @@ export const Container = styled.div<PostPreviewSectionStyleProps>`
     a {
       color: var(--pink-500);
       font-size: 14px;
-      text-decoration: underline;
+      text-decoration: none;
+      font-weight: 700;
+
+      display: flex;
+      align-items: center;
+      &:hover{
+        text-decoration: underline;
+      }
+      div{
+        position: relative;
+        width:16px;
+        height: 11px;
+        margin-left: 8px;
+      }
     }
 
     &.mobile {

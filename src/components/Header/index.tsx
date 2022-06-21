@@ -225,26 +225,19 @@ function Header({ categories }: CategoryProps) {
                     <p>Soluções</p>
                   </div>
                 </SublistInUl>
-                <ContainerInput>
-                  <SearchComponent
-                    widthIcon="40px"
-                    typeInput="search"
-                    widthInput="192px"
-                    heightInput="40px"
-                    placeholder="Encontre um artigo"
-                  />
-                </ContainerInput>
+                <div className="containerInput">
+                  <ContainerInput>
+                    <SearchComponent
+                      widthIcon="40px"
+                      typeInput="search"
+                      widthInput="192px"
+                      heightInput="40px"
+                      placeholder="Encontre um artigo"
+                    />
+                  </ContainerInput>
+                </div>
 
                 <ContainerButton>
-                  <span onClick={() => activePopupReceber()}>
-                    <Button
-                      textButton="Receber conteúdos"
-                      widthButton="186px"
-                      heightButton="40px"
-                      typeButton=""
-                    />
-                  </span>
-
                   <PopupConteudos verifyPopup={activePopupRecebeConteudos}>
                     <p>Receba os melhores conteúdos da Esfera Energia</p>
                     <InputComponent
@@ -271,13 +264,12 @@ function Header({ categories }: CategoryProps) {
                     textButton="Fale com um especialista"
                     widthButton="244px"
                     heightButton="40px"
-                    backgroundButton="#BB2F55"
-                    radius={39}
+                    backgroundButton="#F5426C"
                     typeButton="especialista"
                   />
                 </ContainerButton>
 
-                <Line myWidth={widthLine}>a</Line>
+                <Line myWidth={widthLine}></Line>
               </PrincipalList>
             )}
           </MaxContainer>
@@ -374,17 +366,10 @@ function Header({ categories }: CategoryProps) {
               <Button
                 heightButton="51px"
                 widthButton="100%"
-                textButton="Receber conteúdos"
-                radius={5}
-                typeButton="receber"
-              />
-              <Button
-                heightButton="51px"
-                widthButton="100%"
                 textButton="Fale com um especialista"
-                radius={40}
+                radius={6}
                 typeButton="especialista"
-                backgroundButton="#BB2F55"
+                backgroundButton="#F5426C"
               />
             </ContainerMenuMobile>
             {/*  ======== MENU MOBILE ======== */}

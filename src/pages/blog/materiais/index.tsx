@@ -52,6 +52,7 @@ const Materials = ({ categoryList, postList }: MaterialsProps) => {
           <MaterialPreviewSection
             title="Você pode se interessar por estes outros materiais"
             materials={materials}
+
           />
         </main>
         <div className="mobileContent">

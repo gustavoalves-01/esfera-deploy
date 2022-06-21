@@ -17,7 +17,20 @@ export const Container = styled.div<CardSectionStyleProps>`
     a {
       color: var(--pink-500);
       font-size: 14px;
-      text-decoration: underline;
+      text-decoration: none;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      div{
+        position: relative;
+        margin-left: 8px;
+        width: 16px;
+        height: 11px;
+      }
+
+      &:hover{
+        text-decoration: underline;
+      }
     }
 
     &.mobile {
