@@ -16,7 +16,8 @@ export const PostContainer = styled.div<PostStyleProps>`
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background: rgba(245, 66, 108, 0.05);
+    /* background: rgba(245, 66, 108, 0.05); */
+    background: #dedede;
     box-shadow: 3px 3px 7px rgba(245, 66, 108, 0.07);
   }
   
@@ -26,7 +27,7 @@ export const PostContainer = styled.div<PostStyleProps>`
 
   @media (max-width: 990px) {
     .is-mobile {
-      display: block;
+      /* display: block; */
     }
   }
 
@@ -103,6 +104,32 @@ export const PostContainer = styled.div<PostStyleProps>`
       z-index: 10;
       grid-column: 1/3;
 
+
+      .verPost{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 19px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+
+        color: #F5426C;
+        width: 100%;
+
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        
+        div{
+          position: relative;
+          width: 16px;
+          height: 11px;
+          margin-left: 8px;
+        }
+
+      }
       .shareBtn {
         display: none;
         font-weight: 300;

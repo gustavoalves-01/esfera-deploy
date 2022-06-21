@@ -43,7 +43,9 @@ export const Container = styled.div<SidebarSectionStyleProps>`
     align-items: center;
     text-decoration: underline;
     cursor: pointer;
-
+    font-weight: 700;
+    color: #F5426C;
+    text-decoration: none;
     &:hover {
       color: var(--pink-600);
 
@@ -54,7 +56,7 @@ export const Container = styled.div<SidebarSectionStyleProps>`
     svg {
       transition: all 0.2s ease-in-out;
       ${({ isExpanded }) =>
-        isExpanded === true ? 'transform: rotate(180deg);' : ''}
+        isExpanded === true ? 'transform: rotate(0deg);' : ''}
     }
   }
 `;

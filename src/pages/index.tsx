@@ -29,6 +29,8 @@ import { CategoryInterface } from '../entities/Category';
 import SidebarList from '../components/Sidebar/SidebarList';
 import axios from 'axios';
 import handleCategory from '../utils/handleCategories';
+import Link from 'next/link';
+import Image from 'next/image';
 interface HomeProps {
   categoryList: CategoryInterface[];
   trendingPostList: PostPreviewInterface[];
@@ -137,6 +139,7 @@ export default function Home({
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
                 isMobile
               />
+              <div className="is-mobileButton"><Link href="/">Ver todos os posts</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <CardsSection
                 type="materials"
@@ -151,6 +154,7 @@ export default function Home({
                 cards={materials}
                 isMobile
               />
+              <div className="is-mobileButton"><Link href="/">Ver todos os materiais</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <PostPreviewSection
                 title="Posts mais acessados"
@@ -169,6 +173,7 @@ export default function Home({
                 }}
                 isMobile
               />
+              <div className="is-mobileButton"><Link href="/">Ver todos os posts mais acessados</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <CardsSection
                 type="categories"
@@ -183,6 +188,7 @@ export default function Home({
                 cards={categories}
                 isMobile
               />
+              <div className="is-mobileButton"><Link href="/">Ver todas as categorias</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <NewsletterForm
                 copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
@@ -210,6 +216,13 @@ export default function Home({
                 linkAll={{ href: '#', text: 'Ver todos os posts' }}
                 isMobile
               />
+              <div className="is-mobileButton">
+                <Link href="/">Ver todos os posts</Link>
+                <div>
+                  <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                </div>
+              </div>
+
             </>
           )}
         </main>

@@ -6,6 +6,7 @@ import Card from './Card';
 import { Container } from './styles';
 
 import { CardInterface } from '../../entities/Card';
+import Image from 'next/image';
 
 interface CardsSectionProps {
   title: string;
@@ -31,7 +32,7 @@ const CardsSection = ({
           <div className="header desktop">
             <h2 className="titleBlog">{title}</h2>
             <Link href={linkAll.href} passHref>
-              <a>{linkAll.text}</a>
+              <a>{linkAll.text}<div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></a>
             </Link>
           </div>
 

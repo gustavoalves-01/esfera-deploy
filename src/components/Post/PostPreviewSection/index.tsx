@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { PostPreviewInterface } from '../../../entities/Post';
@@ -28,7 +29,7 @@ const PostPreviewSection = ({
           <div className="header desktop">
             <h2 className="titleBlog">{title}</h2>
             <Link href={linkAll.href} passHref>
-              <a>{linkAll.text}</a>
+              <a>{linkAll.text}<div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></a>
             </Link>
           </div>
 
