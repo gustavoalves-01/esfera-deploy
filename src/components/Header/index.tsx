@@ -84,20 +84,44 @@ function Header({ categories }: CategoryProps) {
     setActivePopupRecebeConteudos(!activePopupRecebeConteudos);
   }
 
+
+  const showProgressBar = () => {
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById("js-barraDeLeitura")!.style.width = `${scrolled}%`;
+  };
+
+  useEffect(() => {
+    window.onscroll = () => {
+      showProgressBar();
+    };
+  })
+
+
   return (
     <>
       <ContainerDesktop>
         <HeaderElement myPosition={positionHeader}>
+          <div className="progress-container">
+            <div className="progress-bar" id="js-barraDeLeitura"></div>
+          </div>
+
           <MaxContainer>
             {verifyHeaderActive ? (
-              <Link href="/" passHref>
-                <Image
-                  width={240}
-                  height={48}
-                  alt="Logo novo esfera energia"
-                  src="/images/logo__esfera.svg"
-                />
-              </Link>
+              <span className="logo">
+                <Link href="/" passHref>
+                  <Image
+                    width={240}
+                    height={48}
+                    alt="Logo novo esfera energia"
+                    src="/images/logo__esfera.svg"
+                  />
+                </Link>
+              </span>
             ) : (
               <Link href="/" passHref>
                 <Image
@@ -137,7 +161,7 @@ function Header({ categories }: CategoryProps) {
                     })}
                   </div>
                 </SublistInUl>
-                <Link href="/blog/materiais" passHref>
+                <Link href="/materiais" passHref>
                   <li>Materiais gratuitos</li>
                 </Link>
 
@@ -280,7 +304,7 @@ function Header({ categories }: CategoryProps) {
         <HeaderElement myPosition={positionHeader}>
           <Link href="/" passHref>
             <Image
-              width={219}
+              width={190}
               height={37}
               alt="Logo novo esfera energia"
               src="/images/logo__esfera.svg"
@@ -316,7 +340,7 @@ function Header({ categories }: CategoryProps) {
                   alt="Close icon"
                 />
               </CloseIcon>
-              <Link href="/">
+              <Link href="/materiais">
                 <a>Materiais Gratuitos</a>
               </Link>
 
