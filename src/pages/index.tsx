@@ -99,6 +99,9 @@ export default function Home({
     },
   ];
 
+  console.log(allPostList);
+  
+
   return (
     <>
       <Head>

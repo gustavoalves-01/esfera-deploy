@@ -140,6 +140,7 @@ export default async function handler(
         };
       }
     });
+    res.setHeader('X-TOTAL_PAGES', 'teste');
     res.status(200).json(postList);
   } catch (err) {
     if (err instanceof Error) {
