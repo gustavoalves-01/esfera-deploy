@@ -160,7 +160,7 @@ const Container = styled.div`
     padding-top: 0;
 
     div:first-of-type {
-      padding-top: 0;
+      /* padding-top: 0; */
     }
 
     &:last-of-type {

@@ -11,8 +11,8 @@ export const Container = styled.div<NewsletterFormStyleProps>`
   width: 100%;
   row-gap: ${({ isWide }) => (isWide ? '0' : '1rem')};
   padding: ${({ isWide }) => (isWide ? '40px' : '16px 14px')};
-  background: ${({ isWide }) => (isWide ? '#F4F4F4' : '#F5426C')};
-
+  background: ${({ isWide }) => (isWide ? '#F4F4F4' : '#8F8F8F')};
+  border-radius: 5px;
   h1 {
     font-weight: ${({ isWide }) => (isWide ? '600' : '400')};
     font-size: ${({ isWide }) => (isWide ? '1.5rem' : '1rem')};
@@ -50,9 +50,10 @@ export const Container = styled.div<NewsletterFormStyleProps>`
       font-weight: 300;
       padding: 14px;
       background: #ffffff;
-      border: 1px solid var(--pink-500);
+      border: 1px solid transparent;
+      border: ${({ isWide }) => (isWide ? '1px solid #F5426C' : '1px solid transparent;')};
       border-radius: 5px;
-       width: ${({ isWide }) => (isWide ? '100%' : 'auto')};
+      width: ${({ isWide }) => (isWide ? '100%' : 'auto')};
 
     }
 
@@ -67,7 +68,7 @@ export const Container = styled.div<NewsletterFormStyleProps>`
       border-radius: 5px;
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-      border: 1px solid #fff;
+      border: 1px solid #f5426c;
       width: ${({ isWide }) => (isWide ? '283px' : 'auto')};
 
       &:hover {

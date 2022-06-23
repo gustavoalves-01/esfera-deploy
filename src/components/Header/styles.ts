@@ -10,7 +10,6 @@ export const HeaderElement = styled.header<PropsHeader>`
   /* position: ${(props) => props.myPosition}; */
   padding-top: 22px;
   padding-bottom: 32px;
-
   width: 100%;
   border: 1px solid ${(props) => (props.myPosition === 'fixed' ? '#E5E5E5' : 'transparent')};
     
@@ -20,6 +19,22 @@ export const HeaderElement = styled.header<PropsHeader>`
 
     position: fixed;
     
+  .progress-container {
+      background: transparent;
+      height: 3px;
+      width: 100%;
+  }
+
+  /* A barra de progresso */
+  .progress-bar {
+      background: #F5426C;
+      height: 3px;
+      width: 0%;
+      position: absolute;
+      bottom: 0;
+  }
+
+
   @media (max-width: 1200px) {
     height: 70px;
 
@@ -51,8 +66,11 @@ export const HeaderElement = styled.header<PropsHeader>`
 
 export const MaxContainer = styled.div`
   display: flex;
-  max-width: 1200px;
+  max-width: 1181px;
   margin: 0 auto;
+
+    padding: 0px 2rem 0px 2rem;
+
 
   justify-content: space-between;
   align-items: center;
