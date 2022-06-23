@@ -1,8 +1,10 @@
+import { CategoryInterface } from "./Category";
+
 export interface FullPostInterface {
   id: string;
   title: string;
   author: string;
-  categories: Array<string>;
+  categories: Array<CategoryInterface>;
   content: string;
   createdAt: string;
   timeToRead: number;
@@ -21,7 +23,7 @@ export interface PostPreviewInterface {
   title: string;
   excerpt: string;
   slug: string;
-  categories: Array<string>;
+  categories: Array<CategoryInterface>;
   tags: Array<string>;
   imageURL: string;
   timeToRead: number;

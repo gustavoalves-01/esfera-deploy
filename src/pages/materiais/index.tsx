@@ -1,21 +1,21 @@
 import axios from 'axios';
 import Head from 'next/head';
 import React from 'react';
-import Breadcrumb from '../../../components/Breadcrumb';
-import Footer from '../../../components/Footer';
-import MaterialPreviewSection from '../../../components/FreeMaterials/MaterialPreviewSection';
-import Header from '../../../components/Header';
-import NewsletterForm from '../../../components/NewsletterForm';
-import PostPreviewSection from '../../../components/Post/PostPreviewSection';
-import SearchComponent from '../../../components/SearchComponent';
-import Sidebar from '../../../components/Sidebar';
-import SidebarList from '../../../components/Sidebar/SidebarList';
-import YoutubeSection from '../../../components/YoutubeSection';
-import { CategoryInterface } from '../../../entities/Category';
-import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
-import { materials, materialsHighlight } from '../../../mocks/materialsMock';
-import { videosYoutube } from '../../../mocks/videosMock';
-import handleCategory from '../../../utils/handleCategories';
+import Breadcrumb from '../../components/Breadcrumb';
+import Footer from '../../components/Footer';
+import MaterialPreviewSection from '../../components/FreeMaterials/MaterialPreviewSection';
+import Header from '../../components/Header';
+import NewsletterForm from '../../components/NewsletterForm';
+import PostPreviewSection from '../../components/Post/PostPreviewSection';
+import SearchComponent from '../../components/SearchComponent';
+import Sidebar from '../../components/Sidebar';
+import SidebarList from '../../components/Sidebar/SidebarList';
+import YoutubeSection from '../../components/YoutubeSection';
+import { CategoryInterface } from '../../entities/Category';
+import { PostPreviewInterface, RawPostPreview } from '../../entities/Post';
+import { materials, materialsHighlight } from '../../mocks/materialsMock';
+import { videosYoutube } from '../../mocks/videosMock';
+import handleCategory from '../../utils/handleCategories';
 import { MaterialsConatainer } from './styles';
 
 interface MaterialsProps {

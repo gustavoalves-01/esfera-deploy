@@ -81,7 +81,13 @@ export default async function handler(
         tags_exclude: ['3'],
         per_page: itemsPerPage,
       };
-    } else {
+    } else if (query.search){
+      params = {
+        _fields: fields,
+        search: query.search,
+        per_page: itemsPerPage
+      }
+    }else{
       params = {
         _fields: fields,
         per_page: itemsPerPage,

@@ -21,13 +21,15 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
   const router = useRouter();
 
   const handleSelectPost = () => {
-    router.push(`/blog/${post.slug}`);
+    router.push(`/${post.categories[0].slug}/${post.slug}`);
   };
+  console.log(post);
+  
 
   return (
     <PostContainer isWide={isWide} onClick={handleSelectPost}>
       <div className="postHeader mobile">
-        <TagCategory categoryName={post.categories[0]} />
+        <TagCategory categoryName={post.categories[0].name} />
         <span className="postDate">{post.date}</span>
       </div>
       <div className="imageWrapper">
@@ -36,7 +38,7 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
       <div className="contentWrapper">
         {isWide && (
           <div className="postHeader wide">
-            <TagCategory categoryName={post.categories[0]} />
+            <TagCategory categoryName={post.categories[0].name} />
             <span className="postDate">{post.date}</span>
           </div>
         )}

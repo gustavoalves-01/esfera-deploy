@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next/types';
+import axios from 'axios';
 import slugify from 'slugify';
-
-import Breadcrumb from '../../../components/Breadcrumb';
-import SearchComponent from '../../../components/SearchComponent';
 
 import Container, { ContainerHeader, YoutubeContainer } from './styles';
 
@@ -12,6 +11,10 @@ import {
   PostShortcutsInterface,
   RawPost,
 } from '../../../entities/Post';
+import { CategoryInterface } from '../../../entities/Category';
+
+import Breadcrumb from '../../../components/Breadcrumb';
+import SearchComponent from '../../../components/SearchComponent';
 import PostShortcuts from '../../../components/Post/PostShortcuts';
 import PostHeader from '../../../components/Post/PostHeader';
 import CtaFinalPost from '../../../components/Post/CtaFinalPost';
@@ -22,12 +25,10 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
-import { CategoryInterface } from '../../../entities/Category';
 import { AuthorSection } from '../../../components/Post/AuthorSection';
 import FreeMaterialsCards from '../../../components/FreeMaterials/FreeMaterialsCards';
-import Head from 'next/head';
 import CardsSection from '../../../components/CardsSection';
-import axios from 'axios';
+
 import handleCategory from '../../../utils/handleCategories';
 import { videosYoutube } from '../../../mocks/videosMock';
 
@@ -235,7 +236,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       <Container>
         <ContainerHeader>
           <Breadcrumb
-            path={[{ label: post.categories[0] }, { label: post.title }]}
+            path={[{ label: post.categories[0].name }, { label: post.title }]}
           />
           <SearchComponent
             widthIcon="50px"
@@ -323,6 +324,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params!;
+
+  console.log(params);
+  
 
   // Fetch Categories
   const responseCategory = await axios.get(
