@@ -6,5 +6,5 @@ export default function handleCategory(
 ) {
   const category = categories.find((category) => category.id === rawCategory);
 
-  return category ? category.name : 'Artigo';
+  return category ? category : {name: 'Artigo', slug: 'artigo'};
 }
