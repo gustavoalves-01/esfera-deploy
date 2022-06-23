@@ -112,14 +112,16 @@ function Header({ categories }: CategoryProps) {
 
           <MaxContainer>
             {verifyHeaderActive ? (
-              <Link href="/" passHref>
-                <Image
-                  width={240}
-                  height={48}
-                  alt="Logo novo esfera energia"
-                  src="/images/logo__esfera.svg"
-                />
-              </Link>
+              <span className="logo">
+                <Link href="/" passHref>
+                  <Image
+                    width={240}
+                    height={48}
+                    alt="Logo novo esfera energia"
+                    src="/images/logo__esfera.svg"
+                  />
+                </Link>
+              </span>
             ) : (
               <Link href="/" passHref>
                 <Image
@@ -159,7 +161,7 @@ function Header({ categories }: CategoryProps) {
                     })}
                   </div>
                 </SublistInUl>
-                <Link href="/blog/materiais" passHref>
+                <Link href="/materiais" passHref>
                   <li>Materiais gratuitos</li>
                 </Link>
 
@@ -302,7 +304,7 @@ function Header({ categories }: CategoryProps) {
         <HeaderElement myPosition={positionHeader}>
           <Link href="/" passHref>
             <Image
-              width={219}
+              width={190}
               height={37}
               alt="Logo novo esfera energia"
               src="/images/logo__esfera.svg"
@@ -338,7 +340,7 @@ function Header({ categories }: CategoryProps) {
                   alt="Close icon"
                 />
               </CloseIcon>
-              <Link href="/">
+              <Link href="/materiais">
                 <a>Materiais Gratuitos</a>
               </Link>
 

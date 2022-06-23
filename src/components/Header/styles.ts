@@ -41,7 +41,7 @@ export const HeaderElement = styled.header<PropsHeader>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: 16px;
+    padding-left: 0px;
     padding-right: 16px;
 
     padding-top: 0px;
@@ -72,6 +72,12 @@ export const MaxContainer = styled.div`
     padding: 0px 2rem 0px 2rem;
 
 
+
+  .logo{
+    position: relative;
+    left: -12px;
+    cursor: pointer;
+  }
   justify-content: space-between;
   align-items: center;
   ul {
@@ -98,6 +104,10 @@ export const MaxContainer = styled.div`
   }
 
   @media (max-width: 1200px) {
+    .logo{
+        position: relative;
+        left: 0px;
+      }
     ul {
       display: none;
     }
