@@ -107,6 +107,7 @@ export default function Home({
       <Header categories={categoryList} />
 
       <Container>
+        {/* <p>Teste</p> */}
         <div className="containerHeader">
           <Breadcrumb path={[{ label: 'Blog', href: '/' }]} />
           <SearchComponent
