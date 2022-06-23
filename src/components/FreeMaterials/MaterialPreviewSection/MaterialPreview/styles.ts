@@ -16,7 +16,7 @@ export const MaterialContainer = styled.div<MaterialStyleProps>`
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background: rgba(245, 66, 108, 0.05);
+    background: #dedede;
     box-shadow: 3px 3px 7px rgba(245, 66, 108, 0.07);
   }
 
@@ -101,7 +101,7 @@ export const MaterialContainer = styled.div<MaterialStyleProps>`
         border-radius: 5px;
         border: none;
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 600;
         border: 1px solid var(--pink-500);
         transition: all 0.2s ease-in-out;
         cursor: pointer;

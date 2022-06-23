@@ -4,9 +4,12 @@ const Container = styled.div`
   display: grid;
   max-width: calc(1115px + 4rem);
   margin: 42px auto 0;
-  padding: 100px 2rem 0;
+  padding: 100px 2rem 40px;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+
   .is-mobile{
     display: none;
   }
@@ -29,7 +32,7 @@ const Container = styled.div`
     grid-row: 2/3;
   }
 .is-mobileButton{
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       margin-top: 28px;
@@ -54,7 +57,9 @@ const Container = styled.div`
 
     
   @media (max-width: 990px) {
-    
+    .is-mobileButton{
+      display: flex;
+    }
     display: flex;
     flex-direction: column;
     padding: 0 1rem;

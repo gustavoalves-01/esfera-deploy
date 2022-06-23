@@ -1,4 +1,3 @@
-import { SocialIcons } from './../../../Footer/styles';
 import styled from 'styled-components';
 
 export const Container = styled.div`

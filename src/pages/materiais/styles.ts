@@ -1,4 +1,3 @@
-import { Container } from './../../../components/ListComment/styles';
 import styled from 'styled-components';
 
 export const MaterialsConatainer = styled.div`
@@ -8,7 +7,9 @@ export const MaterialsConatainer = styled.div`
   padding: 100px 2rem 0;
   column-gap: 4rem;
   grid-template-columns: auto 255px;
-
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  
   h1.pageTitle {
     grid-column: 1/2;
     margin-top: 5rem;
