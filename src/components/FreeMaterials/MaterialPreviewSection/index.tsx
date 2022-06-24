@@ -27,7 +27,7 @@ const MaterialPreviewSection = ({
                 <MaterialPreview key={material.id} material={material} />
               )
             ) : (
-              <>
+              <React.Fragment key={material.id}>
                 <div className="intermissionContainer">
                   <h2>
                     A conta de luz da sua empresa é maior que 50 mil reais por
@@ -37,12 +37,12 @@ const MaterialPreviewSection = ({
                     Economize até 35% da sua conta de energia todos os meses com
                     a gestão da Esfera Energia.
                   </h3>
-                  <Link href="/">
+                  <Link href="https://esferaenergia.com.br/" passHref>
                     <a>Receba o contato de um consultor especialista</a>
                   </Link>
                 </div>
-                <MaterialPreview key={material.id} material={material} />
-              </>
+                <MaterialPreview material={material} />
+              </React.Fragment>
             )
           )}
       </div>

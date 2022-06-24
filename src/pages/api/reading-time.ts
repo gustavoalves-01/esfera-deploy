@@ -1,19 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { TimeToReadInterface } from '../../../../../entities/Post';
+import { TimeToReadInterface } from '../../entities/Post';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   return new Promise<TimeToReadInterface | null>(async (resolve) => {
     try {
-      const { slug } = req.query;
+      const { post } = req.query;
 
       const response = await axios.get(
-        `https://esferaenergia.com.br/wp-json/wp/v2/posts?slug=${slug}&_fields=id,content`
+        `https://esferaenergia.com.br/wp-json/wp/v2/posts/${post}/?_fields=id,content`
       );
 
       const { data } = response;
 
-      const postContentRaw = data[0].content.rendered;
+      const postContentRaw = data.content.rendered;
       const postContent = postContentRaw.replace(
         /<[^>]*>|\n|\r|\t|&\w{2,5};|<div[^>]+>|<\/div>/g,
         ''
@@ -22,7 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const readingTime = Math.round(postContent.split(' ').length / 150);
 
       const postObj = {
-        id: data[0].id,
+        id: data.id,
         time: readingTime,
       };
 

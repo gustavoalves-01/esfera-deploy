@@ -10,8 +10,6 @@ interface PaginationItemProps {
 function PaginationItem({ totalPages }: PaginationItemProps) {
   const [quantityPages, setQuantityPages] = useState({ currentPage: 1 });
 
-  console.log(quantityPages)
-
   return (
     <div>
       <ThemeProvider>

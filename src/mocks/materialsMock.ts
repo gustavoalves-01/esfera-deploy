@@ -15,7 +15,7 @@ export const materialsHighlight = [
 
 export const materials = [
   {
-    id: '12312asd',
+    id: '12312asasdd',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:
@@ -26,7 +26,7 @@ export const materials = [
       'https://esferaenergia.com.br/wp-content/uploads/2022/04/gd2-1-300x300.jpg',
   },
   {
-    id: '12312asd',
+    id: '12312qweasd',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:
@@ -37,7 +37,7 @@ export const materials = [
       'https://esferaenergia.com.br/wp-content/uploads/2022/04/gd2-1-300x300.jpg',
   },
   {
-    id: '12312asd',
+    id: '12312a123sd',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:
@@ -48,7 +48,7 @@ export const materials = [
       'https://esferaenergia.com.br/wp-content/uploads/2022/04/gd2-1-300x300.jpg',
   },
   {
-    id: '12312asd',
+    id: 'fsa',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:
@@ -59,7 +59,7 @@ export const materials = [
       'https://esferaenergia.com.br/wp-content/uploads/2022/04/gd2-1-300x300.jpg',
   },
   {
-    id: '12312asd',
+    id: '12312234asd',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:
@@ -70,7 +70,7 @@ export const materials = [
       'https://esferaenergia.com.br/wp-content/uploads/2022/04/gd2-1-300x300.jpg',
   },
   {
-    id: '12312asd',
+    id: '12345612asd',
     date: '01/01/2000',
     title: 'Lorem Ipsum Dolor',
     excerpt:

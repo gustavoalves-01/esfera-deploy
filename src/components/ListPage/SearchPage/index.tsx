@@ -25,10 +25,7 @@ export const SearchPage = () => {
 
   const { data: categoryList, error: categoryError} = 
     useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  console.log(postsData);
   
-
   const handleFetchedPosts = useCallback((data: any) => {
     const postList: PostPreviewInterface[] = data?.map(
       (post: RawPostPreview) => {

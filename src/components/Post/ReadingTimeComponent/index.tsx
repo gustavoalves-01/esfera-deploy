@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import axios from 'axios';
 
 interface Props {
-  postSlug: string;
+  id: string;
 }
 interface Response {
   isLoading: boolean;
@@ -15,9 +15,9 @@ interface Response {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export default function ReadingTimeComponent({ postSlug }: Props) {
+export default function ReadingTimeComponent({ id }: Props) {
   const [readingTime, setReadingTime] = useState<Response>({ isLoading: true });
-  const readingTimeURL = `/api/wp/posts/${postSlug}/reading-time`;
+  const readingTimeURL = `/api/reading-time?post=${id}`;
 
   const { data, error } = useSWR(readingTimeURL, fetcher);
 

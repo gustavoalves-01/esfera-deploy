@@ -46,7 +46,7 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
 
         <div className="postFooter">
           <button className='verPost'>Ver post <div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></button>
-          <ReadingTimeComponent postSlug={post.slug} />
+          <ReadingTimeComponent id={post.id} />
           <div className="is-mobile">
             <ShareDialog slug={post.slug} />
           </div>

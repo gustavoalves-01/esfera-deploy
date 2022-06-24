@@ -35,8 +35,6 @@ interface CategoryProps {
   categories: Category[];
 }
 function Header({ categories }: CategoryProps) {
-  //fazer map da parada (categories)
-
   const [verifyHeaderActive, setVerifyHeaderActive] = useState(true);
   const [activePopupRecebeConteudos, setActivePopupRecebeConteudos] =
     useState(false);
@@ -67,7 +65,7 @@ function Header({ categories }: CategoryProps) {
         }
       });
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth >= 1100) {
@@ -99,7 +97,7 @@ function Header({ categories }: CategoryProps) {
     window.onscroll = () => {
       showProgressBar();
     };
-  })
+  }, [])
 
 
   return (
@@ -154,7 +152,7 @@ function Header({ categories }: CategoryProps) {
                         <React.Fragment key={category.slug}>
                           <TagCategory
                             categoryName={category.name}
-                            link={`/blog/${category.slug}`}
+                            link={`/${category.slug}`}
                           />
                         </React.Fragment>
                       );

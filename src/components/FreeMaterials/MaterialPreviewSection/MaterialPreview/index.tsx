@@ -43,7 +43,7 @@ const MaterialPreview = ({ material, isWide }: PostPreviewProps) => {
         <p>{material.excerpt}</p>
 
         <div className="materialFooter">
-          <Link href="" passHref>
+          <Link href="/" passHref>
             <button>Acessar material</button>
           </Link>
         </div>
