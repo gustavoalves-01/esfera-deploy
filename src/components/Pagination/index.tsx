@@ -1,14 +1,20 @@
 import { Pagination } from '@zendeskgarden/react-pagination';
-import { CursorPagination } from '@zendeskgarden/react-pagination';
 import { ThemeProvider } from '@zendeskgarden/react-theming';
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 interface PaginationItemProps {
   totalPages: number;
+  funcForPage: (e: number) => void;
 }
-function PaginationItem({ totalPages }: PaginationItemProps) {
+function PaginationItem({ totalPages, funcForPage }: PaginationItemProps) {
   const [quantityPages, setQuantityPages] = useState({ currentPage: 1 });
+
+  useEffect(() => {
+    if(funcForPage !== undefined) {
+      funcForPage(quantityPages.currentPage)
+    }
+  })
 
   return (
     <div>

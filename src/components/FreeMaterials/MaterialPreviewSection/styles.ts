@@ -19,7 +19,8 @@ export const Container = styled.div`
   .cardsWrapper {
     display: flex;
     gap: 40px 2rem;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  
+    margin-top: 30px;
   }
 
   .intermissionContainer {

@@ -176,7 +176,7 @@ export const PostListPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem totalPages={10} />
+          <PaginationItem funcForPage={(page: number) => {}} totalPages={10} />
         </span>
 
         <span></span>
