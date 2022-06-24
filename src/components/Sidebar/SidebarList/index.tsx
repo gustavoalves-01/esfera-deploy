@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Container, ItemSkeleton, NoItems } from './styles';
 import { SidebarLinks } from '../../../entities/Post';
 import useSWR from 'swr';
-import axios from 'axios';
 import handleCategory from '../../../utils/handleCategories';
+import fetcher from '../../../utils/fetcher';
 
 interface SidebarSectionProps {
   title: string;
@@ -19,29 +19,36 @@ interface MoreItemsProps {
 interface Items {
   isLoading: boolean;
   isError?: any;
-  data?: any;
+  data?: Array<any>;
 }
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [firstItems, setFirstItems] = useState<Items>({ isLoading: true });
+  const [items, setItems] = useState<SidebarLinks[]>([]);
+  const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
+  const [isItemsError, setIsItemsError] = useState<boolean>(false);
 
-  const firstItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/${itemsType}?_fields=id,title,slug,categories&per_page=4&page=1`;
-  const { data, error } = useSWR(firstItemsURL, fetcher);
+  const firstItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?_fields=id,title,slug,categories&per_page=4&page=1`;
+  const { data: itemsData, error: itemsError } = useSWR(firstItemsURL, fetcher);
 
   const { data: categoriesData, error: categoriesError } =
     useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
 
   useEffect(() => {
-    if ((!error && !data )||(!categoriesData && !categoriesError)) {
-      setFirstItems({ isLoading: true });
-    } else if (error || categoriesError) {
-      setFirstItems({ isLoading: false, isError: error });
+    if (!itemsData && !itemsError) {
+      setIsLoadingItems(true);
+      setIsItemsError(false);
+      setItems([]);
+    } else if (itemsError) {
+      setIsLoadingItems(false);
+      setIsItemsError(true);
+      setItems([]);
     } else {
-      setFirstItems({ isLoading: false, data });
+      setIsLoadingItems(false);
+      setIsItemsError(false);
+      setItems(itemsData);
     }
-  }, [categoriesData, categoriesError, data, error]); 
+  }, [categoriesError, itemsData, itemsError]);
 
   const handleToggleExpanded = () => {
     isExpanded === true ? setIsExpanded(false) : setIsExpanded(true);
@@ -51,19 +58,19 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
     <Container isExpanded={isExpanded}>
       <h1>{title}</h1>
       <ul>
-        {firstItems.isLoading ? (
+        {isLoadingItems ? (
           <>
             <ItemSkeleton />
             <ItemSkeleton />
             <ItemSkeleton />
             <ItemSkeleton />
           </>
-        ) : firstItems.isError ? (
+        ) : isItemsError ? (
           <NoItems>
             Desculpe, não temos {title.toLowerCase()} no momento...
           </NoItems>
         ) : (
-          firstItems.data.map((item: SidebarLinks) => {
+          items.map((item: SidebarLinks) => {
             return (
               <li key={item.id}>
                 {console.log(item.categories[0])}
@@ -77,7 +84,7 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
 
         {isExpanded && <MoreItems itemsType={itemsType} />}
       </ul>
-      {!firstItems.isError && (
+      {!isItemsError && (
         <button type="button" onClick={() => handleToggleExpanded()}>
           Ver mais {title.toLowerCase()}
           <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,38 +97,56 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
 };
 
 const MoreItems = ({ itemsType }: MoreItemsProps) => {
-  const [moreItems, setMoreItems] = useState<Items>({ isLoading: true });
-  const moreItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/${itemsType}?_fields=id,title,slug,categories&per_page=4&page=2`;
-  const { data, error } = useSWR(moreItemsURL, fetcher);
+  const [moreItems, setMoreItems] = useState<SidebarLinks[]>([]);
+  const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
+  const [isItemsError, setIsItemsError] = useState<boolean>(false);
+  const moreItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?_fields=id,title,slug,categories&per_page=4&page=2`;
 
+  const { data: itemsData, error: itemsError } = useSWR(moreItemsURL, fetcher);
   useEffect(() => {
-    if (!error && !data) {
-      setMoreItems({ isLoading: true });
-    } else if (error) {
-      setMoreItems({ isLoading: false, isError: error });
+    if (!moreItems && !isItemsError) {
+      setIsLoadingItems(true);
+      setIsItemsError(false);
+      setMoreItems([]);
+    } else if (isItemsError) {
+      setIsLoadingItems(false);
+      setIsItemsError(true);
+      setMoreItems([]);
     } else {
-      setMoreItems({ isLoading: false, data });
+      setIsLoadingItems(false);
+      setIsItemsError(false);
+      setMoreItems(itemsData);
     }
-  }, [data, error]);
+  }, [isItemsError, itemsData, itemsError, moreItems]);
 
-  return moreItems.isLoading || moreItems.isError ? (
+  const { data: categoriesData, error: categoriesError } =
+    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
+
+  return (
     <>
-      <ItemSkeleton />
-      <ItemSkeleton />
-      <ItemSkeleton />
-      <ItemSkeleton />
+      {
+        isLoadingItems || isItemsError ? (
+          <>
+            <ItemSkeleton />
+            <ItemSkeleton />
+            <ItemSkeleton />
+            <ItemSkeleton />
+          </>
+        ) : (
+          moreItems &&
+          moreItems.map((item: SidebarLinks) => {
+            return (
+              <li key={item.id}>
+                <Link href={`${handleCategory(item.categories[0], categoriesData).slug}/${item.slug}`}>
+                  <a>{item.title.rendered}</a>
+                </Link>
+              </li>
+            );
+          })
+        )
+      }
     </>
-  ) : (
-    moreItems.data.map((item: SidebarLinks) => {
-      return (
-        <li key={item.id}>
-          <Link href={item.slug}>
-            <a>{item.title.rendered}</a>
-          </Link>
-        </li>
-      );
-    })
-  );
+  )
 };
 
 export default SidebarList;
