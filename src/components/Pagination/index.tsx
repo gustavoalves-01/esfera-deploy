@@ -7,6 +7,7 @@ interface PaginationItemProps {
   totalPages: number;
   funcForPage: (e: number) => void;
 }
+
 function PaginationItem({ totalPages, funcForPage }: PaginationItemProps) {
   const [quantityPages, setQuantityPages] = useState({ currentPage: 1 });
 

@@ -16,7 +16,7 @@ import { PostPreviewInterface, RawPostPreview } from '../../entities/Post';
 import { materials, materialsHighlight } from '../../mocks/materialsMock';
 import { videosYoutube } from '../../mocks/videosMock';
 import handleCategory from '../../utils/handleCategories';
-import { MaterialsConatainer } from './styles';
+import MaterialsConatainer from './styles';
 
 interface MaterialsProps {
   categoryList: CategoryInterface[];

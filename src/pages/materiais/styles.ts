@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MaterialsConatainer = styled.div`
+const MaterialsConatainer = styled.div`
   display: grid;
   max-width: calc(1115px + 4rem);
   margin: 42px auto 0;
@@ -54,3 +54,5 @@ export const MaterialsConatainer = styled.div`
     }
   }
 `;
+
+export default MaterialsConatainer;
