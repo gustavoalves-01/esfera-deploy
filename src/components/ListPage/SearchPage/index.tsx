@@ -121,19 +121,24 @@ export const SearchPage = () => {
         <ConteudoProcurado>
           <h2 className="titleListPage">Resultado de busca contendo &#34;{searchTerm}&#34;</h2>
 
-          <PostPreviewSection
-            title=""
-            posts={posts}
-            linkAll={{ href: '#', text: 'Ver todos os posts' }}
+          {posts.length > 0 ? <>
+            <PostPreviewSection
+              title=""
+              posts={posts}
+              linkAll={{ href: '#', text: 'Ver todos os posts' }}
 
             />
-            {console.log(posts)}
+          </> : <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>}
 
-          <PostPreviewSection
-            title="Em alta"
-            posts={posts}
-            isMobile
-          />
+
+          {posts.length > 0 ? <>
+            <PostPreviewSection
+              title="Em alta"
+              posts={posts}
+              isMobile
+            />
+          </> : <h3 className="semResultados isMobile">Sem resultados para termo de busca</h3>}
+
         </ConteudoProcurado>
 
 
@@ -156,8 +161,7 @@ export const SearchPage = () => {
         <span></span>
         <PostPreviewSection
           title="Posts mais acessados"
-          posts={[{ id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
-          { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false }]}
+          posts={posts}
           linkAll={{
             href: '#',
             text: 'Ver todos os posts mais acesados',
