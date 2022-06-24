@@ -1,105 +1,29 @@
-import { Box, Stack, Text } from '@chakra-ui/react';
-import React from 'react';
-import { PaginationItem } from './PaginationItem';
+import { Pagination } from '@zendeskgarden/react-pagination';
+import { CursorPagination } from '@zendeskgarden/react-pagination';
+import { ThemeProvider } from '@zendeskgarden/react-theming';
 
-interface PaginationProps {
-  totalCountOfRegisters: number;
-  registersPerPage?: number;
-  currentPage?: number;
-  onPageChange: (page: number) => void;
+
+import React, { useState } from 'react'
+interface PaginationItemProps {
+  totalPages: number;
 }
+function PaginationItem({ totalPages }: PaginationItemProps) {
+  const [quantityPages, setQuantityPages] = useState({ currentPage: 1 });
 
-const siblingsCount = 1;
-
-function generatePagesArray(from: number, to: number) {
-  return [...new Array(to - from)]
-    .map((_, index) => {
-      return from + index + 1;
-    })
-    .filter((page) => page > 0);
-}
-
-export function Pagination({
-  totalCountOfRegisters,
-  registersPerPage = 10,
-  currentPage = 1,
-  onPageChange,
-}: PaginationProps) {
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage);
-  const previousPages =
-    currentPage > 1
-      ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
-      : [];
-
-  const nextPages =
-    currentPage < lastPage
-      ? generatePagesArray(
-          currentPage,
-          Math.min(currentPage + siblingsCount, lastPage)
-        )
-      : [];
+  console.log(quantityPages)
 
   return (
-    <Stack
-      direction={['column', 'row']}
-      spacing="6"
-      mt="8"
-      justify="space-between"
-      align="center"
-    >
-      <Box>
-        <strong>0</strong> - <strong>10</strong> de <strong>100</strong>
-      </Box>
-
-      <Stack direction="row" spacing="2">
-        {currentPage > 1 + siblingsCount && (
-          <>
-            <PaginationItem onPageChange={onPageChange} pageNumber={1} />
-            {currentPage > 2 + siblingsCount && (
-              <Text color="gray.300" width="8" textAlign="center">
-                ...
-              </Text>
-            )}
-          </>
-        )}
-
-        {previousPages.length > 0 &&
-          previousPages.map((page) => {
-            return (
-              <PaginationItem
-                onPageChange={onPageChange}
-                key={page}
-                pageNumber={page}
-              />
-            );
-          })}
-        <PaginationItem
-          onPageChange={onPageChange}
-          pageNumber={currentPage}
-          isCurrent
+    <div>
+      <ThemeProvider>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={quantityPages.currentPage}
+          onChange={currentPage => setQuantityPages({ currentPage })}
         />
-        {nextPages.length > 0 &&
-          nextPages.map((page) => {
-            return (
-              <PaginationItem
-                onPageChange={onPageChange}
-                key={page}
-                pageNumber={page}
-              />
-            );
-          })}
+      </ThemeProvider>
 
-        {currentPage + siblingsCount < lastPage && (
-          <>
-            {currentPage + 1 + siblingsCount < lastPage && (
-              <Text color="gray.300" width="8" textAlign="center">
-                ...
-              </Text>
-            )}
-            <PaginationItem onPageChange={onPageChange} pageNumber={lastPage} />
-          </>
-        )}
-      </Stack>
-    </Stack>
-  );
+    </div>
+  )
 }
+
+export default PaginationItem
