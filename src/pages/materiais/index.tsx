@@ -29,7 +29,7 @@ const Materials = ({ categoryList, postList }: MaterialsProps) => {
       <Head>
         <title>Esfera Energia | Materiais Gratuitos</title>
       </Head>
-      <Header categories={categoryList} />
+      <Header />
 
       <MaterialsConatainer>
         <div className="containerHeader">

@@ -126,7 +126,7 @@ export const SearchPage = () => {
       <Head>
         <title>Esfera Energia Pesquisa</title>
       </Head>
-      <Header categories={categories} />
+      <Header />
 
       <Container>
         <div className="containerHeader">

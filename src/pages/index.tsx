@@ -104,7 +104,7 @@ export default function Home({
       <Head>
         <title>Esfera Energia Blog</title>
       </Head>
-      <Header categories={categoryList} />
+      <Header />
 
       <Container>
         <div className="containerHeader">

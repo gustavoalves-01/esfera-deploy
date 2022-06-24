@@ -32,14 +32,14 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
   const { data: itemsData, error: itemsError } = useSWR(firstItemsURL, fetcher);
 
   const { data: categoriesData, error: categoriesError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
+    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher); 
 
   useEffect(() => {
-    if (!itemsData && !itemsError) {
+    if ((!itemsData && !itemsError) || !categoriesData ) {
       setIsLoadingItems(true);
       setIsItemsError(false);
       setItems([]);
-    } else if (itemsError) {
+    } else if (itemsError || !categoriesData) {
       setIsLoadingItems(false);
       setIsItemsError(true);
       setItems([]);
@@ -48,7 +48,7 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
       setIsItemsError(false);
       setItems(itemsData);
     }
-  }, [categoriesError, itemsData, itemsError]);
+  }, [categoriesData, itemsData, itemsError]);
 
   const handleToggleExpanded = () => {
     isExpanded === true ? setIsExpanded(false) : setIsExpanded(true);
@@ -73,7 +73,6 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
           items.map((item: SidebarLinks) => {
             return (
               <li key={item.id}>
-                {console.log(item.categories[0])}
                 <Link href={`${handleCategory(item.categories[0], categoriesData).slug}/${item.slug}`}>
                   <a>{item.title.rendered}</a>
                 </Link>

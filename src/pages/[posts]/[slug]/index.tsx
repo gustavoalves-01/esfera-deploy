@@ -230,7 +230,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       <Head>
         <title>{post.title}</title>
       </Head>
-      <Header categories={categoryList} />
+      <Header />
       <Container>
         <ContainerHeader>
           <Breadcrumb
