@@ -216,22 +216,11 @@ function Header({ categories }: CategoryProps) {
                   </div>
                 </SublistInUl>
 
-                <SublistInUl>
-                  <li>
-                    Materiais gratuitos{' '}
-                    <span>
-                      <Image
-                        width={7}
-                        height={7}
-                        alt="arrow grey"
-                        src="/images/icons/arrow-list.svg"
-                      />
-                    </span>
-                  </li>
-                  <div>
-                    <p>Material 1</p>
-                  </div>
-                </SublistInUl>
+                <>
+                  <Link href="/materiais" passHref>
+                    <li>Materiais gratuitos</li>
+                  </Link>
+                </>
 
                 <SublistInUl>
                   <li>
