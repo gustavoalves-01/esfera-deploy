@@ -24,12 +24,10 @@ export default function ReadingTimeComponent({ postSlug }: Props) {
   useEffect(() => {
     if (!error && !data) {
       setReadingTime({ isLoading: true });
-      console.log('loading');
     } else if (error) {
       setReadingTime({ isLoading: false, isError: error });
     } else {
       setReadingTime({ isLoading: false, data });
-      console.log('data');
     }
   }, [data, error]);
 

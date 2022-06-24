@@ -160,8 +160,6 @@ const Post = ({ post, categoryList }: PostPageProps) => {
     } else {
       element.querySelectorAll('h2').forEach((section, index) => {
         if (index === Math.floor(titles.length / 2)) {
-          console.log(section);
-
           section.insertAdjacentElement('beforebegin', intermission);
         }
       });
@@ -323,10 +321,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { slug } = params!;
-
-  console.log(params);
-  
+  const { slug } = params!;  
 
   // Fetch Categories
   const responseCategory = await axios.get(

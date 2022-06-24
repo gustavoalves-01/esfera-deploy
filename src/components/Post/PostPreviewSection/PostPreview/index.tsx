@@ -22,9 +22,7 @@ const PostPreview = ({ post, isWide }: PostPreviewProps) => {
 
   const handleSelectPost = () => {
     router.push(`/${post.categories[0].slug}/${post.slug}`);
-  };
-  console.log(post);
-  
+  };  
 
   return (
     <PostContainer isWide={isWide} onClick={handleSelectPost}>

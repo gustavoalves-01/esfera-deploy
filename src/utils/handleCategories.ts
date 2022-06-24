@@ -2,9 +2,9 @@ import { CategoryInterface } from '../entities/Category';
 
 export default function handleCategory(
   rawCategory: number,
-  categories: CategoryInterface[]
+  categories: any,
 ) {
-  const category = categories.find((category) => category.id === rawCategory);
+  const category = categories.find((category: any) => category.id === rawCategory);
 
   return category ? category : {name: 'Artigo', slug: 'artigo'};
 }
