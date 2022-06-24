@@ -30,6 +30,7 @@ export const PostListPage = () => {
   // Query States
   const [currentCategory, setCurrentCategory] = useState<CategoryInterface>();
   const [postsURL, setPostsURL] = useState<String>('');
+  const [isCategoryPage, setIsCategoryPage] = useState<boolean>(false);
   // Fetching categories states
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
@@ -37,10 +38,22 @@ export const PostListPage = () => {
   // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
-  const [isPostsError, setIsPostsError] = useState<boolean>(false)
+  const [isPostsError, setIsPostsError] = useState<boolean>(false);
+  // Pagination states
+  const [page, setPage] = useState(1);
 
+  // Verify if must to return all posts or filter by category
   const router = useRouter();
   const paramsURL = router.query;
+
+  useEffect(() => {
+    if (paramsURL.posts === 'posts') {
+      setIsCategoryPage(false);
+    } else {
+      setIsCategoryPage(true);
+      setPostsURL(`https://esferaenergia.com.br/wp-json/wp/v2/posts?&per_page=4&page=1&_fields=${postFields}`);
+    }
+  }, [paramsURL.posts, router]);
 
   // Carregamento das Categorias
   const { data: categoriesData, error: categoriesError } =
@@ -60,25 +73,25 @@ export const PostListPage = () => {
       setIsCategoriesError(false);
       setCategories(categoriesData);
     }
-  }, [categories, categoriesData, categoriesError])
+  }, [categories, categoriesData, categoriesError]);
 
   // Carregamento dos Posts
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
   useEffect(() => {
-    if (paramsURL.posts) {
-      api.get(`/categories/?slug=${paramsURL.posts}&_fields=id`)
-      .then((res) => {
-        const { data } = res;
-        setCurrentCategory(data);
-        const categoryId = data[0].id;
-        const newURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?categories=${categoryId}&per_page=4&page=1&_fields=${postFields}`
-        setPostsURL(newURL);
-      }).catch(err => {
-        console.error(err);
-      });
+    if (isCategoryPage) {
+      api.get(`/categories/?slug=${paramsURL.posts}&_fields=id,name,slug`)
+        .then((res) => {
+          const { data } = res;
+          setCurrentCategory(data[0]);
+          const categoryId = data[0].id;
+          const newURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?categories=${categoryId}&per_page=4&page=1&_fields=${postFields}`
+          setPostsURL(newURL);
+        }).catch(err => {
+          console.error(err);
+        });
     }
-  },[paramsURL.posts])
+  }, [isCategoryPage, paramsURL.posts])
 
   const { data: postsData, error: postsError } = useSWR(postsURL, fetcher);
 
@@ -128,6 +141,18 @@ export const PostListPage = () => {
     }
   }, [categories, handleFetchedPosts, postsData, postsError]);
 
+  function pagination(e: number) {
+    setPage(e)
+  };
+
+  useEffect(() => {
+    if (isCategoryPage && currentCategory) {
+      setPostsURL(`https://esferaenergia.com.br/wp-json/wp/v2/posts?categories=${currentCategory.id}&per_page=4&page=${page}&_fields=${postFields}`);
+    } else if (!isCategoryPage) {
+      setPostsURL(`https://esferaenergia.com.br/wp-json/wp/v2/posts?&per_page=4&page=${page}&_fields=${postFields}`);
+    }
+  }, [currentCategory, isCategoryPage, page]);
+
   return (
     <>
       <Head>
@@ -137,7 +162,12 @@ export const PostListPage = () => {
 
       <Container>
         <div className="containerHeader">
-          <Breadcrumb path={[{ label: `${currentCategory?.name}`, href: '/' }]} />
+          {
+            isCategoryPage ?
+              <Breadcrumb path={[{ label: `${currentCategory?.name}` }]} />
+              :
+              <Breadcrumb path={[{ label: "Posts" }]} />
+          }
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -148,12 +178,33 @@ export const PostListPage = () => {
         </div>
 
         <ConteudoProcurado>
-          <h2 className="titleListPage">Resultado de busca contendo &#34;{paramsURL.posts}&#34;</h2>
-          <PostPreviewSection
-            title=""
-            posts={posts}
-            linkAll={{ href: '#', text: 'Ver todos os posts' }}
-          />
+          {
+            currentCategory ?
+              <h2 className="titleListPage">Posts sobre {currentCategory.name}</h2>
+              : !isCategoryPage &&
+              <h2 className="titleListPage">Todos os posts</h2>
+          }
+
+          {isPostsError ?
+            <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
+            : (isLoadingPosts ?
+              <div className='loadingContainer'>
+                <div className="spinner" />
+              </div>
+              :
+              isCategoryPage ?
+                <PostPreviewSection
+                  title=""
+                  posts={posts}
+                  linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
+                />
+                :
+                <PostPreviewSection
+                  title=""
+                  posts={posts}
+                />
+               )
+          }
 
           <PostPreviewSection
             title="Em alta"
@@ -176,7 +227,7 @@ export const PostListPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem funcForPage={(page: number) => {}} totalPages={10} />
+          <PaginationItem funcForPage={pagination} totalPages={10} />
         </span>
 
         <span></span>

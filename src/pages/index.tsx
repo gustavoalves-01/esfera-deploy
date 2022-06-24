@@ -131,30 +131,30 @@ export default function Home({
               <PostPreviewSection
                 title="Posts mais recentes"
                 posts={recentPostList}
-                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
               />
               <PostPreviewSection
                 title="Posts mais recentes"
                 posts={recentPostList}
-                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
                 isMobile
               />
-              <div className="is-mobileButton"><Link href="/">Ver todos os posts</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
+              <div className="is-mobileButton"><Link href="/posts">Ver todos os posts</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <CardsSection
                 type="materials"
                 title="Materiais gratuitos para download"
-                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
                 cards={materials}
               />
               <CardsSection
                 type="materials"
                 title="Materiais gratuitos"
-                linkAll={{ href: '#', text: 'Ver todos os materiais' }}
+                linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
                 cards={materials}
                 isMobile
               />
-              <div className="is-mobileButton"><Link href="/">Ver todos os materiais</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
+              <div className="is-mobileButton"><Link href="/materiais">Ver todos os materiais</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
 
               <PostPreviewSection
                 title="Posts mais acessados"
@@ -208,16 +208,16 @@ export default function Home({
               <PostPreviewSection
                 title="Todos os posts"
                 posts={allPostList}
-                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
               />
               <PostPreviewSection
                 title="Todos os posts"
                 posts={allPostList}
-                linkAll={{ href: '#', text: 'Ver todos os posts' }}
+                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
                 isMobile
               />
               <div className="is-mobileButton">
-                <Link href="/">Ver todos os posts</Link>
+                <Link href="/posts">Ver todos os posts</Link>
                 <div>
                   <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
                 </div>

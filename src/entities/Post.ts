@@ -38,6 +38,7 @@ export interface SidebarLinks {
   id: string;
   title: { rendered: string };
   slug: string;
+  categories: any;
 }
 
 export interface TimeToReadInterface {

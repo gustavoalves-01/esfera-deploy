@@ -1,7 +1,8 @@
+import { Pagination } from '@zendeskgarden/react-pagination';
 import styled from "styled-components";
 
 export const Container = styled.main`
-      display: grid;
+    display: grid;
     max-width: calc(1115px + 4rem);
     margin: 42px auto 0;
     padding: 100px 2rem 40px;
@@ -9,6 +10,30 @@ export const Container = styled.main`
     grid-template-columns: auto 255px;
     margin-bottom: 20px;
     padding-bottom: 0;
+
+    .loadingContainer {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(0, 0, 0, 0);
+        border-left-color: var(--pink-500);
+        border-bottom-color: var(--pink-500);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
 
 
     .semResultados{

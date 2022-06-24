@@ -28,7 +28,7 @@ function SearchComponent({
   }
 
   function sendRouterBlog() {
-    router.push(`/${inputEncontreArtigo}`);
+    router.push(`/pesquisa?st=${inputEncontreArtigo}`);
   }
 
   function handleSearch(e: React.KeyboardEvent<HTMLSpanElement>) {

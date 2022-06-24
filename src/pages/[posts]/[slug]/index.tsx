@@ -234,7 +234,7 @@ const Post = ({ post, categoryList }: PostPageProps) => {
       <Container>
         <ContainerHeader>
           <Breadcrumb
-            path={[{ label: post.categories[0].name }, { label: post.title }]}
+            path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
           />
           <SearchComponent
             widthIcon="50px"

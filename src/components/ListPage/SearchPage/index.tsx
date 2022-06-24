@@ -1,12 +1,12 @@
-import Router, { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
-import fetcher from '../../../utils/fetcher'
-import useSWR from 'swr';
-import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
-import handleCategory from '../../../utils/handleCategories';
 import Head from 'next/head';
+import { useRouter } from 'next/router'
+import useSWR from 'swr';
+
+import fetcher from '../../../utils/fetcher'
+import handleCategory from '../../../utils/handleCategories';
+
 import Header from '../../Header';
-import { Container, ContainerYoutube, ConteudoProcurado } from './styles';
 import Breadcrumb from '../../Breadcrumb';
 import SearchComponent from '../../SearchComponent';
 import PostPreviewSection from '../../Post/PostPreviewSection';
@@ -19,32 +19,57 @@ import { materials } from '../../../mocks/materialsMock';
 import YoutubeSection from '../../YoutubeSection';
 import Footer from '../../Footer';
 
+import { Container, ContainerYoutube, ConteudoProcurado } from './styles';
+
+import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
+import { CategoryInterface } from '../../../entities/Category';
+
 export const SearchPage = () => {
+  // Validating if has search term
   const router = useRouter();
   const searchTerm = router.query?.st;
-
 
   useEffect(() => {
     if (!searchTerm) {
       router.push('/');
     }
-  }, [router, searchTerm])
+  }, [router, searchTerm]);
 
-  const [page, setPage] = useState(1);
+  // Fetching categories states
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
+  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
+  // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
+  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
+  const [isPostsError, setIsPostsError] = useState<boolean>(false);
+  // Pagination states
+  const [page, setPage] = useState(1);
 
+  // Fetching categories
+  const { data: categoriesData, error: categoriesError } =
+    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
 
-  function pagination(e: number) {
-    setPage(e)
-  }
+  useEffect(() => {
+    if (!categoriesData && !categoriesError) {
+      setIsLoadingCategories(true);
+      setIsCategoriesError(false);
+      setCategories([]);
+    } else if (categoriesError) {
+      setIsLoadingCategories(false);
+      setIsCategoriesError(true);
+      setCategories([]);
+    } else {
+      setIsLoadingCategories(false);
+      setIsCategoriesError(false);
+      setCategories(categoriesData);
+    }
+  }, [categories, categoriesData, categoriesError]);
 
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
-  const { data: postsData, error: postError } =
+  const { data: postsData, error: postsError } =
     useSWR(`https://esferaenergia.com.br/wp-json/wp/v2/posts?search=${searchTerm}&per_page=4&page=${page}&_fields=${postFields}`, fetcher);
-
-  const { data: categoryList, error: categoryError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
 
   const handleFetchedPosts = useCallback((data: any) => {
     const postList: PostPreviewInterface[] = data?.map(
@@ -63,7 +88,7 @@ export const SearchPage = () => {
           excerpt: excerpt,
           slug: post.slug,
           categories: post.categories.map((item: number) => {
-            return handleCategory(item, categoryList);
+            return handleCategory(item, categories);
           }),
           tags: String(post.tags),
           imageURL: post.yoast_head_json.og_image[0].url,
@@ -73,36 +98,35 @@ export const SearchPage = () => {
     );
 
     return postList;
-  }, [categoryList])
+  }, [categories]);
 
   useEffect(() => {
-    if (postsData && categoryList) {
+    if (!postsData && !postsError) {
+      setIsLoadingPosts(true);
+      setIsPostsError(false);
+      setPosts([]);
+    } else if (postsData && categories) {
+      setIsLoadingPosts(false);
+      setIsPostsError(false);
       const newPosts = handleFetchedPosts(postsData);
       setPosts(newPosts);
+    } else {
+      setIsLoadingPosts(false);
+      setIsPostsError(true);
+      setPosts([]);
     }
-  }, [categoryList, handleFetchedPosts, postsData])
+  }, [categories, handleFetchedPosts, postsData, postsError]);
 
-  const categoryList2 = [{ id: 1, name: "Pesquisa", slug: "Pesquisa" }]
+  function pagination(e: number) {
+    setPage(e)
+  }
 
   return (
     <>
-      {/* <ul>
-        {
-          !postsData && !postError && (
-            <h1>loading...</h1>
-          )
-        }
-        {posts?.map((post: PostPreviewInterface) => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
-      <button type='button' onClick={() => setPage(page - 1)}> prev </button>
-      <button type='button' onClick={() => setPage(page + 1)}> next </button> */}
-
       <Head>
         <title>Esfera Energia Pesquisa</title>
       </Head>
-      <Header categories={categoryList2} />
+      <Header categories={categories} />
 
       <Container>
         <div className="containerHeader">
@@ -118,25 +142,26 @@ export const SearchPage = () => {
 
         <ConteudoProcurado>
           <h2 className="titleListPage">Resultado de busca contendo &#34;{searchTerm}&#34;</h2>
-
-          {posts.length > 0 ? <>
-            <PostPreviewSection
-              title=""
-              posts={posts}
-              linkAll={{ href: '#', text: 'Ver todos os posts' }}
-
-            />
-          </> : <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>}
-
-
-          {posts.length > 0 ? <>
-            <PostPreviewSection
-              title="Em alta"
-              posts={posts}
-              isMobile
-            />
-          </> : <h3 className="semResultados isMobile">Sem resultados para termo de busca</h3>}
-
+          {isPostsError ?
+            <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
+            : (isLoadingPosts ?
+              <div className='loadingContainer'>
+                <div className="spinner" />
+              </div>
+              :
+              <>
+                <PostPreviewSection
+                  title=""
+                  posts={posts}
+                  linkAll={{ href: '/posts', text: 'Ver todos os posts' }} />
+                <PostPreviewSection
+                  title="Em alta"
+                  posts={posts}
+                  isMobile
+                />
+              </>
+            )
+          }
         </ConteudoProcurado>
 
 
