@@ -25,7 +25,7 @@ export const Container = styled.main`
         padding-top: 8.5px;
         border-top: 2px solid rgba(79, 81, 80, 0.5);    
     }
-    h2{
+    h2.titleListPage{
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
@@ -34,6 +34,35 @@ export const Container = styled.main`
         align-items: center;
 
         color: #F5426C;
+    }
+
+
+    @media (max-width: 990px) {
+
+        h2.titleListPage{
+            margin-bottom: -25px;
+             margin-top: 17px;
+        }
+        .is-mobileButton{
+        display: flex;
+        }
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+        margin-top: 0;
+        padding-top: 70px;
+        
+        .pagination{
+            margin-top: 40px;
+        }
+        .containerHeader {
+        display: none;
+        }
+
+        aside,
+        > label {
+        display: none;
+        }
     }
 `
 

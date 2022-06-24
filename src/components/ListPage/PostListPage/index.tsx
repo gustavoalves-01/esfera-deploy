@@ -47,7 +47,7 @@ export const PostListPage = () => {
         </div>
 
         <ConteudoProcurado>
-          <h2>Resultado de busca contendo &#34;{paramsURL.posts}&#34;</h2>
+          <h2 className="titleListPage">Resultado de busca contendo &#34;{paramsURL.posts}&#34;</h2>
           <PostPreviewSection
             title=""
             posts={[{ id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
@@ -55,6 +55,15 @@ export const PostListPage = () => {
             { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
             { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false }]}
             linkAll={{ href: '#', text: 'Ver todos os posts' }}
+          />
+
+          <PostPreviewSection
+            title="Em alta"
+            posts={[{ id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
+            { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
+            { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false },
+            { id: "post1", title: "Post1", date: "2021", excerpt: "Excerpt", slug: "string", categories: [{ id: 1, slug: "teste", name: "Teste" }], imageURL: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", tags: ["teste"], timeToRead: 1, highlight: false }]}
+            isMobile
           />
         </ConteudoProcurado>
 
