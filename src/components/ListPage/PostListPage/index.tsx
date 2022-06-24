@@ -17,9 +17,6 @@ import YoutubeSection from '../../YoutubeSection';
 import { useRouter } from 'next/router';
 
 
-interface PostListPageProps {
-
-}
 
 export const PostListPage = () => {
   const router = useRouter()
@@ -81,7 +78,7 @@ export const PostListPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem totalPages={10} />
+          <PaginationItem funcForPage={(page: number) => {}} totalPages={10} />
         </span>
 
         <span></span>

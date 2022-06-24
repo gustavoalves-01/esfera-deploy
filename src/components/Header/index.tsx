@@ -165,22 +165,11 @@ function Header({ categories }: CategoryProps) {
                   <li>Materiais gratuitos</li>
                 </Link>
 
-                <SublistInUl>
+                <>
                   <li>
                     Soluções{' '}
-                    <span>
-                      <Image
-                        width={7}
-                        height={7}
-                        alt="arrow grey"
-                        src="/images/icons/arrow-list.svg"
-                      />
-                    </span>
                   </li>
-                  <div>
-                    <p>Soluções</p>
-                  </div>
-                </SublistInUl>
+                </>
                 <li>
                   <a href="#">Sobre nós</a>
                 </li>
@@ -222,22 +211,11 @@ function Header({ categories }: CategoryProps) {
                   </Link>
                 </>
 
-                <SublistInUl>
+                <>
                   <li>
                     Soluções{' '}
-                    <span>
-                      <Image
-                        width={7}
-                        height={7}
-                        alt="arrow grey"
-                        src="/images/icons/arrow-list.svg"
-                      />
-                    </span>
                   </li>
-                  <div>
-                    <p>Soluções</p>
-                  </div>
-                </SublistInUl>
+                </>
                 <div className="containerInput">
                   <ContainerInput>
                     <SearchComponent

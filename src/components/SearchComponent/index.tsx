@@ -31,15 +31,15 @@ function SearchComponent({
     router.push(`/${inputEncontreArtigo}`);
   }
 
-  function handleTest(e: React.KeyboardEvent<HTMLSpanElement>) {
+  function handleSearch(e: React.KeyboardEvent<HTMLSpanElement>) {
     if (e.key == "Enter") {
-      router.push(`/${inputEncontreArtigo}`);
+      router.push(`/pesquisa?st=${inputEncontreArtigo}`);
     }
   }
 
   if (typeInput == 'search') {
     return (
-      <LabelElement widthInput={widthInput} heightInput={heightInput} widthIcon={widthIcon} onKeyPress={(e) => handleTest(e)}>
+      <LabelElement widthInput={widthInput} heightInput={heightInput} widthIcon={widthIcon} onKeyPress={(e) => handleSearch(e)}>
         <input
           type="search"
           placeholder={placeholder}
