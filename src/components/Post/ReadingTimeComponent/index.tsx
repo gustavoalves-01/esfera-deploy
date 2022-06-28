@@ -1,44 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Container, TimeSkeleton } from './styles';
 import useSWR from 'swr';
-import axios from 'axios';
+
+import { Container, TimeSkeleton } from './styles';
+
+import fetcher from '../../../utils/fetcher';
 
 interface Props {
   id: string;
 }
-interface Response {
-  isLoading: boolean;
-  isError?: any;
-  data?: any;
-}
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function ReadingTimeComponent({ id }: Props) {
-  const [readingTime, setReadingTime] = useState<Response>({ isLoading: true });
-  const readingTimeURL = `/api/reading-time?post=${id}`;
+  const [readingTime, setReadingTime] = useState<number | null>(null);
+  const readingTimeURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts/${id}/?_fields=id,content`;
 
-  const { data, error } = useSWR(readingTimeURL, fetcher);
+  const { data } = useSWR(readingTimeURL, fetcher);
 
   useEffect(() => {
-    if (!error && !data) {
-      setReadingTime({ isLoading: true });
-    } else if (error) {
-      setReadingTime({ isLoading: false, isError: error });
-    } else {
-      setReadingTime({ isLoading: false, data });
+    if (data) {
+      const postContentRaw = data.content.rendered;
+      const postContent = postContentRaw.replace(
+        /<[^>]*>|\n|\r|\t|&\w{2,5};|<div[^>]+>|<\/div>/g,
+        ''
+      );
+      const time = Math.round(postContent.split(' ').length / 150);
+      setReadingTime(time);
     }
-  }, [data, error]);
+  
+  }, [data]);
 
   return (
     <Container>
-      {readingTime.isLoading ? (
+      {!readingTime ? (
         <TimeSkeleton />
-      ) : readingTime.isError ? (
-        <>
-          <h1>Erro</h1>
-        </>
       ) : (
         <>
           <Image
@@ -47,7 +41,7 @@ export default function ReadingTimeComponent({ id }: Props) {
             alt="ícone relógio"
             src="/images/icons/time.svg"
           />
-          <span>Tempo de leitura: {readingTime.data.time} minutos</span>
+          <span>Tempo de leitura: {readingTime} minutos</span>
         </>
       )}
     </Container>
