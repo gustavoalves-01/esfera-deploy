@@ -1,15 +1,20 @@
 // Framework and libs Imports
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import useSWR from 'swr';
 
-// API Imports
-import { api } from '../services/api';
+// Utilities Imports
+import fetcher from '../utils/fetcher';
+import handlePostPreview from '../utils/handlePostPreview';
 
 // Components Imports
 import Header from '../components/Header';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchComponent from '../components/SearchComponent';
 import Sidebar from '../components/Sidebar';
+import SidebarList from '../components/Sidebar/SidebarList';
 import PostPreviewSection from '../components/Post/PostPreviewSection';
 import CardsSection from '../components/CardsSection';
 import NewsletterForm from '../components/NewsletterForm';
@@ -20,32 +25,77 @@ import Container from './styles';
 
 // Typing Imports
 import { CardInterface } from '../entities/Card';
-import {
-  PostPreviewInterface,
-  RawPost,
-  RawPostPreview,
-} from '../entities/Post';
+import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
-import SidebarList from '../components/Sidebar/SidebarList';
-import axios from 'axios';
-import handleCategory from '../utils/handleCategories';
-import Link from 'next/link';
-import Image from 'next/image';
-interface HomeProps {
-  categoryList: CategoryInterface[];
-  trendingPostList: PostPreviewInterface[];
-  mostAccessedPostList: PostPreviewInterface[];
-  recentPostList: PostPreviewInterface[];
-  allPostList: PostPreviewInterface[];
-}
+import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton';
 
-export default function Home({
-  categoryList,
-  trendingPostList,
-  mostAccessedPostList,
-  recentPostList,
-  allPostList,
-}: HomeProps) {
+const Home = () => {
+  // Fetching categories states
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
+  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
+
+  // Fetching posts states
+  const [trendingPosts, setTrendingPosts] = useState<PostPreviewInterface[]>();
+  const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
+  const [recentPosts, setRecentPosts] = useState<PostPreviewInterface[]>();
+  const [allPosts, setAllPosts] = useState<PostPreviewInterface[]>();
+  const [postsError, setPostsError] = useState<string[]>([]);
+
+  // Fetching Categories
+  const { data: categoriesData, error: categoriesError } = useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
+
+  useEffect(() => {
+    if (categoriesData) {
+      setCategories(categoriesData);
+    } else if (categoriesError) {
+      setIsCategoriesError(true);
+    }
+  }, [categoriesData, categoriesError]);
+
+  // Fetching Posts
+  const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
+  const fetchPostsURL = "https://esferaenergia.com.br/wp-json/wp/v2/posts";
+
+  const queryParams = {
+    trending: `${fetchPostsURL}?_fields=${postPreviewFields}&tags=3&per_page=1`,
+    recent: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2`,
+    popular: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2&page=2`,
+    all: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=4&page=1`
+  }
+
+  useEffect(() => {
+    if (categories) {
+      fetch(queryParams.trending)
+        .then((res) => res.json())
+        .then((data) => {
+          const posts = handlePostPreview(data, categories);
+          setTrendingPosts(posts);
+        })
+
+      fetch(queryParams.recent)
+        .then((res) => res.json())
+        .then((data) => {
+          const posts = handlePostPreview(data, categories);
+          setRecentPosts(posts);
+        })
+
+      fetch(queryParams.popular)
+        .then((res) => res.json())
+        .then((data) => {
+          const posts = handlePostPreview(data, categories);
+          setPopularPosts(posts);
+        })
+
+      fetch(queryParams.all)
+        .then((res) => res.json())
+        .then((data) => {
+          const posts = handlePostPreview(data, categories);
+          setAllPosts(posts);
+        })
+    }
+  }, [categories, queryParams.all, queryParams.popular, queryParams.recent, queryParams.trending]);
+
   const materials: CardInterface[] = [
     {
       imgUrl:
@@ -69,7 +119,7 @@ export default function Home({
     },
   ];
 
-  const categories: CardInterface[] = [
+  const categoriesHighlight: CardInterface[] = [
     {
       text: 'Categoria 1',
       imgUrl:
@@ -119,112 +169,159 @@ export default function Home({
         </div>
 
         <main>
-          {trendingPostList.length > 0 && (
-            <>
-              <PostPreviewSection title="Em alta" posts={trendingPostList} />
-              <PostPreviewSection
-                title="Em alta"
-                posts={trendingPostList}
-                isMobile
-              />
+          <>
+            {trendingPosts ? (
+              <>
+                <PostPreviewSection title="Em alta" posts={trendingPosts} />
+                <PostPreviewSection
+                  title="Em alta"
+                  posts={trendingPosts}
+                  isMobile
+                />
+              </>
+            ) :
+              <PostSkeleton isWide/>
+            }
 
-              <PostPreviewSection
-                title="Posts mais recentes"
-                posts={recentPostList}
-                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
-              />
-              <PostPreviewSection
-                title="Posts mais recentes"
-                posts={recentPostList}
-                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
-                isMobile
-              />
-              <div className="is-mobileButton"><Link href="/posts">Ver todos os posts</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
+            {
+              recentPosts ?
+                <>
+                  <PostPreviewSection
+                    title="Posts mais recentes"
+                    posts={recentPosts}
+                    linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
+                  />
+                  <PostPreviewSection
+                    title="Posts mais recentes"
+                    posts={recentPosts}
+                    linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
+                    isMobile
+                  />
+                  <div className="is-mobileButton">
+                    <Link href="/posts">Ver todos os posts</Link>
+                    <div>
+                      <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                    </div>
+                  </div>
+                </>
+                :
+              <PostSkeleton/>
+            }
 
-              <CardsSection
-                type="materials"
-                title="Materiais gratuitos para download"
-                linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-                cards={materials}
-              />
-              <CardsSection
-                type="materials"
-                title="Materiais gratuitos"
-                linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-                cards={materials}
-                isMobile
-              />
-              <div className="is-mobileButton"><Link href="/materiais">Ver todos os materiais</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
-
-              <PostPreviewSection
-                title="Posts mais acessados"
-                posts={mostAccessedPostList}
-                linkAll={{
-                  href: '#',
-                  text: 'Ver todos os posts mais acesados',
-                }}
-              />
-              <PostPreviewSection
-                title="Posts mais acessados"
-                posts={mostAccessedPostList}
-                linkAll={{
-                  href: '#',
-                  text: 'Ver todos os posts mais acesados',
-                }}
-                isMobile
-              />
-              <div className="is-mobileButton"><Link href="/">Ver todos os posts mais acessados</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
-
-              <CardsSection
-                type="categories"
-                title="Categorias em alta"
-                linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-                cards={categories}
-              />
-              <CardsSection
-                type="categories"
-                title="Categorias em alta"
-                linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-                cards={categories}
-                isMobile
-              />
-              <div className="is-mobileButton"><Link href="/">Ver todas as categorias</Link><div><Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" /></div></div>
-
-              <NewsletterForm
-                copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
-                desc="Receba conteúdos exclusivos em seu e-mail."
-                cta="Receber conteúdos"
-                isWide
-              />
-
-              <NewsletterForm
-                copy="Receba os melhores conteúdos sobre o Mercado Livre de Energia e economia de energia para sua empresa."
-                desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
-                cta="Receber conteúdos"
-                isWide
-                isMobile
-              />
-
-              <PostPreviewSection
-                title="Todos os posts"
-                posts={allPostList}
-                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
-              />
-              <PostPreviewSection
-                title="Todos os posts"
-                posts={allPostList}
-                linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
-                isMobile
-              />
-              <div className="is-mobileButton">
-                <Link href="/posts">Ver todos os posts</Link>
-                <div>
-                  <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
-                </div>
+            <CardsSection
+              type="materials"
+              title="Materiais gratuitos para download"
+              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+              cards={materials}
+            />
+            <CardsSection
+              type="materials"
+              title="Materiais gratuitos"
+              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+              cards={materials}
+              isMobile
+            />
+            <div className="is-mobileButton">
+              <Link href="/materiais">Ver todos os materiais</Link>
+              <div>
+                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
               </div>
+            </div>
 
-            </>
-          )}
+            {
+              popularPosts ?
+                <>
+                  <PostPreviewSection
+                    title="Posts mais acessados"
+                    posts={popularPosts}
+                    linkAll={{
+                      href: '#',
+                      text: 'Ver todos os posts mais acesados',
+                    }}
+                  />
+                  <PostPreviewSection
+                    title="Posts mais acessados"
+                    posts={popularPosts}
+                    linkAll={{
+                      href: '#',
+                      text: 'Ver todos os posts mais acesados',
+                    }}
+                    isMobile
+                  />
+                  <div className="is-mobileButton">
+                    <Link href="/">Ver todos os posts mais acessados</Link>
+                    <div>
+                      <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                    </div>
+                  </div>
+                </>
+                :
+                <PostSkeleton />
+            }
+
+            <CardsSection
+              type="categories"
+              title="Categorias em alta"
+              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+              cards={categoriesHighlight}
+            />
+            <CardsSection
+              type="categories"
+              title="Categorias em alta"
+              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+              cards={categoriesHighlight}
+              isMobile
+            />
+            <div className="is-mobileButton">
+              <Link href="/">Ver todas as categorias</Link>
+              <div>
+                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+              </div>
+            </div>
+
+            <NewsletterForm
+              copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
+              desc="Receba conteúdos exclusivos em seu e-mail."
+              cta="Receber conteúdos"
+              isWide
+            />
+
+            <NewsletterForm
+              copy="Receba os melhores conteúdos sobre o Mercado Livre de Energia e economia de energia para sua empresa."
+              desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
+              cta="Receber conteúdos"
+              isWide
+              isMobile
+            />
+
+            {
+              allPosts ?
+                <>
+                  <PostPreviewSection
+                    title="Todos os posts"
+                    posts={allPosts}
+                    linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
+                  />
+                  <PostPreviewSection
+                    title="Todos os posts"
+                    posts={allPosts}
+                    linkAll={{ href: '/posts', text: 'Ver todos os posts' }}
+                    isMobile
+                  />
+                  <div className="is-mobileButton">
+                    <Link href="/posts">Ver todos os posts</Link>
+                    <div>
+                      <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                    </div>
+                  </div>
+                </>
+                :
+              <>
+                <PostSkeleton />
+                <PostSkeleton />
+              </>
+            }
+          </>
         </main>
 
         <Sidebar>
@@ -244,109 +341,4 @@ export default function Home({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  // Fetch Categories
-  const responseCategory = await axios.get(
-    'https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug'
-  );
-  const categoryList = responseCategory.data;
-
-  const handleFetchedPosts = (data: any) => {
-    const postList: PostPreviewInterface[] = data?.map(
-      (post: RawPostPreview) => {
-        const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
-        const excerpt = post.excerpt.rendered.replace(excerptRegex, '');
-
-        return {
-          id: post.id,
-          date: new Date(post.date).toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }),
-          title: post.title.rendered,
-          excerpt: excerpt,
-          slug: post.slug,
-          categories: post.categories.map((item: number) => {
-            return handleCategory(item, categoryList);
-          }),
-          tags: String(post.tags),
-          imageURL: post.yoast_head_json.og_image[0].url,
-          highlight: String(post.tags).includes('3'),
-        };
-      }
-    );
-
-    return postList;
-  };
-
-  const fields =
-    'id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image';
-
-  // Fetch Trending Posts
-  const trendingParams = {
-    _fields: fields,
-    orderby: 'date',
-    order: 'desc',
-    tags: '3',
-    per_page: 1,
-  };
-  const responseTrending = await axios.get(
-    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
-    { params: trendingParams }
-  );
-  const trendingPostList = handleFetchedPosts(responseTrending.data);
-
-  // Fetch Recent Posts
-  const recentParams = {
-    _fields: fields,
-    orderby: 'date',
-    order: 'desc',
-    tags_exclude: ['3'],
-    per_page: 2,
-  };
-  const responseRecent = await axios.get(
-    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
-    { params: recentParams }
-  );
-  const recentPostList = handleFetchedPosts(responseRecent.data);
-
-  // Fetch Most Accessed (PENDING API)
-  const mostAccessedParams = {
-    _fields: fields,
-    orderby: 'date',
-    order: 'desc',
-    tags_exclude: ['3'],
-    per_page: 2,
-    page: 2,
-  };
-  const responseMostAccessed = await axios.get(
-    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
-    { params: mostAccessedParams }
-  );
-  const mostAccessedPostList = handleFetchedPosts(responseMostAccessed.data);
-
-  // Fetch All Posts
-  const allPostsParams = {
-    _fields: fields,
-    orderby: 'date',
-    order: 'desc',
-    tags_exclude: ['3'],
-    per_page: 4,
-  };
-  const responseAllPosts = await axios.get(
-    'https://esferaenergia.com.br/wp-json/wp/v2/posts',
-    { params: allPostsParams }
-  );
-  const allPostList = handleFetchedPosts(responseAllPosts.data);
-
-  return {
-    props: {
-      categoryList,
-      trendingPostList,
-      mostAccessedPostList,
-      recentPostList,
-      allPostList,
-    },
-  };
-};
+export default Home;
