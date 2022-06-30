@@ -2,7 +2,7 @@ import { CategoryInterface } from "../entities/Category";
 import { PostPreviewInterface, RawPostPreview } from "../entities/Post";
 import handleCategory from "./handleCategories";
 
-const handleFetchedPosts = (data: any, categories: CategoryInterface[]) => {
+const handlePostPreview = (data: any, categories: CategoryInterface[]) => {
   const postList: PostPreviewInterface[] = data.map(
     (post: RawPostPreview) => {
       const excerptRegex = /<p>|<\/p>|(\[\&)(.*)(\;\])/g;
@@ -31,4 +31,4 @@ const handleFetchedPosts = (data: any, categories: CategoryInterface[]) => {
   return postList;
 };
 
-export default handleFetchedPosts;
+export default handlePostPreview;

@@ -32,8 +32,6 @@ import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton
 const Home = () => {
   // Fetching categories states
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
-  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
 
   // Fetching posts states
   const [trendingPosts, setTrendingPosts] = useState<PostPreviewInterface[]>();
@@ -48,10 +46,8 @@ const Home = () => {
   useEffect(() => {
     if (categoriesData) {
       setCategories(categoriesData);
-    } else if (categoriesError) {
-      setIsCategoriesError(true);
     }
-  }, [categoriesData, categoriesError]);
+  }, [categoriesData]);
 
   // Fetching Posts
   const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";

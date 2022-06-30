@@ -167,6 +167,7 @@ const Container = styled.div`
       grid-row: 3/4;
     }
   }
+     
 
   @media (max-width: 1100px) {
     padding: 0 1rem;
@@ -199,5 +200,31 @@ export const YoutubeContainer = styled.section`
   display: flex;
   margin: 0 auto;
 `;
+
+
+export const Loading = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 0, 0, 0);
+    border-left-color: var(--pink-500);
+    border-bottom-color: var(--pink-500);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`
 
 export default Container;
