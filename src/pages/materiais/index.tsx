@@ -61,7 +61,7 @@ console.log(materials)
           <Breadcrumb
             path={[
               { label: 'Blog', href: '/' },
-              { label: 'Materiais Gratuitos', href: '/blog/materiais' },
+              { label: 'Materiais Gratuitos', href: '/materiais' },
             ]}
           />
         </div>

@@ -193,7 +193,7 @@ function Header() {
                         <React.Fragment key={category.slug}>
                           <TagCategory
                             categoryName={category.name}
-                            link={`/blog/${category.slug}`}
+                            link={`/${category.slug}`}
                           />
                         </React.Fragment>
                       );
@@ -343,7 +343,7 @@ function Header() {
                     <React.Fragment key={category.slug}>
                       <TagCategory
                         categoryName={category.name}
-                        link={`/blog/${category.slug}`}
+                        link={`/${category.slug}`}
                       />
                     </React.Fragment>
                   );
@@ -402,7 +402,7 @@ function Header() {
                       <React.Fragment key={category.slug}>
                         <TagCategory
                           categoryName={category.name}
-                          link={`/blog/${category.slug}`}
+                          link={`/${category.slug}`}
                         />
                       </React.Fragment>
                     );
