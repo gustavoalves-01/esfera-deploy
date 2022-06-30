@@ -32,6 +32,7 @@ import { videosYoutube } from '../../../mocks/videosMock';
 import fetcher from '../../../utils/fetcher';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
+import { useCategories } from '../../../hooks/useCategories';
 
 interface PropsComentarios {
   imageUrl: string;
@@ -53,18 +54,10 @@ interface PropsMaterials {
 const Post = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+
+  const { categories } = useCategories();
 
   const [post, setPost] = useState<FullPostInterface>();
-
-  // Fetching Categories
-  const { data: categoriesData, error: categoriesError } = useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (categoriesData) {
-      setCategories(categoriesData);
-    }
-  }, [categoriesData]);
 
   const handlePostContent = useCallback((data: any) => {
     const handleContent = (content: string) => {

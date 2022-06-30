@@ -23,6 +23,7 @@ import { Container, ContainerYoutube, ConteudoProcurado } from './styles';
 
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
 import { CategoryInterface } from '../../../entities/Category';
+import { useCategories } from '../../../hooks/useCategories';
 
 export const SearchPage = () => {
   // Validating if has search term
@@ -35,10 +36,6 @@ export const SearchPage = () => {
     }
   }, [router, searchTerm]);
 
-  // Fetching categories states
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
-  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
   // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
@@ -46,25 +43,7 @@ export const SearchPage = () => {
   // Pagination states
   const [page, setPage] = useState(1);
 
-  // Fetching categories
-  const { data: categoriesData, error: categoriesError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (!categoriesData && !categoriesError) {
-      setIsLoadingCategories(true);
-      setIsCategoriesError(false);
-      setCategories([]);
-    } else if (categoriesError) {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(true);
-      setCategories([]);
-    } else {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(false);
-      setCategories(categoriesData);
-    }
-  }, [categories, categoriesData, categoriesError]);
+  const { categories } = useCategories();
 
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 

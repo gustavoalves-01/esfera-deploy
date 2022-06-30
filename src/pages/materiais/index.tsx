@@ -1,7 +1,5 @@
-import axios from 'axios';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
-import useSWR from 'swr';
 import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
 import MaterialPreviewSection from '../../components/FreeMaterials/MaterialPreviewSection';
@@ -12,28 +10,18 @@ import SearchComponent from '../../components/SearchComponent';
 import Sidebar from '../../components/Sidebar';
 import SidebarList from '../../components/Sidebar/SidebarList';
 import YoutubeSection from '../../components/YoutubeSection';
-import { CategoryInterface } from '../../entities/Category';
 import { MaterialPreviewInterface } from '../../entities/Material';
-import { PostPreviewInterface, RawPostPreview } from '../../entities/Post';
-import { materials, materialsHighlight } from '../../mocks/materialsMock';
+import { PostPreviewInterface } from '../../entities/Post';
+import { useCategories } from '../../hooks/useCategories';
 import { videosYoutube } from '../../mocks/videosMock';
-import fetcher from '../../utils/fetcher';
-import handleCategory from '../../utils/handleCategories';
 import handleMaterialPreview from '../../utils/handleMaterialPreview';
 import handlePostPreview from '../../utils/handlePostPreview';
 import MaterialsConatainer from './styles';
 
 const Materials = () => {
   // Fetching categories states
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
-  const { data: categoriesData, error: categoriesError } = useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (categoriesData) {
-      setCategories(categoriesData);
-    }
-  }, [categoriesData]);
-
+  const { categories } = useCategories();
+  
   const [materials, setMaterials] = useState<MaterialPreviewInterface[]>();
   const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
 

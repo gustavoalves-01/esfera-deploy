@@ -28,10 +28,11 @@ import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton';
+import { useCategories } from '../hooks/useCategories';
 
 const Home = () => {
-  // Fetching categories states
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  // Fetching categories
+  const { categories } = useCategories();
 
   // Fetching posts states
   const [trendingPosts, setTrendingPosts] = useState<PostPreviewInterface[]>();
@@ -39,15 +40,6 @@ const Home = () => {
   const [recentPosts, setRecentPosts] = useState<PostPreviewInterface[]>();
   const [allPosts, setAllPosts] = useState<PostPreviewInterface[]>();
   const [postsError, setPostsError] = useState<string[]>([]);
-
-  // Fetching Categories
-  const { data: categoriesData, error: categoriesError } = useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (categoriesData) {
-      setCategories(categoriesData);
-    }
-  }, [categoriesData]);
 
   // Fetching Posts
   const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";

@@ -25,6 +25,7 @@ import { materials } from '../../../mocks/materialsMock';
 
 import { CategoryInterface } from '../../../entities/Category';
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
+import { useCategories } from '../../../hooks/useCategories';
 
 export const PostListPage = () => {
   // Query States
@@ -32,9 +33,7 @@ export const PostListPage = () => {
   const [postsURL, setPostsURL] = useState<String>('');
   const [isCategoryPage, setIsCategoryPage] = useState<boolean>(false);
   // Fetching categories states
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
-  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
+  const { categories } = useCategories();
   // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
@@ -54,26 +53,6 @@ export const PostListPage = () => {
       setPostsURL(`https://esferaenergia.com.br/wp-json/wp/v2/posts?&per_page=4&page=1&_fields=${postFields}`);
     }
   }, [paramsURL.posts, router]);
-
-  // Carregamento das Categorias
-  const { data: categoriesData, error: categoriesError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (!categoriesData && !categoriesError) {
-      setIsLoadingCategories(true);
-      setIsCategoriesError(false);
-      setCategories([]);
-    } else if (categoriesError) {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(true);
-      setCategories([]);
-    } else {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(false);
-      setCategories(categoriesData);
-    }
-  }, [categories, categoriesData, categoriesError]);
 
   // Carregamento dos Posts
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";

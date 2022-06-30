@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { CategoryInterface } from '../../entities/Category';
+import { useCategories } from '../../hooks/useCategories';
 import fetcher from '../../utils/fetcher';
 import Button from '../Button';
 import InputComponent from '../InputComponent';
@@ -29,14 +30,6 @@ import {
   SublistInUl,
 } from './styles';
 
-interface Category {
-  name: string;
-  slug: string;
-}
-
-interface CategoryProps {
-  categories: Category[];
-}
 function Header() {
   const [verifyHeaderActive, setVerifyHeaderActive] = useState(true);
   const [activePopupRecebeConteudos, setActivePopupRecebeConteudos] =
@@ -102,32 +95,7 @@ function Header() {
     };
   }, []);
 
-
-  // Fetching categories states
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true);
-  const [isCategoriesError, setIsCategoriesError] = useState<boolean>(false);
-
-  // Fetching categories
-  const { data: categoriesData, error: categoriesError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
-
-  useEffect(() => {
-    if (!categoriesData && !categoriesError) {
-      setIsLoadingCategories(true);
-      setIsCategoriesError(false);
-      setCategories([]);
-    } else if (categoriesError) {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(true);
-      setCategories([]);
-    } else {
-      setIsLoadingCategories(false);
-      setIsCategoriesError(false);
-      setCategories(categoriesData);
-    }
-  }, [categories, categoriesData, categoriesError]);
-
+  const { categories } = useCategories();
 
   return (
     <>
@@ -176,17 +144,17 @@ function Header() {
                   </li>
 
                   <div>
-                    {!isCategoriesError && !isLoadingCategories &&
-                    categories.map((category) => {
-                      return (
-                        <React.Fragment key={category.slug}>
-                          <TagCategory
-                            categoryName={category.name}
-                            link={`/${category.slug}`}
-                          />
-                        </React.Fragment>
-                      );
-                    })}
+                    {categories &&
+                      categories.map((category) => {
+                        return (
+                          <React.Fragment key={category.slug}>
+                            <TagCategory
+                              categoryName={category.name}
+                              link={`/${category.slug}`}
+                            />
+                          </React.Fragment>
+                        );
+                      })}
                   </div>
                 </SublistInUl>
                 <Link href="/materiais" passHref>
