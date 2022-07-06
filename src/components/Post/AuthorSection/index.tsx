@@ -24,35 +24,6 @@ export const AuthorSection = ({
         <h1>{name}</h1>
       </div>
       <p>{about}</p>
-      <div className="linksSection">
-        <Link href="" passHref>
-          <div className="socialIcon">
-            <Image
-              src="/images/icons/facebook-logo.svg"
-              alt="facebook"
-              layout="fill"
-            />
-          </div>
-        </Link>
-        <Link href="" passHref>
-          <div className="socialIcon">
-            <Image
-              src="/images/icons/linkedin-logo.svg"
-              alt="linkedin"
-              layout="fill"
-            />
-          </div>
-        </Link>
-        <Link href="" passHref>
-          <div className="socialIcon">
-            <Image
-              src="/images/icons/twitter-logo.svg"
-              alt="twitter"
-              layout="fill"
-            />
-          </div>
-        </Link>
-      </div>
     </Container>
   );
 };

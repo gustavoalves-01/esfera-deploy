@@ -4,21 +4,35 @@ import TagCategory from '../../TagCategory';
 import PostHeaderCaption from './PostHeaderCaption';
 import { Container } from './styles';
 import { CategoryInterface } from '../../../entities/Category';
+import { IAuthor } from '../../../entities/Post';
 
 interface PostHeaderProps {
   post: {
     bgUrl: string;
     categories: Array<CategoryInterface>;
     title: string;
-    author: { name?: string; photo?: string };
     createdAt: string;
     id: string;
     slug: string;
     timeToRead: number;
   };
+  author: IAuthor | undefined;
 }
 
-export default function PostHeader({ post }: PostHeaderProps) {
+export default function PostHeader({ post, author }: PostHeaderProps) {
+
+  const postCaption = {
+    author: {
+      name: author?.name || 'Redação',
+      photo: author?.photo || undefined,
+    },
+    createdAt: post.createdAt,
+    id: post.id,
+    slug: post.slug,
+    timeToRead: post.timeToRead
+  }
+
+
   return (
     <Container>
       <div className="postHero">
@@ -32,7 +46,7 @@ export default function PostHeader({ post }: PostHeaderProps) {
           <h1>{post.title}</h1>
         </div>
       </div>
-      <PostHeaderCaption post={post} />
-    </Container>
+      <PostHeaderCaption post={postCaption} />
+    </Container >
   );
 }

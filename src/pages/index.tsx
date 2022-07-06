@@ -7,7 +7,7 @@ import useSWR from 'swr';
 
 // Utilities Imports
 import fetcher from '../utils/fetcher';
-import handlePostPreview from '../utils/handlePostPreview';
+import { handlePostPreview } from '../utils/handleContent';
 
 // Components Imports
 import Header from '../components/Header';
@@ -168,7 +168,7 @@ const Home = () => {
                 />
               </>
             ) :
-              <PostSkeleton isWide/>
+              <PostSkeleton isWide />
             }
 
             {
@@ -193,7 +193,7 @@ const Home = () => {
                   </div>
                 </>
                 :
-              <PostSkeleton/>
+                <PostSkeleton />
             }
 
             <CardsSection
@@ -304,10 +304,10 @@ const Home = () => {
                   </div>
                 </>
                 :
-              <>
-                <PostSkeleton />
-                <PostSkeleton />
-              </>
+                <>
+                  <PostSkeleton />
+                  <PostSkeleton />
+                </>
             }
           </>
         </main>

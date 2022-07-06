@@ -15,13 +15,13 @@ import { PostPreviewInterface } from '../../entities/Post';
 import { useCategories } from '../../hooks/useCategories';
 import { videosYoutube } from '../../mocks/videosMock';
 import handleMaterialPreview from '../../utils/handleMaterialPreview';
-import handlePostPreview from '../../utils/handlePostPreview';
+import { handlePostPreview } from '../../utils/handleContent';
 import MaterialsConatainer from './styles';
 
 const Materials = () => {
   // Fetching categories states
   const { categories } = useCategories();
-  
+
   const [materials, setMaterials] = useState<MaterialPreviewInterface[]>();
   const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
 
@@ -48,7 +48,7 @@ const Materials = () => {
     }
   }, [categories]);
 
-console.log(materials)
+  console.log(materials)
   return (
     <>
       <Head>

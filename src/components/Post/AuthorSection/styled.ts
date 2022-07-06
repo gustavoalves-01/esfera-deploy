@@ -17,6 +17,9 @@ export const Container = styled.div`
     grid-row: 1/4;
     grid-column: 1/2;
 
+    border-radius: 50%;
+    overflow: hidden;
+
     img {
       transform: scale(1.1);
     }
@@ -33,20 +36,6 @@ export const Container = styled.div`
     h1 {
       font-size: 18px;
       line-height: 25px;
-    }
-  }
-
-  .linksSection {
-    display: flex;
-    grid-column: 2/3;
-    margin-top: 1rem;
-    gap: 0.5rem;
-    height: 1rem;
-
-    .socialIcon {
-      height: 100%;
-      width: 1rem;
-      position: relative;
     }
   }
 
@@ -70,10 +59,6 @@ export const Container = styled.div`
 
     p {
       font-size: 14px;
-    }
-
-    .linksSection {
-      margin-top: 0;
     }
   }
 `;
