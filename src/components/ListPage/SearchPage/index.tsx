@@ -19,11 +19,13 @@ import { materials } from '../../../mocks/materialsMock';
 import YoutubeSection from '../../YoutubeSection';
 import Footer from '../../Footer';
 
-import { Container, ContainerYoutube, ConteudoProcurado } from './styles';
+import { Container, ContainerYoutube, PaginationSkeleton } from './styles';
 
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
 import { CategoryInterface } from '../../../entities/Category';
 import { useCategories } from '../../../hooks/useCategories';
+import { useFetch } from '../../../hooks/useFetch';
+import { PostSkeleton } from '../../Post/PostPreviewSection/PostSkeleton';
 
 export const SearchPage = () => {
   // Validating if has search term
@@ -36,19 +38,19 @@ export const SearchPage = () => {
     }
   }, [router, searchTerm]);
 
-  // Fetching posts states
+
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
-  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
-  const [isPostsError, setIsPostsError] = useState<boolean>(false);
-  // Pagination states
+  const [totalPages, setTotalPages] = useState<number>();
   const [page, setPage] = useState(1);
 
   const { categories } = useCategories();
 
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
-  const { data: postsData, error: postsError } =
-    useSWR(`https://esferaenergia.com.br/wp-json/wp/v2/posts?search=${searchTerm}&per_page=4&page=${page}&_fields=${postFields}`, fetcher);
+  const { data: postsData, isLoading: isLoadingPosts, isError: isPostsError } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/posts?search=${searchTerm}&per_page=4&page=${page}&_fields=${postFields}`);
+
+
 
   const handleFetchedPosts = useCallback((data: any) => {
     const postList: PostPreviewInterface[] = data?.map(
@@ -80,21 +82,13 @@ export const SearchPage = () => {
   }, [categories]);
 
   useEffect(() => {
-    if (!postsData && !postsError) {
-      setIsLoadingPosts(true);
-      setIsPostsError(false);
-      setPosts([]);
-    } else if (postsData && categories) {
-      setIsLoadingPosts(false);
-      setIsPostsError(false);
-      const newPosts = handleFetchedPosts(postsData);
+    if (!isLoadingPosts && !isPostsError && categories && postsData) {
+      const newPosts = handleFetchedPosts(postsData.data);
+      const totalPages = Number(postsData.headers["x-wp-totalpages"]);
+      setTotalPages(totalPages);
       setPosts(newPosts);
-    } else {
-      setIsLoadingPosts(false);
-      setIsPostsError(true);
-      setPosts([]);
     }
-  }, [categories, handleFetchedPosts, postsData, postsError]);
+  }, [categories, handleFetchedPosts, isLoadingPosts, isPostsError, postsData]);
 
   function pagination(e: number) {
     setPage(e)
@@ -119,13 +113,14 @@ export const SearchPage = () => {
           />
         </div>
 
-        <ConteudoProcurado>
+        <div className='searchResults'>
           <h2 className="titleListPage">Resultado de busca contendo &#34;{searchTerm}&#34;</h2>
           {isPostsError ?
             <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
             : (isLoadingPosts ?
               <div className='loadingContainer'>
-                <div className="spinner" />
+                <PostSkeleton />
+                <PostSkeleton />
               </div>
               :
               <>
@@ -141,7 +136,7 @@ export const SearchPage = () => {
               </>
             )
           }
-        </ConteudoProcurado>
+        </div>
 
 
         <Sidebar>
@@ -157,7 +152,12 @@ export const SearchPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem funcForPage={pagination} totalPages={10} />
+          {
+            totalPages ?
+              <PaginationItem funcForPage={pagination} totalPages={totalPages} />
+              :
+              <PaginationSkeleton />
+          }
         </span>
 
         <span></span>

@@ -11,26 +11,10 @@ export const Container = styled.main`
     padding-bottom: 0;
 
     .loadingContainer {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .spinner {
-        width: 60px;
-        height: 60px;
-        border: 4px solid rgba(0, 0, 0, 0);
-        border-left-color: var(--pink-500);
-        border-bottom-color: var(--pink-500);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+      margin-top: 67px;
+      
+      div {
+        margin: 16px 0 !important;
       }
     }
 

@@ -26,20 +26,24 @@ import { materials } from '../../../mocks/materialsMock';
 import { CategoryInterface } from '../../../entities/Category';
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
 import { useCategories } from '../../../hooks/useCategories';
+import { useFetch } from '../../../hooks/useFetch';
+import { PostSkeleton } from '../../Post/PostPreviewSection/PostSkeleton';
+import { PaginationSkeleton } from '../SearchPage/styles';
 
 export const PostListPage = () => {
   // Query States
   const [currentCategory, setCurrentCategory] = useState<CategoryInterface>();
-  const [postsURL, setPostsURL] = useState<String>('');
+  const [postsURL, setPostsURL] = useState<string>('');
   const [isCategoryPage, setIsCategoryPage] = useState<boolean>(false);
+
   // Fetching categories states
   const { categories } = useCategories();
+
   // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
-  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
-  const [isPostsError, setIsPostsError] = useState<boolean>(false);
-  // Pagination states
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState<number>();
+
 
   // Verify if must to return all posts or filter by category
   const router = useRouter();
@@ -72,7 +76,7 @@ export const PostListPage = () => {
     }
   }, [isCategoryPage, paramsURL.posts])
 
-  const { data: postsData, error: postsError } = useSWR(postsURL, fetcher);
+  const { data: postsData, isLoading: isLoadingPosts, isError: isPostsError } = useFetch(postsURL);
 
   const handleFetchedPosts = useCallback((data: any) => {
     const postList: PostPreviewInterface[] = data?.map(
@@ -104,21 +108,13 @@ export const PostListPage = () => {
   }, [categories])
 
   useEffect(() => {
-    if (!postsData && !postsError) {
-      setIsLoadingPosts(true);
-      setIsPostsError(false);
-      setPosts([]);
-    } else if (postsData && categories) {
-      setIsLoadingPosts(false);
-      setIsPostsError(false);
-      const newPosts = handleFetchedPosts(postsData);
+    if (!isLoadingPosts && !isPostsError && categories && postsData) {
+      const newPosts = handleFetchedPosts(postsData.data);
+      const totalPages = Number(postsData.headers["x-wp-totalpages"]);
+      setTotalPages(totalPages);
       setPosts(newPosts);
-    } else {
-      setIsLoadingPosts(false);
-      setIsPostsError(true);
-      setPosts([]);
     }
-  }, [categories, handleFetchedPosts, postsData, postsError]);
+  }, [categories, handleFetchedPosts, isLoadingPosts, isPostsError, postsData]);
 
   function pagination(e: number) {
     setPage(e)
@@ -168,7 +164,8 @@ export const PostListPage = () => {
             <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
             : (isLoadingPosts ?
               <div className='loadingContainer'>
-                <div className="spinner" />
+                <PostSkeleton />
+                <PostSkeleton />
               </div>
               :
               isCategoryPage ?
@@ -182,7 +179,7 @@ export const PostListPage = () => {
                   title=""
                   posts={posts}
                 />
-               )
+            )
           }
 
           <PostPreviewSection
@@ -206,7 +203,12 @@ export const PostListPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem funcForPage={pagination} totalPages={10} />
+          {
+            totalPages ?
+              <PaginationItem funcForPage={pagination} totalPages={totalPages} />
+              :
+              <PaginationSkeleton />
+          }
         </span>
 
         <span></span>
@@ -219,15 +221,10 @@ export const PostListPage = () => {
           }}
         />
 
-        <span></span>
-
         <MaterialPreviewSection
           title="Você pode se interessar por estes outros materiais"
           materials={materials}
         />
-
-        <span></span>
-
       </Container>
 
       <ContainerYoutube>

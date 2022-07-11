@@ -29,6 +29,7 @@ import { PostPreviewInterface } from '../entities/Post';
 import { CategoryInterface } from '../entities/Category';
 import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton';
 import { useCategories } from '../hooks/useCategories';
+import { useFetch } from '../hooks/useFetch';
 
 const Home = () => {
   // Fetching categories
@@ -39,7 +40,10 @@ const Home = () => {
   const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
   const [recentPosts, setRecentPosts] = useState<PostPreviewInterface[]>();
   const [allPosts, setAllPosts] = useState<PostPreviewInterface[]>();
-  const [postsError, setPostsError] = useState<string[]>([]);
+
+  const [categoriesCards, setCategoriesCards] = useState<CardInterface[]>();
+  const [materialsCards, setMaterialsCards] = useState<CardInterface[]>();
+
 
   // Fetching Posts
   const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
@@ -48,7 +52,7 @@ const Home = () => {
   const queryParams = {
     trending: `${fetchPostsURL}?_fields=${postPreviewFields}&tags=3&per_page=1`,
     recent: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2`,
-    popular: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2&page=2`,
+    popular: `https://esferaenergia.com.br/wp-json/wordpress-popular-posts/v1/popular-posts?limit=2&_fields=${postPreviewFields}`,
     all: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=4&page=1`
   }
 
@@ -84,58 +88,39 @@ const Home = () => {
     }
   }, [categories, queryParams.all, queryParams.popular, queryParams.recent, queryParams.trending]);
 
-  const materials: CardInterface[] = [
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-  ];
+  useEffect(() => {
+    if (categories) {
+      const newCategoriesCards = categories.map((category, index) => {
+        return {
+          text: category.name,
+          imgUrl: `/images/categories/category-bg-${index}.png`,
+          href: category.slug,
+        }
+      }).filter((category, index) => index < 4);
 
-  const categoriesHighlight: CardInterface[] = [
-    {
-      text: 'Categoria 1',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+      setCategoriesCards(newCategoriesCards);
+    }
+  }, [categories]);
 
-    {
-      text: 'Categoria 2',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+  const fetchMaterialsUrl = "https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos/?per_page=4";
 
-    {
-      text: 'Categoria 3',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+  const { data: materialsData, isLoading: isMaterialsLoading, isError: isMaterialError } = useFetch(fetchMaterialsUrl);
 
-    {
-      text: 'Categoria 4',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-  ];
+  useEffect(() => {
+    if (materialsData) {
+      const materials = materialsData.data.map((material: any) => {
+        return {
+          imgUrl: "/" + material.imagem_do_material,
+          href: material.link,
+        }
+      })
+
+      setMaterialsCards(materials);
+    }
+  }, [materialsData])
+
+
+
 
   return (
     <>
@@ -196,25 +181,32 @@ const Home = () => {
                 <PostSkeleton />
             }
 
-            <CardsSection
-              type="materials"
-              title="Materiais gratuitos para download"
-              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-              cards={materials}
-            />
-            <CardsSection
-              type="materials"
-              title="Materiais gratuitos"
-              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-              cards={materials}
-              isMobile
-            />
-            <div className="is-mobileButton">
-              <Link href="/materiais">Ver todos os materiais</Link>
-              <div>
-                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
-              </div>
-            </div>
+            {
+              materialsCards
+              &&
+
+              <>
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos para download"
+                  linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+                  cards={materialsCards}
+                />
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos"
+                  linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+                  cards={materialsCards}
+                  isMobile
+                />
+                <div className="is-mobileButton">
+                  <Link href="/materiais">Ver todos os materiais</Link>
+                  <div>
+                    <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                  </div>
+                </div>
+              </>
+            }
 
             {
               popularPosts ?
@@ -247,25 +239,30 @@ const Home = () => {
                 <PostSkeleton />
             }
 
-            <CardsSection
-              type="categories"
-              title="Categorias em alta"
-              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-              cards={categoriesHighlight}
-            />
-            <CardsSection
-              type="categories"
-              title="Categorias em alta"
-              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-              cards={categoriesHighlight}
-              isMobile
-            />
-            <div className="is-mobileButton">
-              <Link href="/">Ver todas as categorias</Link>
-              <div>
-                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
-              </div>
-            </div>
+            {
+              categoriesCards &&
+              <>
+                <CardsSection
+                  type="categories"
+                  title="Categorias em alta"
+                  linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                  cards={categoriesCards}
+                />
+                <CardsSection
+                  type="categories"
+                  title="Categorias em alta"
+                  linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                  cards={categoriesCards}
+                  isMobile
+                />
+                <div className="is-mobileButton">
+                  <Link href="/">Ver todas as categorias</Link>
+                  <div>
+                    <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                  </div>
+                </div>
+              </>
+            }
 
             <NewsletterForm
               copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
