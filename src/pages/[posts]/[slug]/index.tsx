@@ -179,10 +179,10 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
             </Head>
             <Header />
             <Container>
-              <ContainerHeader>
                 <Breadcrumb
                   path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
                 />
+
                 <SearchComponent
                   widthIcon="50px"
                   heightInput="56px"
@@ -190,7 +190,6 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
                   placeholder="Encontre um artigo"
                   typeInput="search"
                 />
-              </ContainerHeader>
               <PostHeader post={postHeader} author={author} />
 
               <main>
@@ -202,6 +201,7 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
                   copy="Receba os melhores conteúdos da Esfera Energia"
                   desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
                   cta="Receber conteúdos"
+                  isPostPage
                 />
               </Sidebar>
               <FreeMaterialsCards materials={materials} />

@@ -15,8 +15,21 @@ export const BreadcrumbContainer = styled.div`
   p {
     width: 100%;
   }
+
+  span.sep {
+    margin: 0 0.4rem;
+  }
+
   a {
     white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.2s;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration-color: #4f5150;
+    }
   }
 `;
 export const WrapperImage = styled.div`

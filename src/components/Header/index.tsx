@@ -160,17 +160,16 @@ function Header() {
                 <Link href="/materiais" passHref>
                   <li>Materiais gratuitos</li>
                 </Link>
-
                 <>
                   <li>
-                    Soluções{' '}
+                    Soluções
                   </li>
                 </>
                 <li>
-                  <a href="#">Sobre nós</a>
+                  <a href="https://esferaenergia.com.br/sobre-nos/" target="_blank" rel="noreferrer">Sobre nós</a>
                 </li>
                 <li>
-                  <a href="">O Mercado Livre de Energia</a>
+                  <a href="https://esferaenergia.com.br/mercado-livre/" target="_blank" rel="noreferrer">O Mercado Livre de Energia</a>
                 </li>
               </PrincipalList>
             ) : (
@@ -209,7 +208,7 @@ function Header() {
 
                 <>
                   <li>
-                    Soluções{' '}
+                    Soluções
                   </li>
                 </>
                 <div className="containerInput">
@@ -308,15 +307,16 @@ function Header() {
               </Link>
 
               <Link href="/">
-                <a>Seluções</a>
+                <a>Soluções</a>
               </Link>
 
-              <Link href="/">
-                <a>Sobre nós</a>
-              </Link>
-              <Link href="/">
-                <a>O mercado livre de energia</a>
-              </Link>
+              <a href="https://esferaenergia.com.br/sobre-nos/" target="_blank" rel="noreferrer">
+                Sobre nós
+              </a>
+
+              <a href="https://esferaenergia.com.br/mercado-livre/" target="_blank" rel="noreferrer">
+                O mercado livre de energia
+              </a>
 
               <SearchComponent
                 widthInput="100%"
@@ -387,7 +387,7 @@ function Header() {
                   onClick={() => activeCategory()}
                   activeCategories={categorieActive}
                 >
-                  Categorias{' '}
+                  Categorias
                   <Image
                     width={16}
                     height={8}

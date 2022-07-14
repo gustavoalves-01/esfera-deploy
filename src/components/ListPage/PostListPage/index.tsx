@@ -216,8 +216,8 @@ export const PostListPage = () => {
           title="Posts mais acessados"
           posts={posts}
           linkAll={{
-            href: '#',
-            text: 'Ver todos os posts mais acesados',
+            href: '/posts?popular',
+            text: 'Ver todos os posts mais acessados',
           }}
         />
 

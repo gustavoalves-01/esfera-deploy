@@ -4,7 +4,7 @@ export const Container = styled.div`
   background: #f5f5f5;
   font-family: 'Open Sans';
   padding: 56px 0;
-  margin: 40px 0;
+  margin: 0 0 40px;
 
   @media (max-width: 1100px) {
     padding: 40px 32px;

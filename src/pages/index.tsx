@@ -215,16 +215,16 @@ const Home = () => {
                     title="Posts mais acessados"
                     posts={popularPosts}
                     linkAll={{
-                      href: '#',
-                      text: 'Ver todos os posts mais acesados',
+                      href: '/posts?popular',
+                      text: 'Ver todos os posts mais acessados',
                     }}
                   />
                   <PostPreviewSection
                     title="Posts mais acessados"
                     posts={popularPosts}
                     linkAll={{
-                      href: '#',
-                      text: 'Ver todos os posts mais acesados',
+                      href: '/posts?popular',
+                      text: 'Ver todos os posts mais acessados',
                     }}
                     isMobile
                   />

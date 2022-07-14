@@ -28,11 +28,18 @@ function Breadcrumb({
 
         {path?.map((points) =>
           points.href ? (
-            <Link href={points.href} key={points.href} passHref>
-              <span> &gt; {points.label}</span>
-            </Link>
+            <>
+              <span className='sep'>&gt;</span>
+              <Link href={points.href} key={points.href}>
+                <a>{points.label}</a>
+              </Link>
+            </>
           ) : (
-            <span key={points.label}> &gt; {points.label}</span>
+            <>
+              <span className='sep'>&gt;</span>
+              <span className='post'key={points.label}>{points.label}</span>
+            </>
+
           )
         )}
       </p>

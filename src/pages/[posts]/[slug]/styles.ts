@@ -23,13 +23,29 @@ const Container = styled.div`
   display: grid;
   max-width: calc(1200px + 4rem);
   margin: 42px auto 0;
-  padding: 100px 2rem;
+  padding: 100px 2rem 80px;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
   > div {
     grid-column: 1/2;
     margin-bottom: 72px;
+
+    &:first-of-type {
+      align-self: auto;
+      display: flex;
+      margin: 0;
+      align-items: center;
+
+      * {
+        margin-bottom: 46px;
+      }
+    }
+  }
+
+  > label {
+    max-height: 56px;
+    margin-bottom: 46px;
   }
 
   main {
