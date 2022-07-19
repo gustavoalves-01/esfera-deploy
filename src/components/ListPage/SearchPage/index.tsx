@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import fetcher from '../../../utils/fetcher'
 import handleCategory from '../../../utils/handleCategories';
 
-import Header from '../../Header';
+import Header from '../../Header2';
 import Breadcrumb from '../../Breadcrumb';
 import SearchComponent from '../../SearchComponent';
 import PostPreviewSection from '../../Post/PostPreviewSection';
@@ -15,20 +15,34 @@ import NewsletterForm from '../../NewsletterForm';
 import SidebarList from '../../Sidebar/SidebarList';
 import PaginationItem from '../../Pagination';
 import MaterialPreviewSection from '../../FreeMaterials/MaterialPreviewSection';
-import { materials } from '../../../mocks/materialsMock';
 import YoutubeSection from '../../YoutubeSection';
 import Footer from '../../Footer';
 
-import { Container, ContainerYoutube, ConteudoProcurado } from './styles';
+import { Container, ContainerYoutube, PaginationSkeleton } from './styles';
 
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
 import { CategoryInterface } from '../../../entities/Category';
 import { useCategories } from '../../../hooks/useCategories';
+import { useFetch } from '../../../hooks/useFetch';
+import { PostSkeleton } from '../../Post/PostPreviewSection/PostSkeleton';
+import { MaterialPreviewInterface } from '../../../entities/Material';
+import { handlePostPreview } from '../../../utils/handleContent';
+import handleMaterialPreview from '../../../utils/handleMaterialPreview';
+interface PostListProps {
+  popularPostsData: any;
+}
 
-export const SearchPage = () => {
+interface IVideo {
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export const SearchPage = ({ popularPostsData }: PostListProps) => {
   // Validating if has search term
   const router = useRouter();
   const searchTerm = router.query?.st;
+  const searchCategory = router.query?.category;
 
   useEffect(() => {
     if (!searchTerm) {
@@ -36,19 +50,38 @@ export const SearchPage = () => {
     }
   }, [router, searchTerm]);
 
-  // Fetching posts states
+
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
-  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
-  const [isPostsError, setIsPostsError] = useState<boolean>(false);
-  // Pagination states
+  const [totalPages, setTotalPages] = useState<number>();
   const [page, setPage] = useState(1);
 
+  const [videos, setVideos] = useState<IVideo[]>();
+
+  const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
+  const [materials, setMaterials] = useState<MaterialPreviewInterface[]>()
   const { categories } = useCategories();
 
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
-  const { data: postsData, error: postsError } =
-    useSWR(`https://esferaenergia.com.br/wp-json/wp/v2/posts?search=${searchTerm}&per_page=4&page=${page}&_fields=${postFields}`, fetcher);
+  const { data: postsData, isLoading: isLoadingPosts, isError: isPostsError } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/posts?search=${searchTerm}&per_page=4&page=${page}&_fields=${postFields}${searchCategory ? "&categories=" + searchCategory : ''}`);
+
+  const { data: videosData } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/video_youtube?per_page=3`);
+
+  useEffect(() => {
+    if (videosData) {
+      const newVideos: IVideo[] = videosData.data.map((video: any) => {
+        return {
+          title: video.title.rendered,
+          imageUrl: "/" + video.thumbnail_do_video,
+          link: video.link_do_video
+        }
+      })
+
+      setVideos(newVideos);
+    }
+  }, [videosData])
 
   const handleFetchedPosts = useCallback((data: any) => {
     const postList: PostPreviewInterface[] = data?.map(
@@ -71,7 +104,7 @@ export const SearchPage = () => {
           }),
           tags: String(post.tags),
           imageURL: post.yoast_head_json.og_image[0].url,
-          highlight: false,//String(post.tags).includes('3'),
+          highlight: false,
         };
       }
     );
@@ -80,25 +113,32 @@ export const SearchPage = () => {
   }, [categories]);
 
   useEffect(() => {
-    if (!postsData && !postsError) {
-      setIsLoadingPosts(true);
-      setIsPostsError(false);
-      setPosts([]);
-    } else if (postsData && categories) {
-      setIsLoadingPosts(false);
-      setIsPostsError(false);
-      const newPosts = handleFetchedPosts(postsData);
+    if (!isLoadingPosts && !isPostsError && categories && postsData) {
+      const newPosts = handleFetchedPosts(postsData.data);
+      const totalPages = Number(postsData.headers["x-wp-totalpages"]);
+      setTotalPages(totalPages);
       setPosts(newPosts);
-    } else {
-      setIsLoadingPosts(false);
-      setIsPostsError(true);
-      setPosts([]);
     }
-  }, [categories, handleFetchedPosts, postsData, postsError]);
+  }, [categories, handleFetchedPosts, isLoadingPosts, isPostsError, postsData]);
 
   function pagination(e: number) {
     setPage(e)
   }
+  useEffect(() => {
+    if (categories && popularPostsData) {
+      const posts = handlePostPreview(popularPostsData, categories);
+      setPopularPosts(posts);
+    }
+
+    if (categories) {
+      fetch("https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos")
+        .then((res) => res.json())
+        .then((data) => {
+          const materials = handleMaterialPreview(data, categories);
+          setMaterials(materials);
+        })
+    }
+  }, [categories, popularPostsData])
 
   return (
     <>
@@ -109,7 +149,7 @@ export const SearchPage = () => {
 
       <Container>
         <div className="containerHeader">
-          <Breadcrumb path={[{ label: `resultado de busca > ${searchTerm}`, href: '/' }]} />
+          <Breadcrumb path={[{ label: `resultado de busca para ${searchTerm}` }]} />
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -119,13 +159,14 @@ export const SearchPage = () => {
           />
         </div>
 
-        <ConteudoProcurado>
+        <div className='searchResults'>
           <h2 className="titleListPage">Resultado de busca contendo &#34;{searchTerm}&#34;</h2>
           {isPostsError ?
             <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
             : (isLoadingPosts ?
               <div className='loadingContainer'>
-                <div className="spinner" />
+                <PostSkeleton amount={2} />
+                <PostSkeleton amount={2} />
               </div>
               :
               <>
@@ -141,7 +182,7 @@ export const SearchPage = () => {
               </>
             )
           }
-        </ConteudoProcurado>
+        </div>
 
 
         <Sidebar>
@@ -157,37 +198,43 @@ export const SearchPage = () => {
         </Sidebar>
 
         <span className="pagination">
-          <PaginationItem funcForPage={pagination} totalPages={10} />
+          {
+            totalPages ?
+              <PaginationItem funcForPage={pagination} totalPages={totalPages} />
+              :
+              <PaginationSkeleton />
+          }
         </span>
+        <div className="otherContentSection">
+          {
+            popularPosts &&
+            <PostPreviewSection
+              title="Posts mais acessados"
+              posts={popularPosts}
+              linkAll={{
+                href: '/posts?popular',
+                text: 'Ver todos os posts mais acessados',
+              }}
+            />
+          }
 
-        <span></span>
-        <PostPreviewSection
-          title="Posts mais acessados"
-          posts={posts}
-          linkAll={{
-            href: '#',
-            text: 'Ver todos os posts mais acesados',
-          }}
-        />
-
-        <span></span>
-
-        <MaterialPreviewSection
-          title="Você pode se interessar por estes outros materiais"
-          materials={materials}
-        />
-
-        <span></span>
-
+          {
+            materials &&
+            <MaterialPreviewSection
+              title="Você pode se interessar por estes outros materiais"
+              materials={materials}
+            />
+          }
+        </div>
       </Container>
 
-      <ContainerYoutube>
-        <YoutubeSection videosInfos={[
-          { title: "Vídeo 1", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" },
-          { title: "Vídeo 2", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" },
-          { title: "Vídeo 3", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" }]} />
+      {
+        videos &&
+        <ContainerYoutube>
+          <YoutubeSection videosInfos={videos} />
 
-      </ContainerYoutube>
+        </ContainerYoutube>
+      }
 
       <Footer />
     </>

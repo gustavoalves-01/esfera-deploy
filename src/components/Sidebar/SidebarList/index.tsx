@@ -25,29 +25,19 @@ interface Items {
 const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [items, setItems] = useState<SidebarLinks[]>([]);
-  const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
-  const [isItemsError, setIsItemsError] = useState<boolean>(false);
 
-  const firstItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?_fields=id,title,slug,categories&per_page=4&page=1`;
+  const firstItemsURL = itemsType === 'posts' 
+    ? `https://esferaenergia.com.br/wp-json/wordpress-popular-posts/v1/popular-posts?limit=4&_fields=id,title,slug,categories`
+    : `https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos/?per_page=4&page=1`;
   const { data: itemsData, error: itemsError } = useSWR(firstItemsURL, fetcher);
 
   const { data: categoriesData, error: categoriesError } =
     useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher); 
 
   useEffect(() => {
-    if ((!itemsData && !itemsError) || !categoriesData ) {
-      setIsLoadingItems(true);
-      setIsItemsError(false);
-      setItems([]);
-    } else if (itemsError || !categoriesData) {
-      setIsLoadingItems(false);
-      setIsItemsError(true);
-      setItems([]);
-    } else {
-      setIsLoadingItems(false);
-      setIsItemsError(false);
+    if (itemsData && !itemsError && categoriesData) {
       setItems(itemsData);
-    }
+    } 
   }, [categoriesData, itemsData, itemsError]);
 
   const handleToggleExpanded = () => {
@@ -58,18 +48,19 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
     <Container isExpanded={isExpanded}>
       <h1>{title}</h1>
       <ul>
-        {isLoadingItems ? (
+        {!itemsData ? (
           <>
             <ItemSkeleton />
             <ItemSkeleton />
             <ItemSkeleton />
             <ItemSkeleton />
           </>
-        ) : isItemsError ? (
+        ) : itemsError ? (
           <NoItems>
             Desculpe, não temos {title.toLowerCase()} no momento...
           </NoItems>
         ) : (
+          items &&
           items.map((item: SidebarLinks) => {
             return (
               <li key={item.id}>
@@ -83,7 +74,7 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
 
         {isExpanded && <MoreItems itemsType={itemsType} />}
       </ul>
-      {!isItemsError && (
+      {!itemsError && (
         <button type="button" onClick={() => handleToggleExpanded()}>
           Ver mais {title.toLowerCase()}
           <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,34 +88,26 @@ const SidebarList = ({ title, itemsType }: SidebarSectionProps) => {
 
 const MoreItems = ({ itemsType }: MoreItemsProps) => {
   const [moreItems, setMoreItems] = useState<SidebarLinks[]>([]);
-  const [isLoadingItems, setIsLoadingItems] = useState<boolean>(true);
-  const [isItemsError, setIsItemsError] = useState<boolean>(false);
-  const moreItemsURL = `https://esferaenergia.com.br/wp-json/wp/v2/posts?_fields=id,title,slug,categories&per_page=4&page=2`;
+  const moreItemsURL = itemsType === 'posts' 
+  ? `https://esferaenergia.com.br/wp-json/wordpress-popular-posts/v1/popular-posts?limit=4&offset=4&_fields=id,title,slug,categories`
+  : `https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos/?per_page=4&page=2`;
 
   const { data: itemsData, error: itemsError } = useSWR(moreItemsURL, fetcher);
-  useEffect(() => {
-    if (!moreItems && !isItemsError) {
-      setIsLoadingItems(true);
-      setIsItemsError(false);
-      setMoreItems([]);
-    } else if (isItemsError) {
-      setIsLoadingItems(false);
-      setIsItemsError(true);
-      setMoreItems([]);
-    } else {
-      setIsLoadingItems(false);
-      setIsItemsError(false);
-      setMoreItems(itemsData);
-    }
-  }, [isItemsError, itemsData, itemsError, moreItems]);
-
+  
   const { data: categoriesData, error: categoriesError } =
-    useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
+  
+  useSWR('https://esferaenergia.com.br/wp-json/wp/v2/categories?_fields=id,name,slug', fetcher);
+  
+  useEffect(() => {
+    if (itemsData && !itemsError && categoriesData) {
+      setMoreItems(itemsData);
+    } 
+  }, [categoriesData, itemsData, itemsError, moreItems]);
 
   return (
     <>
       {
-        isLoadingItems || isItemsError ? (
+        !itemsData ? (
           <>
             <ItemSkeleton />
             <ItemSkeleton />
@@ -132,7 +115,7 @@ const MoreItems = ({ itemsType }: MoreItemsProps) => {
             <ItemSkeleton />
           </>
         ) : (
-          moreItems &&
+          moreItems && moreItems.length > 0 ? 
           moreItems.map((item: SidebarLinks) => {
             return (
               <li key={item.id}>
@@ -142,6 +125,8 @@ const MoreItems = ({ itemsType }: MoreItemsProps) => {
               </li>
             );
           })
+          :
+          <></>
         )
       }
     </>

@@ -46,6 +46,12 @@ export interface TimeToReadInterface {
   time: number;
 }
 
+export interface IAuthor {
+  name: string;
+  photo: string | null;
+  about: string | null;
+}
+
 export interface RawPostPreview {
   id: string;
   date: string;

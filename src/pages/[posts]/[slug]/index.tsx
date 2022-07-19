@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import slugify from 'slugify';
+import { api } from '../../../services/api'
 
-import Container, { ContainerHeader, Loading, YoutubeContainer } from './styles';
+import Container, { Loading, RelatedPostsContainer, YoutubeContainer } from './styles';
 
 import {
   FullPostInterface,
+  IAuthor,
+  PostPreviewInterface,
   PostShortcutsInterface,
-  RawPost,
 } from '../../../entities/Post';
-import { CategoryInterface } from '../../../entities/Category';
 
 import Breadcrumb from '../../../components/Breadcrumb';
 import SearchComponent from '../../../components/SearchComponent';
@@ -19,7 +19,7 @@ import CtaFinalPost from '../../../components/Post/CtaFinalPost';
 import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
 import YoutubeSection from '../../../components/YoutubeSection';
-import Header from '../../../components/Header';
+import Header from '../../../components/Header2';
 import Footer from '../../../components/Footer';
 import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
@@ -27,13 +27,17 @@ import { AuthorSection } from '../../../components/Post/AuthorSection';
 import FreeMaterialsCards from '../../../components/FreeMaterials/FreeMaterialsCards';
 import CardsSection from '../../../components/CardsSection';
 
-import handleCategory from '../../../utils/handleCategories';
-import { videosYoutube } from '../../../mocks/videosMock';
-import fetcher from '../../../utils/fetcher';
-import useSWR from 'swr';
-import { useRouter } from 'next/router';
-import { useCategories } from '../../../hooks/useCategories';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { handlePostContent, handlePostData, handlePostPreview } from '../../../utils/handleContent';
+import PostPreviewSection from '../../../components/Post/PostPreviewSection';
+import { PostSkeleton } from '../../../components/Post/PostPreviewSection/PostSkeleton';
+import { useFetch } from '../../../hooks/useFetch';
 
+
+interface IPostPageProps {
+  postData: any;
+  categoriesData: any;
+}
 interface PropsComentarios {
   imageUrl: string;
   name: string;
@@ -41,199 +45,112 @@ interface PropsComentarios {
   depoiment: string;
 }
 
-interface Author {
-  name: string;
-  photo: string;
-}
-
 interface PropsMaterials {
   imgUrl: string;
   href: string;
 }
 
-const Post = () => {
-  const router = useRouter();
-  const { slug } = router.query;
 
-  const { categories } = useCategories();
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
 
+interface IVideo {
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params!;
+
+  const { data: categoriesData } = await api.get("/categories?_fields=id,name,slug");
+  const { data: postData } = await api.get(`/posts/?slug=${slug}`);
+
+  if (!categoriesData || !postData) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      postData: postData || {},
+      categoriesData: categoriesData || {},
+    },
+    revalidate: 60 * 60 * 24 * 7 // 7 dias
+  }
+}
+
+const Post = ({ postData, categoriesData }: IPostPageProps) => {
   const [post, setPost] = useState<FullPostInterface>();
-
-  const handlePostContent = useCallback((data: any) => {
-    const handleContent = (content: string) => {
-      const divsRemoved = content.replace(/<[\/]{0,1}(div)[^><]*>/g, '');
-      const spansRemoved = divsRemoved.replace(/<[\/]{0,1}(span)[^><]*>/g, '');
-      return spansRemoved;
-    };
-
-    const fullPost: FullPostInterface = data.map((post: RawPost) => {
-      return {
-        id: post.id,
-        title: post.title.rendered,
-        author: post.author,
-        categories: post.categories.map((item) => {
-          return handleCategory(item, categories);
-        }),
-        content: handleContent(post.content.rendered),
-        imageURL: post.yoast_head_json.og_image[0].url,
-        createdAt: post.date,
-        slug: post.slug,
-      };
-    })[0];
-
-    return fullPost;
-  }, [categories]);
+  const [relatedPosts, setRelatedPosts] = useState<PostPreviewInterface[]>();
 
   useEffect(() => {
-    if (categories) {
-      fetch(`https://esferaenergia.com.br/wp-json/wp/v2/posts/?slug=${slug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const post = handlePostContent(data);
-          setPost(post);
-        })
+    if (postData && categoriesData) {
+      const post = handlePostData(postData, categoriesData);
+      setPost(post);
     }
-  }, [categories, handlePostContent, slug]);
+  }, [categoriesData, postData]);
 
   const [content, setContent] = useState<string>('');
   const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
-  const [author, setAuthor] = useState<Author | null>(null);
-  const [authorContent, setAuthorContent] = useState<string>('');
-  const [timeToRead, setTimeToRead] = useState<number>();
+  const [author, setAuthor] = useState<IAuthor>();
   const [postHeader, setPostHeader] = useState<any>();
+  const [videos, setVideos] = useState<IVideo[]>();
 
+
+  const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
   useEffect(() => {
-    if (post) {
-      const ttr = Math.round(post.content.split(' ').length / 150);
-      setTimeToRead(ttr);
-    }
-  }, [post])
+    if (post && document) {
+      const postContent = handlePostContent(post.content);
 
-  const removeAttributes = (element: Element) => {
-    Array.from(element.attributes).forEach((attr) => {
-      switch (attr.name) {
-        case 'id':
-          if (element.tagName === 'H2' || element.tagName === 'SECTION') {
-            break;
-          }
-        case 'src':
-          break;
-        case 'target':
-          break;
-        case 'href':
-          break;
-        default:
-          element.attributes.removeNamedItem(attr.name);
-          break;
-      }
-    });
-  };
-
-  // HTML do Elementor
-  useEffect(() => {
-    if (post) {
-
-      const element = document.createElement('div');
-      element.innerHTML = post.content;
-      const titles = element.querySelectorAll('h2');
-
-      titles.forEach((title) => {
-        const slug = slugify(title.innerText, { lower: true });
-        title.id = slug;
+      setSections(postContent.shortcuts);
+      setAuthor(postContent.author);
+      setContent(postContent.content);
+      setPostHeader({
+        bgUrl: post.imageURL,
+        categories: post.categories,
+        title: post.title,
+        createdAt: post.createdAt,
+        id: post.id,
+        slug: post.slug,
+        timeToRead: Math.round(post.content.split(' ').length / 150),
       });
-
-      element.querySelectorAll('*:not(iframe)').forEach((el) => {
-        removeAttributes(el);
-      });
-
-      element.querySelectorAll('iframe').forEach((el) => {
-        const container = document.createElement('div');
-        container.classList.add('iframeContainer');
-
-        el.insertAdjacentElement('beforebegin', container);
-        container.insertAdjacentElement('afterbegin', el);
-      });
-
-      const shortcuts: PostShortcutsInterface[] = Array.from(
-        element.querySelectorAll('h2')
-      ).map((heading) => {
-        return {
-          name: heading.innerText,
-          slug: heading.id,
-        };
-      });
-
-      // Author information
-      const sections = element.querySelectorAll('section'),
-        lastSection = sections[sections.length - 1],
-        lastSectionTitle = lastSection?.children[1]?.children[0]?.innerHTML;
-
-      if (lastSectionTitle) {
-        if (lastSectionTitle.indexOf('produzido') !== -1) {
-          lastSection.id = 'authorSection';
-          const photo = lastSection.children[0].getAttribute('src');
-          const name = lastSectionTitle
-            .replace('Esse texto foi produzido por&nbsp;', '')
-            .replace('.', '');
-          const about = lastSection?.children[2].innerHTML.replace(
-            /<[\/]{0,1}(i)[^><]*>/g,
-            ''
-          );
-
-          setAuthorContent(about);
-
-          const author =
-            name !== null && photo !== null ? { name: name, photo: photo } : null;
-
-          setAuthor(author);
-          lastSection.remove();
-        }
-      }
-
-      setSections(shortcuts);
-
-      const intermission = document.createElement('div');
-      intermission.classList.add('intermissionContainer');
-      intermission.innerHTML = `
-    <h2>A conta de luz da sua empresa é maior que 50 mil reais por mês?</h2>
-    <h3>Economize até 35% da sua conta de energia todos os meses com a gestão da Esfera Energia.</h3>
-    <a href="/">Receba o contato de um consultor especialista</a>
-    `;
-
-      if (titles.length >= 5) {
-        element.querySelectorAll('h2').forEach((section, index) => {
-          if (index === 2) {
-            section.insertAdjacentElement('beforebegin', intermission);
-          }
-        });
-      } else {
-        element.querySelectorAll('h2').forEach((section, index) => {
-          if (index === Math.floor(titles.length / 2)) {
-            section.insertAdjacentElement('beforebegin', intermission);
-          }
-        });
-      }
-      setContent(element.innerHTML);
     }
   }, [post]);
 
   useEffect(() => {
-    if (post && timeToRead) {
-      const postHeaderProps = {
-        bgUrl: post.imageURL,
-        categories: post.categories,
-        title: post.title,
-        author: author !== null ? author : { name: post.author, photo: undefined },
-        createdAt: post.createdAt,
-        id: post.id,
-        slug: post.slug,
-        timeToRead,
-      };
-
-      setPostHeader(postHeaderProps);
+    if (post && categoriesData) {
+      api.get(`/posts?categories=${post.categories[0].id}&per_page=3&_fields=${postFields}`)
+        .then((res) => {
+          const { data } = res;
+          const posts = handlePostPreview(data, categoriesData);
+          setRelatedPosts(posts);
+        })
     }
-  }, [author, post, timeToRead])
+  }, [categoriesData, post]);
+
+  const { data: videosData } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/video_youtube?per_page=3`);
+
+  useEffect(() => {
+    if (videosData) {
+      const newVideos: IVideo[] = videosData.data.map((video: any) => {
+        return {
+          title: video.title.rendered,
+          imageUrl: "/" + video.thumbnail_do_video,
+          link: video.link_do_video
+        }
+      })
+
+      setVideos(newVideos);
+    }
+  }, [videosData])
 
 
   const comentarios: PropsComentarios[] = [
@@ -295,31 +212,34 @@ const Post = () => {
             <Head>
               <title>{post.title}</title>
             </Head>
-            <Header />
+            <Header isPostPage />
             <Container>
-              <ContainerHeader>
-                <Breadcrumb
-                  path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
-                />
-                <SearchComponent
-                  widthIcon="50px"
-                  heightInput="56px"
-                  widthInput="100%"
-                  placeholder="Encontre um artigo"
-                  typeInput="search"
-                />
-              </ContainerHeader>
-              <PostHeader post={postHeader} />
+              <Breadcrumb
+                path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
+              />
+
+              <SearchComponent
+                widthIcon="50px"
+                heightInput="56px"
+                widthInput="100%"
+                placeholder="Encontre um artigo"
+                typeInput="search"
+              />
+              <PostHeader post={postHeader} author={author} />
 
               <main>
                 <PostShortcuts sections={sections} />
-                <article dangerouslySetInnerHTML={{ __html: content }} />
+                <div>
+                  <article dangerouslySetInnerHTML={{ __html: content }} />
+
+                </div>
               </main>
               <Sidebar>
                 <NewsletterForm
                   copy="Receba os melhores conteúdos da Esfera Energia"
                   desc="Os conteúdos são 100% gratuitos e você pode parar de receber quando quiser."
                   cta="Receber conteúdos"
+                  isPostPage
                 />
               </Sidebar>
               <FreeMaterialsCards materials={materials} />
@@ -329,7 +249,7 @@ const Post = () => {
                 title="Materiais Gratuitos"
                 cards={materials}
                 type={'materials'}
-                linkAll={{ text: 'Categoria 1', href: '#' }}
+                linkAll={{ text: '', href: '/materiais' }}
               />
             </Container>
 
@@ -341,10 +261,10 @@ const Post = () => {
               textButton="Receba o contato de um consultor especialista"
             />
 
-            {author !== null && (
+            {author?.about && author?.photo && (
               <AuthorSection
                 name={author.name}
-                about={authorContent}
+                about={author.about}
                 imageURL={author.photo}
               />
             )}
@@ -365,10 +285,24 @@ const Post = () => {
                 );
               })}
 
-              {/* TiTulo dinamico,  imagem dinamica*/}
-              <YoutubeContainer>
-                <YoutubeSection videosInfos={videosYoutube} />
-              </YoutubeContainer>
+              <RelatedPostsContainer>
+                <h1>Você vai se interessar também</h1>
+                {
+                  relatedPosts ?
+                    <PostPreviewSection title="" posts={relatedPosts} />
+                    :
+                    <div className='loadingContainer'>
+                      <PostSkeleton amount={3} />
+                    </div>
+                }
+              </RelatedPostsContainer>
+
+              {
+                videos &&
+                <YoutubeContainer>
+                  <YoutubeSection videosInfos={videos} />
+                </YoutubeContainer>
+              }
             </div>
 
             <Footer />

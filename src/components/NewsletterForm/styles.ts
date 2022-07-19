@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface NewsletterFormStyleProps {
   isWide?: boolean;
   isMobile?: boolean;
+  isPostPage?: boolean;
 }
 
 export const Container = styled.div<NewsletterFormStyleProps>`
@@ -13,10 +14,13 @@ export const Container = styled.div<NewsletterFormStyleProps>`
   padding: ${({ isWide }) => (isWide ? '40px' : '16px 14px')};
   background: ${({ isWide }) => (isWide ? '#F4F4F4' : '#8F8F8F')};
   border-radius: 5px;
+  ${({ isPostPage }) => (isPostPage && 'height: 376px; align-content: center;')}
+  ${({ isWide }) => (!isWide && "position: sticky; top: 100px; z-index: 10; box-shadow: 0px 2px 12px 9px rgb(255 255 255 / 50%);")}
+ 
   h1 {
     font-weight: ${({ isWide }) => (isWide ? '600' : '400')};
     font-size: ${({ isWide }) => (isWide ? '1.5rem' : '1rem')};
-    line-height: ${({ isWide }) => (isWide ? '32px' : '18px')};
+    line-height: ${({ isWide }) => (isWide ? '32px' : '24px')};
     margin-bottom: ${({ isWide }) => (isWide ? '8px' : '0')};
     color: ${({ isWide }) => (isWide ? '#181818' : '#fff')};
     text-align: ${({ isWide }) => (isWide ? 'left' : 'center')};
@@ -28,10 +32,11 @@ export const Container = styled.div<NewsletterFormStyleProps>`
     font-style: ${({ isWide }) => (isWide ? 'normal' : 'italic')};
     font-weight: ${({ isWide }) => (isWide ? '400' : '300')};
     font-size: ${({ isWide }) => (isWide ? '17px' : '12px')};
-    line-height: ${({ isWide }) => (isWide ? '23px' : '14px')};
+    line-height: ${({ isWide }) => (isWide ? '23px' : '18px')};
     color: ${({ isWide }) => (isWide ? '#181818' : '#fff')};
     text-align: ${({ isWide }) => (isWide ? 'left' : 'center')};
     padding: ${({ isWide }) => (isWide ? '0' : '0 1rem')};
+    ${({ isPostPage }) => (isPostPage && 'padding: 0 !important;')}    
     margin-bottom: ${({ isWide }) => (isWide ? '2rem' : '0')};
   }
 

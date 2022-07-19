@@ -7,6 +7,7 @@ interface NewsletterFromProps {
   cta: string;
   isWide?: boolean;
   isMobile?: boolean;
+  isPostPage?: boolean;
 }
 
 const NewsletterForm = ({
@@ -15,13 +16,14 @@ const NewsletterForm = ({
   cta,
   isWide,
   isMobile,
+  isPostPage,
 }: NewsletterFromProps) => {
   return (
-    <Container isWide={isWide} isMobile={isMobile}>
+    <Container isWide={isWide} isMobile={isMobile} isPostPage={isPostPage}>
       <h1>{copy}</h1>
       <p>{desc}</p>
       <form action="" method="post">
-        <input type="text" placeholder="Digite seu e-mail" name="email" />
+        <input type="email" placeholder="Digite seu e-mail" name="email" />
         <button type="submit">{cta}</button>
       </form>
     </Container>

@@ -21,7 +21,6 @@ function YoutubeItem({ imageUrl, title, link }: PropsYoutubeItem) {
             </WrapperImage>
 
             <div className="titleVideo">
-                <Image src="/images/logo_mini_esfera.svg" width={51} height={51} alt={`Logo Esfera`} />
                 <h4>{title}</h4>
             </div>
         </Container>

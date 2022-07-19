@@ -19,13 +19,15 @@ export default function PostHeaderCaption({ post }: PostHeaderCaptionProps) {
     <Container>
       <div className="postContent">
         <Link href={'#'} passHref>
-          <div className="authorProfile">
-            {post.author.photo ? (
+          {post.author.photo ? (
+            <div className="authorProfile rounded">
               <Image src={post.author.photo} layout="fill" alt="" />
-            ) : (
-              <Image src={'/images/profile_default.png'} layout="fill" alt="" />
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="authorProfile">
+              <Image src={'/images/icons/redacao.png'} layout="fill" alt="" />
+            </div>
+          )}
         </Link>
 
         <div className="postInfo">

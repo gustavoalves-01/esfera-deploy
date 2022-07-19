@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useBuscar } from '../../providers/buscarContext';
 import { LabelElement } from './styles';
 
@@ -11,13 +11,16 @@ interface PropsInputComponents {
   heightInput: string;
   placeholder: string;
   widthIcon: string;
+
+  category?: number;
 }
 function SearchComponent({
   typeInput,
   widthInput,
   heightInput,
   placeholder,
-  widthIcon
+  widthIcon,
+  category
 }: PropsInputComponents) {
   const { setInputEncontreArtigo, inputEncontreArtigo } = useBuscar();
 
@@ -27,13 +30,19 @@ function SearchComponent({
     setInputEncontreArtigo(e.target.value);
   }
 
+  useEffect(() => {
+    console.log(category);
+  }, [category])
+  
+  
+
   function sendRouterBlog() {
-    router.push(`/pesquisa?st=${inputEncontreArtigo}`);
+    router.push(`/pesquisa?st=${inputEncontreArtigo}${category ? "&category=" + category : ''}`);
   }
 
   function handleSearch(e: React.KeyboardEvent<HTMLSpanElement>) {
     if (e.key == "Enter") {
-      router.push(`/pesquisa?st=${inputEncontreArtigo}`);
+      router.push(`/pesquisa?st=${inputEncontreArtigo}${category ? "&category=" + category : ''}`);
     }
   }
 

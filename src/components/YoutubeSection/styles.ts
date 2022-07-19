@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  margin: 0 auto;
+  justify-content: space-between;
   overflow-x: hidden;
   grid-column: 1/3;
 
@@ -25,7 +25,7 @@ export const Container = styled.div`
     }
   }
   @media (max-width: 990px) {
-    padding: 2rem 0;
+    padding: 2rem 1rem;
 
     h2 {
       font-size: 20px;

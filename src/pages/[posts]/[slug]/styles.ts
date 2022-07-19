@@ -21,15 +21,31 @@ export const ContainerHeader = styled.div`
 
 const Container = styled.div`
   display: grid;
-  max-width: calc(1200px + 4rem);
+  max-width: 1181px;
   margin: 42px auto 0;
-  padding: 100px 2rem;
+  padding: 100px 2rem 80px;
   column-gap: 2rem;
   grid-template-columns: auto 255px;
 
   > div {
     grid-column: 1/2;
     margin-bottom: 72px;
+
+    &:first-of-type {
+      align-self: auto;
+      display: flex;
+      margin: 0;
+      align-items: center;
+
+      * {
+        margin-bottom: 46px;
+      }
+    }
+  }
+
+  > label {
+    max-height: 56px;
+    margin-bottom: 46px;
   }
 
   main {
@@ -56,6 +72,10 @@ const Container = styled.div`
         font-size: 1.5rem;
         line-height: 30px;
         margin-top: 2rem;
+      }
+
+      img {
+        width: 100%;
       }
 
       .intermissionContainer {
@@ -132,7 +152,7 @@ const Container = styled.div`
 
       p {
         font-size: 1rem;
-        line-height: 19px;
+        line-height: 1.7rem;
 
         strong {
           color: var(--pink-500);
@@ -151,11 +171,13 @@ const Container = styled.div`
 
   .postFooter {
     grid-column: 1/2;
+
+    
   }
 
   > aside {
     grid-column: 2/3;
-    grid-row: 2/3;
+    grid-row: 2/4;
     margin-top: 0;
     padding-top: 0;
 
@@ -200,6 +222,44 @@ export const YoutubeContainer = styled.section`
   display: flex;
   margin: 0 auto;
 `;
+
+export const RelatedPostsContainer = styled.div`
+  max-width: 1200px;
+  margin: 128px auto 0;
+
+  h1 {
+    font-family: 'Open Sans';
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 44px;
+    color: #f5426c;
+  }
+
+  .loadingContainer > div {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  > div .cardsWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    > div {
+      max-width: initial;
+
+      .postFooter {
+        .verPost {
+          width: auto;
+          white-space: nowrap;
+        }
+
+        > div:first-of-type {
+          width: unset;
+        }
+      }
+    }
+  }
+
+`
 
 
 export const Loading = styled.div`

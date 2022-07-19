@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import useSWR from 'swr';
 
 // Utilities Imports
-import fetcher from '../utils/fetcher';
-import handlePostPreview from '../utils/handlePostPreview';
+import { handlePostPreview } from '../utils/handleContent';
 
 // Components Imports
-import Header from '../components/Header';
+import Header from '../components/Header2';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchComponent from '../components/SearchComponent';
 import Sidebar from '../components/Sidebar';
@@ -26,9 +24,9 @@ import Container from './styles';
 // Typing Imports
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
-import { CategoryInterface } from '../entities/Category';
 import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton';
 import { useCategories } from '../hooks/useCategories';
+import { useFetch } from '../hooks/useFetch';
 
 const Home = () => {
   // Fetching categories
@@ -39,7 +37,10 @@ const Home = () => {
   const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
   const [recentPosts, setRecentPosts] = useState<PostPreviewInterface[]>();
   const [allPosts, setAllPosts] = useState<PostPreviewInterface[]>();
-  const [postsError, setPostsError] = useState<string[]>([]);
+
+  const [categoriesCards, setCategoriesCards] = useState<CardInterface[]>();
+  const [materialsCards, setMaterialsCards] = useState<CardInterface[]>();
+
 
   // Fetching Posts
   const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
@@ -48,7 +49,7 @@ const Home = () => {
   const queryParams = {
     trending: `${fetchPostsURL}?_fields=${postPreviewFields}&tags=3&per_page=1`,
     recent: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2`,
-    popular: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=2&page=2`,
+    popular: `https://esferaenergia.com.br/wp-json/wordpress-popular-posts/v1/popular-posts?limit=2&_fields=${postPreviewFields}`,
     all: `${fetchPostsURL}?_fields=${postPreviewFields}&tags_exclude=3&per_page=4&page=1`
   }
 
@@ -84,58 +85,35 @@ const Home = () => {
     }
   }, [categories, queryParams.all, queryParams.popular, queryParams.recent, queryParams.trending]);
 
-  const materials: CardInterface[] = [
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-    {
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-  ];
+  useEffect(() => {
+    if (categories) {
+      const newCategoriesCards = categories.map((category, index) => {
+        return {
+          text: category.name,
+          imgUrl: `/images/categories/category-bg-${index}.png`,
+          href: category.slug,
+        }
+      }).filter((category, index) => index < 4);
 
-  const categoriesHighlight: CardInterface[] = [
-    {
-      text: 'Categoria 1',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+      setCategoriesCards(newCategoriesCards);
+    }
+  }, [categories]);
 
-    {
-      text: 'Categoria 2',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+  const fetchMaterialsUrl = "https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos/?per_page=4";
 
-    {
-      text: 'Categoria 3',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
+  const { data: materialsData } = useFetch(fetchMaterialsUrl);
 
-    {
-      text: 'Categoria 4',
-      imgUrl:
-        'https://esferaenergia.com.br/wp-content/uploads/2022/03/comite-monitoramento-setor-eletrico.jpg',
-      href: '#',
-    },
-  ];
+  useEffect(() => {
+    if (materialsData) {
+      const materials = materialsData.data.map((material: any) => {
+        return {
+          imgUrl: "/" + material.imagem_do_material,
+          href: material.link,
+        }
+      })
+      setMaterialsCards(materials);
+    }
+  }, [materialsData])
 
   return (
     <>
@@ -146,7 +124,7 @@ const Home = () => {
 
       <Container>
         <div className="containerHeader">
-          <Breadcrumb path={[{ label: 'Blog', href: '/' }]} />
+          <Breadcrumb path={[{ label: 'Blog' }]} />
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -168,7 +146,7 @@ const Home = () => {
                 />
               </>
             ) :
-              <PostSkeleton isWide/>
+              <PostSkeleton isWide amount={1}/>
             }
 
             {
@@ -193,28 +171,35 @@ const Home = () => {
                   </div>
                 </>
                 :
-              <PostSkeleton/>
+                <PostSkeleton amount={2}/>
             }
 
-            <CardsSection
-              type="materials"
-              title="Materiais gratuitos para download"
-              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-              cards={materials}
-            />
-            <CardsSection
-              type="materials"
-              title="Materiais gratuitos"
-              linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
-              cards={materials}
-              isMobile
-            />
-            <div className="is-mobileButton">
-              <Link href="/materiais">Ver todos os materiais</Link>
-              <div>
-                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
-              </div>
-            </div>
+            {
+              materialsCards
+              &&
+
+              <>
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos para download"
+                  linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+                  cards={materialsCards}
+                />
+                <CardsSection
+                  type="materials"
+                  title="Materiais gratuitos"
+                  linkAll={{ href: '/materiais', text: 'Ver todos os materiais' }}
+                  cards={materialsCards}
+                  isMobile
+                />
+                <div className="is-mobileButton">
+                  <Link href="/materiais">Ver todos os materiais</Link>
+                  <div>
+                    <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                  </div>
+                </div>
+              </>
+            }
 
             {
               popularPosts ?
@@ -223,16 +208,16 @@ const Home = () => {
                     title="Posts mais acessados"
                     posts={popularPosts}
                     linkAll={{
-                      href: '#',
-                      text: 'Ver todos os posts mais acesados',
+                      href: '/posts?popular',
+                      text: 'Ver todos os posts mais acessados',
                     }}
                   />
                   <PostPreviewSection
                     title="Posts mais acessados"
                     posts={popularPosts}
                     linkAll={{
-                      href: '#',
-                      text: 'Ver todos os posts mais acesados',
+                      href: '/posts?popular',
+                      text: 'Ver todos os posts mais acessados',
                     }}
                     isMobile
                   />
@@ -244,28 +229,33 @@ const Home = () => {
                   </div>
                 </>
                 :
-                <PostSkeleton />
+                <PostSkeleton amount={2}/>
             }
 
-            <CardsSection
-              type="categories"
-              title="Categorias em alta"
-              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-              cards={categoriesHighlight}
-            />
-            <CardsSection
-              type="categories"
-              title="Categorias em alta"
-              linkAll={{ href: '#', text: 'Ver todos as categorias' }}
-              cards={categoriesHighlight}
-              isMobile
-            />
-            <div className="is-mobileButton">
-              <Link href="/">Ver todas as categorias</Link>
-              <div>
-                <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
-              </div>
-            </div>
+            {
+              categoriesCards &&
+              <>
+                <CardsSection
+                  type="categories"
+                  title="Categorias em alta"
+                  linkAll={{ href: '/posts', text: 'Ver todos as categorias' }}
+                  cards={categoriesCards}
+                />
+                <CardsSection
+                  type="categories"
+                  title="Categorias em alta"
+                  linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                  cards={categoriesCards}
+                  isMobile
+                />
+                <div className="is-mobileButton">
+                  <Link href="/">Ver todas as categorias</Link>
+                  <div>
+                    <Image src="/images/icons/arrow-right-rosa.svg" layout="fill" alt="" />
+                  </div>
+                </div>
+              </>
+            }
 
             <NewsletterForm
               copy="Saiba tudo sobre o Mercado Livre de Energia e como economizar ainda mais na conta de luz da sua empresa"
@@ -304,10 +294,10 @@ const Home = () => {
                   </div>
                 </>
                 :
-              <>
-                <PostSkeleton />
-                <PostSkeleton />
-              </>
+                <>
+                  <PostSkeleton amount={2}/>
+                  <PostSkeleton amount={2}/>
+                </>
             }
           </>
         </main>

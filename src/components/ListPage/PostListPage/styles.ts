@@ -11,26 +11,10 @@ export const Container = styled.main`
     padding-bottom: 0;
 
     .loadingContainer {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .spinner {
-        width: 60px;
-        height: 60px;
-        border: 4px solid rgba(0, 0, 0, 0);
-        border-left-color: var(--pink-500);
-        border-bottom-color: var(--pink-500);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+      margin-top: 67px;
+      
+      div {
+        margin: 16px 0 !important;
       }
     }
 
@@ -39,9 +23,44 @@ export const Container = styled.main`
         justify-content: space-between;
         grid-column: 1/3;
 
-        label {
-        min-width: 255px;
+        > label {
         }
+        
+        .searchContainer {
+          min-width: 255px;
+          display: block;
+          position: relative;
+
+          .checkboxContainer {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+            
+            label {
+              font: 400 0.8rem "Open Sans", sans-serif;
+              cursor: pointer;
+            }
+            
+            input {
+              cursor: pointer;
+              margin: 1.5px 0;
+            }
+          }
+        }
+    }
+
+    .otherContentSection {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1/2;
+
+      .intermissionContainer {
+        display: none;
+      }
     }
 
     .pagination{
@@ -89,9 +108,7 @@ export const Container = styled.main`
     }
 `
 
-export const ConteudoProcurado = styled.div`
-
-`
+export const ConteudoProcurado = styled.div``
 
 export const ContainerYoutube = styled.div`
         display: flex;  

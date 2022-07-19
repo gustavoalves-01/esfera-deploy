@@ -2,6 +2,21 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
 
+@font-face {
+font-family: 'Nexa';
+src: url('/fonts/Nexa/Nexa-Light.otf');
+font-weight: 400;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Nexa';
+src: url('/fonts/Nexa/Nexa-Bold.otf');
+font-weight: 600;
+font-style: normal;
+}
+
+
 :root {
   --gray-200: #f5f5f5;
   --pink-300: #F8B3C5;
@@ -18,6 +33,8 @@ export const GlobalStyle = createGlobalStyle`
 html{
   scroll-behavior: smooth;
 }
+
+
 html,
 body,
 button,

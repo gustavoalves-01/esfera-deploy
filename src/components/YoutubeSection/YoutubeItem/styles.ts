@@ -8,23 +8,18 @@ export const Container = styled.a`
     align-items: center;
   }
   h4 {
-    font-family: 'Roboto';
-    font-weight: 400;
+    font-family: 'Nexa Light', sans-serif;
+    font-weight: 500;
     font-size: 18px;
     line-height: 21px;
     color: #030303;
-    margin-left: 24px;
   }
 
-  @media (max-width: 1100px) {
-    margin-right: 24px;
-  }
   @media (max-width: 768px) {
     h4 {
       width: 100%;
       font-size: 16px;
     }
-    margin-right: 0px;
   }
 `;
 

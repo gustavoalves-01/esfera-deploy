@@ -52,8 +52,9 @@ export const Container = styled.div`
       height: 30px;
       position: relative;
 
-      img {
+      &.rounded {
         border-radius: 50%;
+        overflow: hidden;
       }
     }
   }
