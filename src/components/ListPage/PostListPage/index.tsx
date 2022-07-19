@@ -9,7 +9,7 @@ import handleCategory from '../../../utils/handleCategories';
 
 import Breadcrumb from '../../Breadcrumb';
 import Footer from '../../Footer';
-import Header from '../../Header'
+import Header from '../../Header2'
 import NewsletterForm from '../../NewsletterForm';
 import PostPreviewSection from '../../Post/PostPreviewSection';
 import SearchComponent from '../../SearchComponent';
@@ -21,16 +21,28 @@ import YoutubeSection from '../../YoutubeSection';
 
 import { Container, ConteudoProcurado, ContainerYoutube } from './styles';
 
-import { materials } from '../../../mocks/materialsMock';
-
 import { CategoryInterface } from '../../../entities/Category';
 import { PostPreviewInterface, RawPostPreview } from '../../../entities/Post';
 import { useCategories } from '../../../hooks/useCategories';
 import { useFetch } from '../../../hooks/useFetch';
 import { PostSkeleton } from '../../Post/PostPreviewSection/PostSkeleton';
 import { PaginationSkeleton } from '../SearchPage/styles';
+import { ItemSkeleton } from '../../Sidebar/SidebarList/styles';
+import { handlePostPreview } from '../../../utils/handleContent';
+import handleMaterialPreview from '../../../utils/handleMaterialPreview';
+import { MaterialPreviewInterface } from '../../../entities/Material';
 
-export const PostListPage = () => {
+interface PostListProps {
+  popularPostsData: any;
+}
+
+interface IVideo {
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
+export const PostListPage = ({ popularPostsData }: PostListProps) => {
   // Query States
   const [currentCategory, setCurrentCategory] = useState<CategoryInterface>();
   const [postsURL, setPostsURL] = useState<string>('');
@@ -41,8 +53,21 @@ export const PostListPage = () => {
 
   // Fetching posts states
   const [posts, setPosts] = useState<PostPreviewInterface[]>([]);
+  const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
+  const [materials, setMaterials] = useState<MaterialPreviewInterface[]>()
+
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>();
+
+  const [videos, setVideos] = useState<IVideo[]>();
+
+  const [searchInCategory, setSearchInCategory] = useState<number>();
+
+  const handleSearchInCategory = (checked: boolean) => {
+    if (currentCategory && checked) {
+      setSearchInCategory(currentCategory.id);
+    }
+  }
 
 
   // Verify if must to return all posts or filter by category
@@ -128,6 +153,40 @@ export const PostListPage = () => {
     }
   }, [currentCategory, isCategoryPage, page]);
 
+  useEffect(() => {
+    if (categories && popularPostsData) {
+      const posts = handlePostPreview(popularPostsData, categories);
+      setPopularPosts(posts);
+    }
+
+    if (categories) {
+      fetch("https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos")
+        .then((res) => res.json())
+        .then((data) => {
+          const materials = handleMaterialPreview(data, categories);
+          setMaterials(materials);
+        })
+    }
+  }, [categories, popularPostsData])
+
+  const { data: videosData } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/video_youtube?per_page=3`);
+
+
+  useEffect(() => {
+    if (videosData) {
+      const newVideos: IVideo[] = videosData.data.map((video: any) => {
+        return {
+          title: video.title.rendered,
+          imageUrl: "/" + video.thumbnail_do_video,
+          link: video.link_do_video
+        }
+      })
+
+      setVideos(newVideos);
+    }
+  }, [videosData])
+
   return (
     <>
       <Head>
@@ -139,17 +198,33 @@ export const PostListPage = () => {
         <div className="containerHeader">
           {
             isCategoryPage ?
-              <Breadcrumb path={[{ label: `${currentCategory?.name}` }]} />
+              (currentCategory ?
+                <Breadcrumb path={[{ label: `${currentCategory.name}` }]} />
+                :
+                <div className="loadingContainer">
+                  <ItemSkeleton />
+                </div>
+              )
               :
               <Breadcrumb path={[{ label: "Posts" }]} />
           }
-          <SearchComponent
-            widthIcon="50px"
-            heightInput="56px"
-            widthInput="200px"
-            placeholder="Encontre um artigo"
-            typeInput="search"
-          />
+          <div className="searchContainer">
+            <SearchComponent
+              widthIcon="50px"
+              heightInput="56px"
+              widthInput="200px"
+              placeholder="Encontre um artigo"
+              typeInput="search"
+              category={searchInCategory}
+            />
+            {
+              currentCategory &&
+              <div className='checkboxContainer'>
+                <input id="searchInCategory" type="checkbox" onChange={(ev) => handleSearchInCategory(ev.target.checked)} />
+                <label htmlFor="searchInCategory">Buscar apenas em <b>{currentCategory.name}</b></label>
+              </div>
+            }
+          </div>
         </div>
 
         <ConteudoProcurado>
@@ -164,8 +239,8 @@ export const PostListPage = () => {
             <h3 className="semResultados isDesk">Sem resultados para termo de busca</h3>
             : (isLoadingPosts ?
               <div className='loadingContainer'>
-                <PostSkeleton />
-                <PostSkeleton />
+                <PostSkeleton amount={2} />
+                <PostSkeleton amount={2} />
               </div>
               :
               isCategoryPage ?
@@ -211,29 +286,36 @@ export const PostListPage = () => {
           }
         </span>
 
-        <span></span>
-        <PostPreviewSection
-          title="Posts mais acessados"
-          posts={posts}
-          linkAll={{
-            href: '/posts?popular',
-            text: 'Ver todos os posts mais acessados',
-          }}
-        />
 
-        <MaterialPreviewSection
-          title="Você pode se interessar por estes outros materiais"
-          materials={materials}
-        />
+        <div className="otherContentSection">
+          {
+            popularPosts &&
+            <PostPreviewSection
+              title="Posts mais acessados"
+              posts={popularPosts}
+              linkAll={{
+                href: '/posts?popular',
+                text: 'Ver todos os posts mais acessados',
+              }}
+            />
+          }
+
+          {
+            materials &&
+            <MaterialPreviewSection
+              title="Você pode se interessar por estes outros materiais"
+              materials={materials}
+            />
+          }
+        </div>
       </Container>
 
-      <ContainerYoutube>
-        <YoutubeSection videosInfos={[
-          { title: "Vídeo 1", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" },
-          { title: "Vídeo 2", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" },
-          { title: "Vídeo 3", imageUrl: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg", link: "https://esferaenergia.com.br/wp-content/uploads/2022/05/consumo-consciente.jpg" }]} />
-
-      </ContainerYoutube>
+      {
+        videos &&
+        <ContainerYoutube>
+          <YoutubeSection videosInfos={videos} />
+        </ContainerYoutube>
+      }
 
       <Footer />
     </>

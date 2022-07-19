@@ -161,8 +161,16 @@ function Header() {
                   <li>Materiais gratuitos</li>
                 </Link>
                 <>
-                  <li>
+                  <li className='solutionsDropdown'>
                     Soluções
+                    <div className="solutionsSubmenu">
+                      <ul>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-livres/">Estou no Mercado Livre de Energia</a></li>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-cativos/">Não estou no Mercado Livre de Energia</a></li>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/usinas-geradoras/">Usinas Geradoras</a></li>
+                        <li><a href="https://esferaenergia.com.br/geracaodistribuida">Para minha Residência</a></li>
+                      </ul>
+                    </div>
                   </li>
                 </>
                 <li>
@@ -207,8 +215,16 @@ function Header() {
                 </>
 
                 <>
-                  <li>
+                  <li className='solutionsDropdown'>
                     Soluções
+                    <div className="solutionsSubmenu">
+                      <ul>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-livres/">Estou no Mercado Livre de Energia</a></li>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-cativos/">Não estou no Mercado Livre de Energia</a></li>
+                        <li><a href="https://esferaenergia.com.br/mercado-livre/usinas-geradoras/">Usinas Geradoras</a></li>
+                        <li><a href="https://esferaenergia.com.br/geracaodistribuida">Para minha Residência</a></li>
+                      </ul>
+                    </div>
                   </li>
                 </>
                 <div className="containerInput">
@@ -306,9 +322,19 @@ function Header() {
                 <a>Materiais Gratuitos</a>
               </Link>
 
-              <Link href="/">
-                <a>Soluções</a>
-              </Link>
+              <li className='solutionsDropdown'>
+                Soluções
+                <div className="solutionsSubmenu">
+                  <ul>
+                    <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-livres/">Estou no Mercado Livre de Energia</a></li>
+                    <li><a href="https://esferaenergia.com.br/mercado-livre/consumidores-cativos/">Não estou no Mercado Livre de Energia</a></li>
+                    <li><a href="https://esferaenergia.com.br/mercado-livre/usinas-geradoras/">Usinas Geradoras</a></li>
+                    <li><a href="https://esferaenergia.com.br/geracaodistribuida">Para minha Residência</a></li>
+                  </ul>
+                </div>
+              </li>
+              <a>Soluções</a>
+
 
               <a href="https://esferaenergia.com.br/sobre-nos/" target="_blank" rel="noreferrer">
                 Sobre nós

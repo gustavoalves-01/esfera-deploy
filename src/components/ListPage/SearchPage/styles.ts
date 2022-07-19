@@ -38,6 +38,17 @@ export const Container = styled.main`
         min-width: 255px;
         }
     }
+
+    .otherContentSection {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1/2;
+
+      .intermissionContainer {
+        display: none;
+      }
+    }
+    
     .isMobile{
         display: none;
     }

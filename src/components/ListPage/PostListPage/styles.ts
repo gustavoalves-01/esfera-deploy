@@ -23,9 +23,44 @@ export const Container = styled.main`
         justify-content: space-between;
         grid-column: 1/3;
 
-        label {
-        min-width: 255px;
+        > label {
         }
+        
+        .searchContainer {
+          min-width: 255px;
+          display: block;
+          position: relative;
+
+          .checkboxContainer {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+            
+            label {
+              font: 400 0.8rem "Open Sans", sans-serif;
+              cursor: pointer;
+            }
+            
+            input {
+              cursor: pointer;
+              margin: 1.5px 0;
+            }
+          }
+        }
+    }
+
+    .otherContentSection {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1/2;
+
+      .intermissionContainer {
+        display: none;
+      }
     }
 
     .pagination{
@@ -73,9 +108,7 @@ export const Container = styled.main`
     }
 `
 
-export const ConteudoProcurado = styled.div`
-
-`
+export const ConteudoProcurado = styled.div``
 
 export const ContainerYoutube = styled.div`
         display: flex;  

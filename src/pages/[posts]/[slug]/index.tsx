@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import slugify from 'slugify';
 import { api } from '../../../services/api'
 
-import Container, { ContainerHeader, Loading, YoutubeContainer } from './styles';
+import Container, { Loading, RelatedPostsContainer, YoutubeContainer } from './styles';
 
 import {
   FullPostInterface,
   IAuthor,
+  PostPreviewInterface,
   PostShortcutsInterface,
-  RawPost,
 } from '../../../entities/Post';
 
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -20,7 +19,7 @@ import CtaFinalPost from '../../../components/Post/CtaFinalPost';
 import Comments from '../../../components/Comments';
 import ListComment from '../../../components/ListComment';
 import YoutubeSection from '../../../components/YoutubeSection';
-import Header from '../../../components/Header';
+import Header from '../../../components/Header2';
 import Footer from '../../../components/Footer';
 import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
@@ -28,14 +27,11 @@ import { AuthorSection } from '../../../components/Post/AuthorSection';
 import FreeMaterialsCards from '../../../components/FreeMaterials/FreeMaterialsCards';
 import CardsSection from '../../../components/CardsSection';
 
-import handleCategory from '../../../utils/handleCategories';
-import { videosYoutube } from '../../../mocks/videosMock';
-import { useRouter } from 'next/router';
-import { useCategories } from '../../../hooks/useCategories';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { ApiError } from 'next/dist/server/api-utils';
-import { CategoryInterface } from '../../../entities/Category';
-import { handlePostContent, handlePostData } from '../../../utils/handleContent';
+import { handlePostContent, handlePostData, handlePostPreview } from '../../../utils/handleContent';
+import PostPreviewSection from '../../../components/Post/PostPreviewSection';
+import { PostSkeleton } from '../../../components/Post/PostPreviewSection/PostSkeleton';
+import { useFetch } from '../../../hooks/useFetch';
 
 
 interface IPostPageProps {
@@ -62,6 +58,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+interface IVideo {
+  title: string;
+  imageUrl: string;
+  link: string;
+}
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params!;
 
@@ -85,6 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const Post = ({ postData, categoriesData }: IPostPageProps) => {
   const [post, setPost] = useState<FullPostInterface>();
+  const [relatedPosts, setRelatedPosts] = useState<PostPreviewInterface[]>();
 
   useEffect(() => {
     if (postData && categoriesData) {
@@ -97,6 +100,10 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
   const [sections, setSections] = useState<PostShortcutsInterface[]>([]);
   const [author, setAuthor] = useState<IAuthor>();
   const [postHeader, setPostHeader] = useState<any>();
+  const [videos, setVideos] = useState<IVideo[]>();
+
+
+  const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
 
   useEffect(() => {
     if (post && document) {
@@ -116,6 +123,34 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
       });
     }
   }, [post]);
+
+  useEffect(() => {
+    if (post && categoriesData) {
+      api.get(`/posts?categories=${post.categories[0].id}&per_page=3&_fields=${postFields}`)
+        .then((res) => {
+          const { data } = res;
+          const posts = handlePostPreview(data, categoriesData);
+          setRelatedPosts(posts);
+        })
+    }
+  }, [categoriesData, post]);
+
+  const { data: videosData } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/video_youtube?per_page=3`);
+
+  useEffect(() => {
+    if (videosData) {
+      const newVideos: IVideo[] = videosData.data.map((video: any) => {
+        return {
+          title: video.title.rendered,
+          imageUrl: "/" + video.thumbnail_do_video,
+          link: video.link_do_video
+        }
+      })
+
+      setVideos(newVideos);
+    }
+  }, [videosData])
 
 
   const comentarios: PropsComentarios[] = [
@@ -177,24 +212,27 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
             <Head>
               <title>{post.title}</title>
             </Head>
-            <Header />
+            <Header isPostPage />
             <Container>
-                <Breadcrumb
-                  path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
-                />
+              <Breadcrumb
+                path={[{ label: post.categories[0].name, href: `/${post.categories[0].slug}` }, { label: post.title }]}
+              />
 
-                <SearchComponent
-                  widthIcon="50px"
-                  heightInput="56px"
-                  widthInput="100%"
-                  placeholder="Encontre um artigo"
-                  typeInput="search"
-                />
+              <SearchComponent
+                widthIcon="50px"
+                heightInput="56px"
+                widthInput="100%"
+                placeholder="Encontre um artigo"
+                typeInput="search"
+              />
               <PostHeader post={postHeader} author={author} />
 
               <main>
                 <PostShortcuts sections={sections} />
-                <article dangerouslySetInnerHTML={{ __html: content }} />
+                <div>
+                  <article dangerouslySetInnerHTML={{ __html: content }} />
+
+                </div>
               </main>
               <Sidebar>
                 <NewsletterForm
@@ -211,7 +249,7 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
                 title="Materiais Gratuitos"
                 cards={materials}
                 type={'materials'}
-                linkAll={{ text: 'Categoria 1', href: '#' }}
+                linkAll={{ text: '', href: '/materiais' }}
               />
             </Container>
 
@@ -247,10 +285,24 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
                 );
               })}
 
-              {/* TiTulo dinamico,  imagem dinamica*/}
-              <YoutubeContainer>
-                <YoutubeSection videosInfos={videosYoutube} />
-              </YoutubeContainer>
+              <RelatedPostsContainer>
+                <h1>Você vai se interessar também</h1>
+                {
+                  relatedPosts ?
+                    <PostPreviewSection title="" posts={relatedPosts} />
+                    :
+                    <div className='loadingContainer'>
+                      <PostSkeleton amount={3} />
+                    </div>
+                }
+              </RelatedPostsContainer>
+
+              {
+                videos &&
+                <YoutubeContainer>
+                  <YoutubeSection videosInfos={videos} />
+                </YoutubeContainer>
+              }
             </div>
 
             <Footer />

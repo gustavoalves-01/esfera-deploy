@@ -14,8 +14,9 @@ export const Container = styled.div<NewsletterFormStyleProps>`
   padding: ${({ isWide }) => (isWide ? '40px' : '16px 14px')};
   background: ${({ isWide }) => (isWide ? '#F4F4F4' : '#8F8F8F')};
   border-radius: 5px;
-  ${({ isPostPage }) => (isPostPage && 'height: calc(100% - 150px); align-content: center;')}
-  
+  ${({ isPostPage }) => (isPostPage && 'height: 376px; align-content: center;')}
+  ${({ isWide }) => (!isWide && "position: sticky; top: 100px; z-index: 10; box-shadow: 0px 2px 12px 9px rgb(255 255 255 / 50%);")}
+ 
   h1 {
     font-weight: ${({ isWide }) => (isWide ? '600' : '400')};
     font-size: ${({ isWide }) => (isWide ? '1.5rem' : '1rem')};

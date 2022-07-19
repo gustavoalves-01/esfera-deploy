@@ -3,9 +3,12 @@ import { PostHighlightSkeleton, PostPreviewSkeleton, PostSkeletonContainer } fro
 
 interface PostSkeletonProps {
   isWide?: boolean;
+  amount: number;
 }
 
-export const PostSkeleton = ({ isWide }: PostSkeletonProps) => {
+export const PostSkeleton = ({ isWide, amount }: PostSkeletonProps) => {
+  const relatedPosts = Array.from(Array(amount).keys());
+
   if (isWide) {
     return (
       <PostSkeletonContainer>
@@ -21,20 +24,15 @@ export const PostSkeleton = ({ isWide }: PostSkeletonProps) => {
   } else {
     return (
       <PostSkeletonContainer>
-        <PostPreviewSkeleton>
-          <div className="image"></div>
-          <div className="content">
-            <div className="title"></div>
-            <div className="text"></div>
-          </div>
-        </PostPreviewSkeleton>
-        <PostPreviewSkeleton>
-          <div className="image"></div>
-          <div className="content">
-            <div className="title"></div>
-            <div className="text"></div>
-          </div>
-        </PostPreviewSkeleton>
+        {relatedPosts.map((items, i) =>
+          <PostPreviewSkeleton key={i}>
+            <div className="image"></div>
+            <div className="content">
+              <div className="title"></div>
+              <div className="text"></div>
+            </div>
+          </PostPreviewSkeleton>
+        )}
       </PostSkeletonContainer>
     )
   }

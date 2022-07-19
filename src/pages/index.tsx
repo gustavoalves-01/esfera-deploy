@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import useSWR from 'swr';
 
 // Utilities Imports
-import fetcher from '../utils/fetcher';
 import { handlePostPreview } from '../utils/handleContent';
 
 // Components Imports
-import Header from '../components/Header';
+import Header from '../components/Header2';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchComponent from '../components/SearchComponent';
 import Sidebar from '../components/Sidebar';
@@ -26,7 +24,6 @@ import Container from './styles';
 // Typing Imports
 import { CardInterface } from '../entities/Card';
 import { PostPreviewInterface } from '../entities/Post';
-import { CategoryInterface } from '../entities/Category';
 import { PostSkeleton } from '../components/Post/PostPreviewSection/PostSkeleton';
 import { useCategories } from '../hooks/useCategories';
 import { useFetch } from '../hooks/useFetch';
@@ -104,7 +101,7 @@ const Home = () => {
 
   const fetchMaterialsUrl = "https://esferaenergia.com.br/wp-json/wp/v2/materiais_gratuitos/?per_page=4";
 
-  const { data: materialsData, isLoading: isMaterialsLoading, isError: isMaterialError } = useFetch(fetchMaterialsUrl);
+  const { data: materialsData } = useFetch(fetchMaterialsUrl);
 
   useEffect(() => {
     if (materialsData) {
@@ -114,13 +111,9 @@ const Home = () => {
           href: material.link,
         }
       })
-
       setMaterialsCards(materials);
     }
   }, [materialsData])
-
-
-
 
   return (
     <>
@@ -131,7 +124,7 @@ const Home = () => {
 
       <Container>
         <div className="containerHeader">
-          <Breadcrumb path={[{ label: 'Blog', href: '/' }]} />
+          <Breadcrumb path={[{ label: 'Blog' }]} />
           <SearchComponent
             widthIcon="50px"
             heightInput="56px"
@@ -153,7 +146,7 @@ const Home = () => {
                 />
               </>
             ) :
-              <PostSkeleton isWide />
+              <PostSkeleton isWide amount={1}/>
             }
 
             {
@@ -178,7 +171,7 @@ const Home = () => {
                   </div>
                 </>
                 :
-                <PostSkeleton />
+                <PostSkeleton amount={2}/>
             }
 
             {
@@ -236,7 +229,7 @@ const Home = () => {
                   </div>
                 </>
                 :
-                <PostSkeleton />
+                <PostSkeleton amount={2}/>
             }
 
             {
@@ -245,7 +238,7 @@ const Home = () => {
                 <CardsSection
                   type="categories"
                   title="Categorias em alta"
-                  linkAll={{ href: '#', text: 'Ver todos as categorias' }}
+                  linkAll={{ href: '/posts', text: 'Ver todos as categorias' }}
                   cards={categoriesCards}
                 />
                 <CardsSection
@@ -302,8 +295,8 @@ const Home = () => {
                 </>
                 :
                 <>
-                  <PostSkeleton />
-                  <PostSkeleton />
+                  <PostSkeleton amount={2}/>
+                  <PostSkeleton amount={2}/>
                 </>
             }
           </>

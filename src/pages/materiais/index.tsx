@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
 import MaterialPreviewSection from '../../components/FreeMaterials/MaterialPreviewSection';
-import Header from '../../components/Header';
+import Header from '../../components/Header2';
 import NewsletterForm from '../../components/NewsletterForm';
 import PostPreviewSection from '../../components/Post/PostPreviewSection';
 import SearchComponent from '../../components/SearchComponent';
@@ -13,10 +13,16 @@ import YoutubeSection from '../../components/YoutubeSection';
 import { MaterialPreviewInterface } from '../../entities/Material';
 import { PostPreviewInterface } from '../../entities/Post';
 import { useCategories } from '../../hooks/useCategories';
-import { videosYoutube } from '../../mocks/videosMock';
 import handleMaterialPreview from '../../utils/handleMaterialPreview';
 import { handlePostPreview } from '../../utils/handleContent';
 import MaterialsConatainer from './styles';
+import { useFetch } from '../../hooks/useFetch';
+
+interface IVideo {
+  title: string;
+  imageUrl: string;
+  link: string;
+}
 
 const Materials = () => {
   // Fetching categories states
@@ -24,6 +30,26 @@ const Materials = () => {
 
   const [materials, setMaterials] = useState<MaterialPreviewInterface[]>();
   const [popularPosts, setPopularPosts] = useState<PostPreviewInterface[]>();
+
+  const [videos, setVideos] = useState<IVideo[]>();
+
+  const { data: videosData } =
+    useFetch(`https://esferaenergia.com.br/wp-json/wp/v2/video_youtube?per_page=3`);
+
+  useEffect(() => {
+    if (videosData) {
+      const newVideos: IVideo[] = videosData.data.map((video: any) => {
+        return {
+          title: video.title.rendered,
+          imageUrl: "/" + video.thumbnail_do_video,
+          link: video.link_do_video
+        }
+      })
+
+      setVideos(newVideos);
+    }
+  }, [videosData])
+
 
   const postPreviewFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
   const fetchPostsURL = "https://esferaenergia.com.br/wp-json/wp/v2/posts";
@@ -35,7 +61,6 @@ const Materials = () => {
         .then((res) => res.json())
         .then((data) => {
           const materials = handleMaterialPreview(data, categories);
-          console.log(materials);
           setMaterials(materials);
         })
 
@@ -48,7 +73,6 @@ const Materials = () => {
     }
   }, [categories]);
 
-  console.log(materials)
   return (
     <>
       <Head>
@@ -101,7 +125,10 @@ const Materials = () => {
             />
           }
         </div>
-        <YoutubeSection videosInfos={videosYoutube} />
+        {
+          videos &&
+          <YoutubeSection videosInfos={videos} />
+        }
 
         <Sidebar>
           <NewsletterForm

@@ -23,7 +23,7 @@ const NewsletterForm = ({
       <h1>{copy}</h1>
       <p>{desc}</p>
       <form action="" method="post">
-        <input type="text" placeholder="Digite seu e-mail" name="email" />
+        <input type="email" placeholder="Digite seu e-mail" name="email" />
         <button type="submit">{cta}</button>
       </form>
     </Container>

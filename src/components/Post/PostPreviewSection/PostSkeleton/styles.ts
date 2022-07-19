@@ -6,6 +6,10 @@ export const PostSkeletonContainer = styled.div`
   margin: 40px 0 60px;
   gap: 2rem;
   grid-template-columns: repeat(2, 1fr);
+
+  @media (max-width: 990px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 export const PostHighlightSkeleton = styled.div`
