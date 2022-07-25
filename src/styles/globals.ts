@@ -41,7 +41,7 @@ button,
 input, 
 text-area, 
 a {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Nexa", "Open Sans", sans-serif;
 }
 
 a {

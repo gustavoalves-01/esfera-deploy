@@ -1,4 +1,3 @@
-import { MaxContainer } from './../Header/styles';
 import styled from 'styled-components';
 
 interface NewsletterFormStyleProps {

@@ -17,9 +17,8 @@ import PostShortcuts from '../../../components/Post/PostShortcuts';
 import PostHeader from '../../../components/Post/PostHeader';
 import CtaFinalPost from '../../../components/Post/CtaFinalPost';
 import Comments from '../../../components/Comments';
-import ListComment from '../../../components/ListComment';
 import YoutubeSection from '../../../components/YoutubeSection';
-import Header from '../../../components/Header2';
+import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Sidebar from '../../../components/Sidebar';
 import NewsletterForm from '../../../components/NewsletterForm';
@@ -32,24 +31,24 @@ import { handlePostContent, handlePostData, handlePostPreview } from '../../../u
 import PostPreviewSection from '../../../components/Post/PostPreviewSection';
 import { PostSkeleton } from '../../../components/Post/PostPreviewSection/PostSkeleton';
 import { useFetch } from '../../../hooks/useFetch';
+import CommentsList from '../../../components/CommentsList';
 
 
 interface IPostPageProps {
   postData: any;
   categoriesData: any;
 }
-interface PropsComentarios {
-  imageUrl: string;
+export interface IComments {
+  id: number,
   name: string;
-  date: string;
-  depoiment: string;
+  date: Date;
+  content: string;
 }
 
 interface PropsMaterials {
   imgUrl: string;
   href: string;
 }
-
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -101,6 +100,8 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
   const [author, setAuthor] = useState<IAuthor>();
   const [postHeader, setPostHeader] = useState<any>();
   const [videos, setVideos] = useState<IVideo[]>();
+  const [comments, setComments] = useState<IComments[]>();
+  const [commentsUrl, setCommentsUrl] = useState<string>('');
 
 
   const postFields = "id,date,title,excerpt,slug,categories,tags,yoast_head_json.og_image";
@@ -150,32 +151,31 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
 
       setVideos(newVideos);
     }
-  }, [videosData])
+  }, [videosData]);
 
 
-  const comentarios: PropsComentarios[] = [
-    {
-      imageUrl: '/images/person.png',
-      name: 'Célio Nunes',
-      date: '9 de novembro',
-      depoiment:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
-    },
-    {
-      imageUrl: '/images/person.png',
-      name: 'Célio Nunes',
-      date: '9 de novembro',
-      depoiment:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
-    },
-    {
-      imageUrl: '/images/person.png',
-      name: 'Célio Nunes',
-      date: '9 de novembro',
-      depoiment:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare ipsum quis pharetra tristique. Maecenas dapibus massa vitae vulputate interdum. ',
-    },
-  ];
+  useEffect(() => {
+    if (post?.id) {
+      setCommentsUrl(`https://esferaenergia.com.br/wp-json/wp/v2/comments?post=${post.id}`);
+    }
+  }, [post, post?.id]);
+
+  const { data: commentsData } = useFetch(commentsUrl);
+
+  useEffect(() => {
+    if (commentsData?.data) {
+      const data: IComments[] = commentsData.data.map((comment: any) => {
+        return {
+          id: comment.id,
+          name: comment.author_name,
+          date: comment.date,
+          content: comment.content.rendered,
+        }
+      });
+
+      setComments(data);
+    }
+  }, [commentsData?.data])
 
   const materials: PropsMaterials[] = [
     {
@@ -270,20 +270,15 @@ const Post = ({ postData, categoriesData }: IPostPageProps) => {
             )}
 
             <div className="postFooter">
-              <Comments />
+              {
+                post &&
+                <Comments postId={parseInt(post.id)} />
+              }
 
-              {/*======== LISTA DE COMENTÁRIOS RENDERIZADOS COMENTARIOS RENDERIZADOS ========*/}
-              {comentarios.map(({ imageUrl, name, date, depoiment }) => {
-                return (
-                  <ListComment
-                    key={`${Math.floor(1000 + Math.random() * 9000)}${name}`}
-                    imageUrl={imageUrl}
-                    name={name}
-                    date={date}
-                    depoiment={depoiment}
-                  />
-                );
-              })}
+              {
+                comments &&
+                <CommentsList comments={comments} />
+              }
 
               <RelatedPostsContainer>
                 <h1>Você vai se interessar também</h1>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Style = styled.span`
-    font-family: 'Open Sans';
+    font-family: "Nexa", "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;

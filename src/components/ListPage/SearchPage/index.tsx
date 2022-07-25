@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import fetcher from '../../../utils/fetcher'
 import handleCategory from '../../../utils/handleCategories';
 
-import Header from '../../Header2';
+import Header from '../../Header';
 import Breadcrumb from '../../Breadcrumb';
 import SearchComponent from '../../SearchComponent';
 import PostPreviewSection from '../../Post/PostPreviewSection';

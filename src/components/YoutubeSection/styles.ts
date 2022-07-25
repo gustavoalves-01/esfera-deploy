@@ -9,7 +9,7 @@ export const Container = styled.div`
   grid-column: 1/3;
 
   h2 {
-    font-family: 'Open Sans';
+    font-family: "Nexa", "Open Sans", sans-serif;
     font-weight: 700;
     font-size: 32px;
     line-height: 44px;

@@ -27,48 +27,72 @@ export const Container = styled.div`
 export const ContainerComment = styled.div`
     display: flex;
     align-items: flex-start;
-    textarea{
-        border: 1px solid #181818;
-        height: 144px;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-        padding: 14px 20px;
-        font-family: 'Open Sans';
-        margin-left: 16px;
-        width: 100%;
-        &::placeholder{
-            color: #181818;
-        }
-    }
-    div{
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-        width: 100%;
-        margin-left:16px ;
-    }
 
-    button{
-        width:160px;
-        height:40px;
-        font-family: "Roboto";
-        font-weight: 800;
+    
+    div {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      padding-left: 1rem;
+      
+      input {
+        font: 400 16px/22px 'Open Sans';
+        padding: 0.5rem 1rem;
+      }
+      
+      textarea {
+        height: 144px;
+        font: 400 16px/22px 'Open Sans';
+        padding: 0.5rem 1rem;
+        width: 100%;
+      }
+        
+      button{
+        margin-left: auto;
+        padding: 8px 57px;
+        font: 600 1rem/1.5rem "Nexa", "Open Sans", sans-serif;
         color: #fff;
         background: #F5426C;
         border-radius: 5px;
         border: none;
-        margin-top: 16px;
-        font-size: 16px;
         cursor: pointer;
+      }
+
+      &.errored {
+        position: relative;
+        
+        &::after {
+          content: 'Erro ao enviar comentário.';
+          color: #F5426C;
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+        }
+      }
+
+      &.success {
+        position: relative;
+        
+        &::after {
+          content: 'Comentário enviado!';
+          color: #65B32B;
+          position: absolute;
+          bottom: 1rem;
+          left: 1rem;
+        }
+      }
     }
+
 
      @media(max-width: 1100px){
         .imagemComment{
             display: none;
         }
+
         div{
             margin-left: 0;
+            padding: 0;
         }
     }
 `

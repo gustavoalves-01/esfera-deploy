@@ -15,7 +15,7 @@ export const Container = styled.div`
     }
 
     span {
-      font-family: 'Open Sans';
+      font-family: "Nexa", "Open Sans", sans-serif;
       font-style: normal;
       font-weight: 300;
       font-size: 14px;

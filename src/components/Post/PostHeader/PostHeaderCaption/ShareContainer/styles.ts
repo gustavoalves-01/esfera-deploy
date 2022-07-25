@@ -5,7 +5,7 @@ export const Container = styled.div`
   align-items: center;
 
   span {
-    font-family: 'Open Sans';
+    font-family: "Nexa", "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 0.875rem;
