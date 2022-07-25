@@ -52,7 +52,7 @@ export const Container = styled.div`
       z-index: 1;
 
       h1 {
-        font-family: 'Open Sans';
+        font-family: 'Nexa', 'Open Sans', sans-serif;
         font-style: normal;
         font-weight: 700;
         font-size: 2.625rem;

@@ -23,7 +23,7 @@ export const Container = styled.div`
         font-size: 24px;
         line-height: 33px;
         margin-bottom: 16px;
-        font-family: 'Open Sans';
+        font-family: 'Nexa', "Open Sans", sans-serif;
       }
 
       h4 {

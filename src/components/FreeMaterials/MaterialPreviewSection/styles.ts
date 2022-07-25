@@ -29,7 +29,7 @@ export const Container = styled.div`
     padding: 40px;
     background: #f5426c;
     color: #fff;
-    font-family: 'Open Sans';
+    font-family: 'Nexa', "Open Sans", sans-serif;
     display: flex;
     flex-direction: column;
 

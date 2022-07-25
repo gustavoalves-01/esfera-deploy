@@ -35,7 +35,7 @@ export const Container = styled.div<CardStyleProps>`
   }
 
   h2 {
-    font-family: 'Open Sans';
+    font-family: 'Nexa', "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;

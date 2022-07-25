@@ -84,7 +84,7 @@ const Container = styled.div`
         margin-top: 2rem;
         background: #f5426c;
         color: #fff;
-        font-family: 'Open Sans';
+        font-family: "Nexa", "Open Sans", sans-serif;
         display: flex;
         flex-direction: column;
 
@@ -170,9 +170,13 @@ const Container = styled.div`
   }
 
   .postFooter {
-    grid-column: 1/2;
+    grid-column: 1/2;    
+  }
 
-    
+  .commentsContainer {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
   }
 
   > aside {
@@ -180,10 +184,6 @@ const Container = styled.div`
     grid-row: 2/4;
     margin-top: 0;
     padding-top: 0;
-
-    div:first-of-type {
-      /* padding-top: 0; */
-    }
 
     &:last-of-type {
       grid-row: 3/4;
@@ -228,7 +228,7 @@ export const RelatedPostsContainer = styled.div`
   margin: 128px auto 0;
 
   h1 {
-    font-family: 'Open Sans';
+    font-family: "Nexa", "Open Sans", sans-serif;
     font-weight: 700;
     font-size: 32px;
     line-height: 44px;
@@ -257,6 +257,11 @@ export const RelatedPostsContainer = styled.div`
         }
       }
     }
+  }
+
+  @media (max-width: 990px) {
+    max-width: 100%;
+    padding: 0 16px;
   }
 
 `

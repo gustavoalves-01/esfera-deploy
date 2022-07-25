@@ -24,7 +24,7 @@ export const LabelElement = styled.label<PropsLabel>`
     letter-spacing: 0.1px;
 
     color: #4f5150;
-    font-family: 'Open Sans';
+    font-family: "Nexa", "Open Sans", sans-serif;
 
     transition: 0.2s;
     &:hover {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
 import Footer from '../../components/Footer';
 import MaterialPreviewSection from '../../components/FreeMaterials/MaterialPreviewSection';
-import Header from '../../components/Header2';
+import Header from '../../components/Header';
 import NewsletterForm from '../../components/NewsletterForm';
 import PostPreviewSection from '../../components/Post/PostPreviewSection';
 import SearchComponent from '../../components/SearchComponent';

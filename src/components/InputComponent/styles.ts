@@ -24,7 +24,7 @@ export const LabelElement = styled.label<PropsLabel>`
     letter-spacing: 0.1px;
 
     color: #4F5150;
-    font-family: "Open Sans";
+    font-family: "Nexa", "Open Sans", sans-serif;
 
     &::placeholder{
           color: #4F5150;

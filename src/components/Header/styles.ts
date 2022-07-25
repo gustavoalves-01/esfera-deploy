@@ -1,462 +1,446 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-interface PropsHeader {
-  myPosition: string;
+interface HeaderContainerProps {
+  isPostPage: boolean;
 }
-export const HeaderElement = styled.header<PropsHeader>`
-  top: 0px;
-  background: #ffffff;
 
-  /* position: ${(props) => props.myPosition}; */
-  padding-top: 22px;
-  padding-bottom: 32px;
+export const HeaderContainer = styled.header<HeaderContainerProps>`
   width: 100%;
-  border: 1px solid ${(props) => (props.myPosition === 'fixed' ? '#E5E5E5' : 'transparent')};
-    
-    
-    top: 0px;
-    z-index: 999;
-
-    position: fixed;
-    
-  .progress-container {
-      background: transparent;
-      height: 3px;
-      width: 100%;
-  }
-
-  /* A barra de progresso */
-  .progress-bar {
-      background: #F5426C;
-      height: 3px;
-      width: 0%;
-      position: absolute;
-      bottom: 0;
-  }
-
-
-  @media (max-width: 1200px) {
-    height: 70px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 0px;
-    padding-right: 16px;
-
-    padding-top: 0px;
-    padding-bottom: 0px;
-
-    div > span {
-      margin-left: 24px;
-    }
-  }
-
-  z-index: 999;
-
-  .containerInput{
-    width: 320px;
-    margin-right: -24px;
-    margin-left: 37px;
-    span{
-      margin: 0;
-    }
-  }
-`;
-
-export const MaxContainer = styled.div`
-  display: flex;
-  max-width: 1181px;
-  margin: 0 auto;
-
-    padding: 0px 2rem 0px 2rem;
-
-
-
-  .logo{
-    position: relative;
-    left: -12px;
-    cursor: pointer;
-  }
-  justify-content: space-between;
-  align-items: center;
-  ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  li {
-    cursor: pointer;
-
-    margin-left: 32px;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 24px;
-    /* or 171% */
-    letter-spacing: 0.1px;
-
-    color: #000000;
-    transition: 0.2s;
-
-    display: flex;
-    align-items: center;
-  }
-
-  @media (max-width: 1200px) {
-    .logo{
-        position: relative;
-        left: 0px;
-      }
-    ul {
-      display: none;
-    }
-  }
-`;
-export const SublistInUl = styled.ul`
-  position: relative;
-
-  > div {
-    opacity: 0;
-    pointer-events: all;
-
-    position: absolute;
-    top: 50px;
-    background: #f5f5f5;
-    width: 224.43px;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 22px 18px 0px 18px;
-
-    justify-content: space-between;
-
-    left: 60%;
-    transform: translateX(-50%);
-
-    transition: 0.5s;
-
-    a {
-      margin-bottom: 16px;
-    }
-  }
-
-  span {
-    position: relative;
-    top: -0.5px;
-    padding-left: 5px;
-  }
-
-  &::after {
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.5s;
-
-    content: '';
-    width: 0;
-    height: 0;
-    position: absolute;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-
-    border-bottom: 30px solid #f5f5f5;
-    top: 30px; /*localização. Experimente alterar para 'bottom'*/
-    left: 50%;
-  }
-
-  &:hover {
-    > div,
-    &::after {
-      opacity: 1;
-      /* pointer-events: all; */
-    }
-  }
-`;
-
-export const ContainerInput = styled.span`
-  position: relative;
-  margin-left: 48px;
-`;
-export const ContainerButton = styled.span`
-  position: relative;
-  margin-left: 32px;
-`;
-
-interface PropsPopup {
-  verifyPopup: boolean;
-}
-export const PopupConteudos = styled.div<PropsPopup>`
-  position: absolute;
-  background-color: #f5f5f5;
-  padding: 32px 24px;
-
-  left: 50%;
-  transform: translateX(-50%);
-  top: 72px;
-
-  opacity: ${(props) => (props.verifyPopup ? '1' : '0')};
-  pointer-events: ${(props) => (props.verifyPopup ? 'all' : 'none')};
-
-  transition: 0.3s;
-  &::after {
-    opacity: ${(props) => (props.verifyPopup ? '1' : '0')};
-    pointer-events: ${(props) => (props.verifyPopup ? 'all' : 'none')};
-    transition: 0.5s;
-
-    content: '';
-    width: 0;
-    height: 0;
-    position: absolute;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-
-    border-bottom: 30px solid #f5f5f5;
-    top: -23px; /*localização. Experimente alterar para 'bottom'*/
-    left: 45%;
-  }
-
-  p {
-    color: #4f5150;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 110%;
-    text-align: center;
-    margin-bottom: 16px;
-  }
-
-  span {
-    font-style: italic;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 120%;
-    color: #4f5150;
-    text-align: center;
-
-    display: flex;
-    align-items: center;
-    margin-top: 16px;
-  }
-
-  button {
-    margin-top: 16px;
-  }
-`;
-
-export const PrincipalList = styled.ul`
-  @media (max-width: 1200px) {
-  }
-`;
-
-interface PropsContainerPopupMobile {
-  activePopup?: boolean;
-  activeCategories?: boolean;
-}
-export const ContainerPopupMobile = styled.div<PropsContainerPopupMobile>`
-  opacity: ${(props) => (props.activePopup ? '1' : '0')};
-  pointer-events: ${(props) => (props.activePopup ? 'all' : 'none')};
-  transition: 0.3s;
-
-  position: absolute;
-  max-width: 369px;
-  width: 96%;
-  height: auto;
-  background: #fff;
-
-  border-radius: 8px;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
-  padding: 40px 32px;
-
-  h3 {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 25px;
-    text-align: center;
-
-    color: #181818;
-    margin-bottom: 24px;
-    margin-bottom: 1;
-  }
-
-  > div {
-    width: 100%;
-    border: 1px solid #4f5151;
-    border-radius: 5px;
-    background: #ffffff;
-
-    
-    opacity: ${(props) => (props.activeCategories ? '1' : '0')};
-    pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
-    display: ${(props) => (props.activeCategories ? 'flex' : 'none')};
-    transition: .3s;
-
-    margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
-    margin-bottom: 16px;
-
-
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    padding: 8px 16px;
-  }
-
-  a {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-  }
-`;
-
-export const OverlayMobile = styled.div<PropsContainerPopupMobile>`
-  opacity: ${(props) => (props.activePopup ? '1' : '0')};
-  pointer-events: ${(props) => (props.activePopup ? 'all' : 'none')};
-  transition: 0.3s;
-
-  width: 101%;
-  height: 106vh;
-  position: absolute;
-  left: -1px;
-  top: -1px;
-
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
-export const SelectButton = styled.button<PropsContainerPopupMobile>`
-  position: relative;
-  font-family: 'Open Sans';
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #4f5151;
-  box-sizing: border-box;
-  border-radius: 5px;
-  height: 48px;
-  margin-top: 16px;
-  margin-bottom: 16px;
-
-  color: #8f8f8f;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 16px;
-
-  span {
-    transition: 0.3s;
-    transform: ${(props) =>
-    props.activeCategories ? 'rotate(180deg)' : 'rotate(0deg)'};
-  }
-`;
-export const ContainerButtonBuscar = styled.span`
-  text-align: center;
-  margin-left: 0 !important;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
-`;
-
-export const ClosePopup = styled.span`
-  position: absolute;
-  right: 20px;
-  top: 20px;
-`;
-
-interface Line {
-  myWidth: number;
-}
-export const Line = styled.span<Line>`
-  width: ${(props) => props.myWidth};
-  height: 3px;
-  background-color: red;
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  top: 0;
   left: 0;
-  z-index: 10;
-  color: transparent;
-`
-
-
-
-{/*  ======== MENU MOBILE ======== */ }
-
-
-export const ContainerMenuMobile = styled.div<{ myLeft: string }>`
-    position:fixed;
-    overflow-y: scroll;
-
-    width:100%;
-    left: ${(props) => props.myLeft};
-
-    background: #fff;
-    height: 100vh;
-    top: 0px;
-    z-index:100;
-    transition: .3s;
-
+  z-index: 100;
+  background: #fff;
+  
+  .headerContentWrapper {
     display: flex;
-    flex-direction: column;
-    padding: 16px 24px;
-
-    a{
-        font-weight: bold;
-        margin-bottom: 16px;
-    }
-    button{
-        margin-bottom:16px;
-    }
-`
-export const CategoryContainer = styled.div<{ activeCategories: boolean }>`
-
+    max-width: 1181px;
     width: 100%;
-    border: 1px solid #4f5151;
-    border-radius: 5px;
-    background: #ffffff;
+    padding: 0 2rem;
+    justify-content: space-between;
 
-    
+    .logoWrapper {
+      position: relative;
+      display: flex;
+      max-width: 273px;
+      width: 100%;
+      height: 96px;
+    }
 
-    opacity: ${(props) => (props.activeCategories ? '1' : '0')};
-    pointer-events: ${(props) => (props.activeCategories ? 'all' : 'none')};
-    display: ${(props) => (props.activeCategories ? 'flex' : 'none')};
+    ul {
+      display: flex;
+      list-style: none;
+      margin: auto 0;
+      gap: 40px;
 
-    transition: .3s;
+      li {
+        cursor: pointer;
+        font: 700 14px/24px "Nexa", "Open-sans", sans-serif;
+       
+        &.dropdown {
+          position: relative;
+          span {
+            display: flex;
+            gap: 5px;
+            img {
+              transition: all 0.3s ease;
+            }
+          }
 
-    margin-top: ${(props) => (props.activeCategories ? '0px' : '-67px')};
-    margin-bottom: 16px;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    padding: 8px 16px;
-  
-  a {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    margin-right: 8px;
+          div {
+            position: absolute;
+            top: calc(100%);
+            left: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+          }
+          
+          &:hover {
+            span img {
+              transform: rotate(180deg);
+            }
+            
+            div {
+              max-height: 1000px;
+              padding-top: 28px;
+            }
+          }
+          
+          &.categories .submenu {
+            display: flex;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            ul {
+              position: relative;
+              background: #F5F5F5;
+              padding: 22px 18px;
+              display: grid;
+              grid-template-columns: repeat(2, auto);
+              gap: 16px;
+
+              &::before {
+                content: '';
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                transform: translate(-50%);
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #F5F5F5;
+              }
+
+              li {
+                display: flex;
+
+                a {
+                  padding: 2px 5px;
+                  border-radius: 5px;
+                  font-family: "Nexa", "Open Sans", sans-serif;
+                  font-weight: 700;
+                  font-size: 12px;
+                  line-height: 12px;
+                  text-transform: uppercase;
+                  color: var(--pink-500);
+                  border: 1px solid var(--pink-500);
+                  background-color: #FFF;
+                  white-space: nowrap;
+                  transition: all 0.3s ease;
+
+                  &:hover {
+                    background: var(--pink-500);
+                    color: #FFF;
+                  }
+                }
+              }
+            }
+            
+          }
+
+          &.solucoes .submenu {
+            display: flex;
+
+            ul {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              
+              li a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                background: #FF8F00;
+                padding: 4px 15px;
+                border-radius: 20px;
+                font: 600 15px/24px "Nexa", "Open Sans", sans-serif;
+                color: #FFF;
+                white-space: nowrap;
+
+                &:hover {
+                  background: #e68100;
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+
+    .searchContainer, .ctaContainer {
+      display: none;
+    }
+
+    &.scrolled {
+      justify-content: flex-start;
+      
+      .logoWrapper {
+        max-width: 56px;
+        margin-right: 48px;
+        
+        img {
+          object-fit: contain;
+        }
+      }
+
+      ul {
+        li {
+          &.noScroll {
+            display: none;
+          }
+        }
+      }
+
+      .searchContainer {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        margin-left: 112px;
+
+        label {
+          width: 100%;
+        }
+
+      }
+
+      .ctaContainer {
+        display: flex;
+        align-items: center;
+        margin-left: 40px;
+      }
+    }
   }
-  
-  `
 
-
-export const CloseIcon = styled.div`
-    position: absolute;
-    right: 0;
+  .headerContentWrapper__mbl {
+    display: flex;
+    position: fixed;
     top: 0;
-`
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    justify-content: space-between;
+    background-color: #FFF;
 
-export const ContainerDesktop = styled.div`
-@media (max-width: 1100px){
-    display: none;
+    .logoWrapper {
+      position: relative;
+      display: flex;
+      max-width: 220px;
+      width: 100%;
+      height: 45px;
+    }
+
+    .headerButtons {
+      display: flex;
+      align-items: center;
+      padding-right: 11px;
+      gap: 24px;
+
+      .menuButton > button, .searchButton > button {
+        position: relative;
+        display: flex;
+        width: 24px;
+        height: 24px;
+        background: transparent;
+        border: none;
+
+        span {
+          pointer-events: none;
+        }
+      }
+    }
+
+    .searchContainer {
+      display: flex;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+
+      &.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .searchOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: -1;
+      }
+
+      .searchModal {
+        width: 100%;
+        margin: auto 1rem;
+        padding: 40px 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        z-index: 1;
+        
+        h3 {
+          font: 600 18px/25px "Nexa", "Open Sans", sans-serif;
+          margin-bottom: 1.5rem;
+        }
+      }
+    }
+
+    .menuContainer {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      background-color: #fff;
+      padding: 1rem 1.5rem;
+      transition: all 0.3s ease;
+
+      &.show {
+        right: 0;
+      }
+
+      .closeMblMenu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: none;
+        background: transparent;
+        display: flex;
+      }
+    
+      > ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 1rem;
+
+        > li {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          
+          > a, span {
+            font: 700 14px/24px "Nexa", "Open Sans", sans-serif;
+            gap: 0.5rem;
+            display: flex;
+          }
+
+          &.solucoes .submenu {
+            display: flex;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+          
+            &.drop {
+              max-height: 1000px;
+            }
+
+            ul {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              
+              li a {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                background: #FF8F00;
+                padding: 4px 15px;
+                border-radius: 20px;
+                font: 600 14px/22px "Nexa", "Opens Sans", sans-serif;
+                color: #FFF;
+
+                &:hover {
+                  background: #e68100;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .ctaContainer {
+        display: flex;
+        width: 100%;
+      }
+    }
   }
 `
-export const ContainerMobile = styled.div`
-  @media (min-width: 1100px){
-    display: none;
+
+export const CategorySelector = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0 1.5rem;
+  z-index: 100;
+
+  button {
+    display: flex;
+    padding: 13px 1rem;
+    background: #FFFFFF;
+    border: 1px solid #4F5151;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 2;
+
+    span {
+      font: 300 14px/24px 'Nexa', "Open Sans", sans-serif;
+    }
+  } 
+
+  .categoriesWrapper {
+    display: flex;
+    background: #F5F5F5;
+    border: 1px solid #4F5151;
+    border-radius: 5px;
+    height: 100%;
+    overflow: scroll;
+    margin-top: -10px;
+    z-index: 1;
+    max-height: 0;
+    transition: all 0.3s ease;
+    
+    &.drop {
+      max-height: 150px;
+    }
+
+    ul { 
+      padding: 22px 18px;
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 16px;
+
+      li {
+        display: flex;
+        height: fit-content;
+        align-self: center;
+
+        a {
+          padding: 2px 5px;
+          border-radius: 5px;
+          font-family: 'Nexa', "Open Sans", sans-serif;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 12px;
+          text-transform: uppercase;
+          color: var(--pink-500);
+          border: 1px solid var(--pink-500);
+          background-color: #FFF;
+          display: flex;
+          text-align: left;
+          height: min-content;
+          align-items: center;
+          justify-self: center;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: var(--pink-500);
+            color: #FFF;
+          }
+        }
+      }
+    }
   }
+  
+
+
 
 `
-
 

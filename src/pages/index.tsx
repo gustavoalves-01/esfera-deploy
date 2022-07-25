@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { handlePostPreview } from '../utils/handleContent';
 
 // Components Imports
-import Header from '../components/Header2';
+import Header from '../components/Header';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchComponent from '../components/SearchComponent';
 import Sidebar from '../components/Sidebar';

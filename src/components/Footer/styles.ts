@@ -62,11 +62,11 @@ export const RowTwoFooter = styled.div`
 
     p{
         font-size: 1.25rem;
-        font-weight: 400;
+        font-weight: 300;
         line-height: 40px;
         color: #fff;
         margin: 0;
-        font-family: 'Nexta Light', "Open Sans", sans-serif;
+        font-family: 'Nexa', "Open Sans", sans-serif;
     }
 
     @media(max-width: 768px){
@@ -110,7 +110,7 @@ export const ListFooter = styled.ul`
 `
 
 export const ListInListFooter = styled.ul`
-    font-family: nexa_boldregular, "Open Sans", sans-serif;
+    font-family: 'Nexa', "Open Sans", sans-serif;
     span::selection{ background: none;}
 
     span::after{

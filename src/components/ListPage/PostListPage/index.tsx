@@ -9,7 +9,7 @@ import handleCategory from '../../../utils/handleCategories';
 
 import Breadcrumb from '../../Breadcrumb';
 import Footer from '../../Footer';
-import Header from '../../Header2'
+import Header from '../../Header'
 import NewsletterForm from '../../NewsletterForm';
 import PostPreviewSection from '../../Post/PostPreviewSection';
 import SearchComponent from '../../SearchComponent';

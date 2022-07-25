@@ -21,7 +21,7 @@ export const ButtonElement = styled.button<ButtonElementProps>`
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Nexa', "Open Sans", sans-serif;
     transition: all .3s ease;
     &:hover{
         background: #fff;

@@ -38,10 +38,10 @@ export const Container = styled.main`
             padding-top: 0.5rem;
             display: flex;
             gap: 0.5rem;
-            align-items: flex-start;
+            align-items: center;
             
             label {
-              font: 400 0.8rem "Open Sans", sans-serif;
+              font: 400 0.8rem 'Nexa', "Open Sans", sans-serif;
               cursor: pointer;
             }
             
