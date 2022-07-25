@@ -170,9 +170,11 @@ const Header = ({ isPostPage }: HeaderProps) => {
           </div>
           :
           <div className="headerContentWrapper__mbl">
-            <div className="logoWrapper">
-              <Image src="/images/logo__esfera.svg" alt="Esfera Energia" layout="fill" />
-            </div>
+            <Link href="/" passHref>
+              <div className="logoWrapper">
+                <Image src="/images/logo__esfera.svg" alt="Esfera Energia" layout="fill" />
+              </div>
+            </Link>
 
             <div className="headerButtons">
               <div className="searchButton" onClick={(ev: any) => handleOpenSearch(ev)}>
